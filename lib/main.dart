@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'ReservedTimeTable.dart';
-import 'homeScreen.dart';
+import 'Pages/ReservedTimeTable.dart';
+import 'Pages/homeScreen.dart';
 
 void main() {
   runApp(const Home());
