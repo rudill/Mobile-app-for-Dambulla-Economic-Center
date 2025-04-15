@@ -1,3 +1,5 @@
+import 'package:dec_app/OngoingOrders.dart';
+import 'package:dec_app/ReservedTimeTable.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -7,28 +9,30 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tessting home page'),
+        title: const Text('Home Page'),
       ),
-      body: const Column(
+      body:  Column(
         children: [
           Align( 
             alignment: Alignment.center,
-            child: Card(
+           
               child: Column(
                 children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.home,
-                      ),
-                      Text('This is home page from ruvinda'),
-
-                    ],
-                  )
+                ElevatedButton(onPressed: (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => OngoingOrders()),
+                  );
+                }, child: Text("Progress Page")),
+                  ElevatedButton(onPressed: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ReservedTimeSlots()),
+                    );
+                  }, child: Text("Reserved Timetable"))
                 ],
               ),
-            ),
+
           )
         ],
       ),
