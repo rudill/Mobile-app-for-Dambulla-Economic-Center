@@ -22,7 +22,7 @@ class HomeScreen extends StatelessWidget {
                       Icon(
                         Icons.home,
                       ),
-                      Text('This is home page'),
+                      Text('This is home page from ruvinda'),
 
                     ],
                   )
