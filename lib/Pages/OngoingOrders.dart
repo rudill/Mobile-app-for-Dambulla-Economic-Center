@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../Widgets/OngoingOrder_Tile.dart';
+
 class OngoingOrders extends StatefulWidget {
   const OngoingOrders({super.key});
 
@@ -15,7 +17,11 @@ class _OngoingOrdersState extends State<OngoingOrders> {
         title: Text("ක්‍රියාකාරී ඇණවුම්",
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),),
         backgroundColor: Color(0xFF208A43),
-
+      ),
+      body: Column(
+        children: [
+          OnOrderTile()
+        ],
       ),
     );
   }
