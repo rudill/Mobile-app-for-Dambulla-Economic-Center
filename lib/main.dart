@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'ReservedTimeTable.dart';
-import 'homeScreen.dart';
+import 'Pages/ReservedTimeTable.dart';
+import 'Pages/homeScreen.dart';
 
 void main() {
   runApp(const Home());
@@ -13,6 +13,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: HomeScreen(),
     );
   }
