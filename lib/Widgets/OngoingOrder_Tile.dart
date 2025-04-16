@@ -1,3 +1,4 @@
+import 'package:dec_app/Pages/OrderUpdate.dart';
 import 'package:flutter/material.dart';
 
 class OnOrderTile extends StatefulWidget {
@@ -64,7 +65,12 @@ class _OnOrderTileState extends State<OnOrderTile> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  ElevatedButton(onPressed: (){},
+                  ElevatedButton(onPressed: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => OrderUpdate()),
+                    );
+                  },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.green,
                         foregroundColor: Colors.white,
