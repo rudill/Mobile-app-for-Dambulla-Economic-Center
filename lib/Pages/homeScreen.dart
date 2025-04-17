@@ -1,5 +1,6 @@
 import 'package:dec_app/Pages/OngoingOrders.dart';
 import 'package:dec_app/Pages/ReservedTimeTable.dart';
+import 'package:dec_app/Pages/clonedReservedTimeTable.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -27,7 +28,7 @@ class HomeScreen extends StatelessWidget {
                   ElevatedButton(onPressed: (){
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ReservedTimeSlots()),
+                      MaterialPageRoute(builder: (context) => ClonedReservedTimeSlots()),
                     );
                   }, child: Text("Reserved Timetable"))
                 ],

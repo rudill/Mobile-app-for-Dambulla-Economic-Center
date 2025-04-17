@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ReservedTimeSlots extends StatefulWidget {
   const ReservedTimeSlots({super.key});
@@ -8,17 +9,12 @@ class ReservedTimeSlots extends StatefulWidget {
 }
 
 class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
-  calculateTime() {
-    double reservedTime = 4.0;
-    while (reservedTime == 13.0) {
-      reservedTime += 0.30;
-      return Text(reservedTime.toString());
-    }
+  final DateTime _startTime = DateTime(0, 1, 1, 8, 0);
 
-    return const Text('N/A');
+  String _formatTime(int index) {
+    final DateTime time = _startTime.add(Duration(minutes: index * 30));
+    return DateFormat('HH:mm').format(time);
   }
-
-  int resTime = 40;
 
   @override
   Widget build(BuildContext context) {
@@ -31,33 +27,21 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
               child: ListView.builder(
                 itemCount: 20,
                 itemBuilder: (BuildContext context, index) {
-                  return const Row(
+                  return Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      // Text('${resTime-=2}'.toString()),
-                      Text('4:00'),
+                      Text(_formatTime(index)),
                       Expanded(
                         child: Padding(
                           padding: EdgeInsets.all(8.0),
-                          child: ListTile(
-                            tileColor: Colors.grey,
-                          ),
-                        ),
-                      ),
-                      Text('13:30'),
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: ListTile(
-                            tileColor: Colors.grey,
-                          ),
+                          child: ListTile(tileColor: Colors.grey),
                         ),
                       ),
                     ],
                   );
                 },
               ),
-            )
+            ),
           ],
         ),
       ),
