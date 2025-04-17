@@ -28,7 +28,7 @@ class HomeScreen extends StatelessWidget {
                   ElevatedButton(onPressed: (){
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ClonedReservedTimeSlots()),
+                      MaterialPageRoute(builder: (context) => ReservedTimeSlots()),
                     );
                   }, child: Text("Reserved Timetable"))
                 ],
