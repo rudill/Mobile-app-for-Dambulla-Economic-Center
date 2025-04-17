@@ -5,8 +5,7 @@ class ReservedTimeSlots extends StatefulWidget {
   const ReservedTimeSlots({super.key});
 
   @override
-  State<ReservedTimeSlots> createState() =>
-      _ReservedTimeSlotsState();
+  State<ReservedTimeSlots> createState() => _ReservedTimeSlotsState();
 }
 
 class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
@@ -41,7 +40,10 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
                       Expanded(
                         child: Padding(
                           padding: EdgeInsets.all(8.0),
-                          child: ListTile(tileColor: Colors.grey),
+                          child: ListTile(
+                            tileColor: Colors.grey,
+                            title: Text(index.toString()),
+                          ),
                         ),
                       ),
                     ],
@@ -62,7 +64,10 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
                       Expanded(
                         child: Padding(
                           padding: EdgeInsets.all(8.0),
-                          child: ListTile(tileColor: Colors.grey),
+                          child: ListTile(
+                            tileColor: Colors.grey,
+                            title: Text(actualIndex.toString()),
+                          ),
                         ),
                       ),
                     ],
