@@ -1,3 +1,4 @@
+import 'package:dec_app/Hive/HiveBase.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -42,7 +43,7 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
                           padding: EdgeInsets.all(8.0),
                           child: ListTile(
                             tileColor: Colors.grey,
-                            title: Text(index.toString()),
+                            title: Text(HiveArchive(timeSlot: index).reservedName()),
                           ),
                         ),
                       ),
