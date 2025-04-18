@@ -1,10 +1,20 @@
+import 'package:flutter/cupertino.dart';
 import 'package:hive_ce/hive.dart';
 
 class HiveArchive {
-  final box = Hive.box('names');
+  HiveArchive({required this.timeSlot});
 
-  void saveName() {
-    box.put('names', 'ruvinda');
-    final myName = box.get('names');
+  final int timeSlot;
+  late final int index = 4;
+  final box = Hive.box('myBox');
+
+  reservedName() {
+    // Hive.openBox('myBox');
+    // box.put('name', 'ruvinda');
+    final name = box.get('name');
+    if (index != timeSlot) {
+      return 'na';
+    }
+    return name;
   }
 }
