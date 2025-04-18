@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ReservedTimeSlots extends StatefulWidget {
   const ReservedTimeSlots({super.key});
@@ -8,48 +9,40 @@ class ReservedTimeSlots extends StatefulWidget {
 }
 
 class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
-  calculateTime() {
-    double reservedTime = 4.0;
-    while (reservedTime == 13.0) {
-      reservedTime += 0.30;
-      return Text(reservedTime.toString());
-    }
+  int itemCount = 38;
 
-    return const Text('N/A');
+  final ScrollController _scrollController = ScrollController();
+
+  final DateTime _startTime = DateTime(0, 1, 1, 4, 0);
+
+  String _formatTime(int index) {
+    final DateTime time = _startTime.add(Duration(minutes: index * 30));
+    return DateFormat('HH:mm').format(time);
   }
-
-  int resTime = 40;
 
   @override
   Widget build(BuildContext context) {
+    int halfItemCount = (itemCount / 2).ceil();
     return SafeArea(
       child: Scaffold(
-        body: Column(
+        body: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Expanded(
               child: ListView.builder(
-                itemCount: 20,
+                itemCount: halfItemCount,
+                controller: _scrollController,
                 itemBuilder: (BuildContext context, index) {
-                  return const Row(
+                  return Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      // Text('${resTime-=2}'.toString()),
-                      Text('4:00'),
+                      Text(_formatTime(index)),
                       Expanded(
                         child: Padding(
                           padding: EdgeInsets.all(8.0),
                           child: ListTile(
                             tileColor: Colors.grey,
-                          ),
-                        ),
-                      ),
-                      Text('13:30'),
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: ListTile(
-                            tileColor: Colors.grey,
+                            title: Text(index.toString()),
                           ),
                         ),
                       ),
@@ -57,7 +50,31 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
                   );
                 },
               ),
-            )
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: itemCount - halfItemCount,
+                controller: _scrollController,
+                itemBuilder: (BuildContext context, index) {
+                  int actualIndex = index + halfItemCount;
+                  return Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(_formatTime(actualIndex)),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: ListTile(
+                            tileColor: Colors.grey,
+                            title: Text(actualIndex.toString()),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),
