@@ -29,6 +29,7 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
         body: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
+         //   ElevatedButton(onPressed: () {}, child: Text('Add')),
             Expanded(
               child: ListView.builder(
                 itemCount: halfItemCount,
@@ -42,8 +43,11 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
                         child: Padding(
                           padding: EdgeInsets.all(8.0),
                           child: ListTile(
-                            tileColor: Colors.grey,
-                            title: Text(HiveArchive(timeSlot: index).reservedName()),
+                            tileColor:
+                                HiveArchive(timeSlot: index).addColorToCells(),
+                            title: Text(
+                              HiveArchive(timeSlot: index).reservedName(),
+                            ),
                           ),
                         ),
                       ),
@@ -66,8 +70,13 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
                         child: Padding(
                           padding: EdgeInsets.all(8.0),
                           child: ListTile(
-                            tileColor: Colors.grey,
-                            title: Text(actualIndex.toString()),
+                            tileColor:
+                                HiveArchive(
+                                  timeSlot: actualIndex,
+                                ).addColorToCells(),
+                            title: Text(
+                              HiveArchive(timeSlot: actualIndex).reservedName(),
+                            ),
                           ),
                         ),
                       ),
