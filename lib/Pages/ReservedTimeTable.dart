@@ -16,6 +16,8 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
 
   final DateTime _startTime = DateTime(0, 1, 1, 4, 0);
 
+  final reservedData = HiveArchive(timeSlot: 0).getReservedNameAndIndex();
+
   String _formatTime(int index) {
     final DateTime time = _startTime.add(Duration(minutes: index * 30));
     return DateFormat('HH:mm').format(time);
@@ -29,12 +31,13 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
         body: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-         //   ElevatedButton(onPressed: () {}, child: Text('Add')),
+            //   ElevatedButton(onPressed: () {}, child: Text('Add')),
             Expanded(
               child: ListView.builder(
                 itemCount: halfItemCount,
                 controller: _scrollController,
                 itemBuilder: (BuildContext context, index) {
+
                   return Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -43,8 +46,8 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
                         child: Padding(
                           padding: EdgeInsets.all(8.0),
                           child: ListTile(
-                            tileColor:
-                                HiveArchive(timeSlot: index).addColorToCells(),
+                            // tileColor:
+                            //     HiveArchive(timeSlot: index).addColorToCells(),
                             title: Text(
                               HiveArchive(timeSlot: index).reservedName(),
                             ),

@@ -26,27 +26,30 @@ class HiveArchive {
     });
   }
 
-  // reservedName() {
-  //   // Hive.openBox('myBox');
-  //   // box.put('name', 'ruvinda');
-  //   final name = box.get('myName1');
-  //   // while (index1 == timeSlot){
-  //   //   return name;
-  //   //
-  //   // }
-  //   if (index2 != timeSlot) {
-  //     return '';
-  //   }
-  //   return name;
-  // }
-
   reservedName() {
-    final name = box.get('myName1');
-
+    // Hive.openBox('myBox');
+    // box.put('name', 'ruvinda');
+    final name = box.get('myName2');
+    // while (index1 == timeSlot){
+    //   return name;
+    //
+    // }
     if (index2 != timeSlot) {
       return '';
     }
     return name;
+  }
+
+  List<Map<String, dynamic>> getReservedNameAndIndex() {
+    final List<Map<String, dynamic>> reservedData = [];
+    for (int i = 0; i < 38; i++) {
+      final name = box.get('myName$i');
+      final index = box.get('index$i');
+      if (name != null && index != null && timeSlot == index) {
+        reservedData.add({'index': index, 'name': name});
+      }
+    }
+    return reservedData;
   }
 
   Color addColorToCells() {
