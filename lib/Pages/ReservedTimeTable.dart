@@ -16,7 +16,7 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
 
   final DateTime _startTime = DateTime(0, 1, 1, 4, 0);
 
-  final reservedData = HiveArchive(timeSlot: 0).getReservedNameAndIndex();
+  //final reservedData = HiveArchive(timeSlot: 0).getReservedNameAndIndex();
 
   String _formatTime(int index) {
     final DateTime time = _startTime.add(Duration(minutes: index * 30));
@@ -37,7 +37,6 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
                 itemCount: halfItemCount,
                 controller: _scrollController,
                 itemBuilder: (BuildContext context, index) {
-
                   return Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -46,10 +45,10 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
                         child: Padding(
                           padding: EdgeInsets.all(8.0),
                           child: ListTile(
-                            // tileColor:
-                            //     HiveArchive(timeSlot: index).addColorToCells(),
+                            tileColor: HiveArchive().addColorToCells(index),
                             title: Text(
-                              HiveArchive(timeSlot: index).reservedName(),
+                              HiveArchive().returnName(index),
+                              // HiveArchive(timeSlot: index).reservedName(),
                             ),
                           ),
                         ),
@@ -73,13 +72,9 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
                         child: Padding(
                           padding: EdgeInsets.all(8.0),
                           child: ListTile(
-                            tileColor:
-                                HiveArchive(
-                                  timeSlot: actualIndex,
-                                ).addColorToCells(),
-                            title: Text(
-                              HiveArchive(timeSlot: actualIndex).reservedName(),
-                            ),
+                            tileColor: HiveArchive().addColorToCells(actualIndex),
+
+                            title: Text(HiveArchive().returnName(actualIndex)),
                           ),
                         ),
                       ),
