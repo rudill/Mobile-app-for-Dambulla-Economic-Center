@@ -1,6 +1,6 @@
 import 'package:dec_app/Pages/OngoingOrders.dart';
 import 'package:dec_app/Pages/ReservedTimeTable.dart';
-//import 'package:dec_app/Pages/clonedReservedTimeTable.dart';
+
 import 'package:flutter/material.dart';
 import 'package:dec_app/Pages/landing.dart';
 
@@ -43,11 +43,11 @@ class HomeScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ReservedTimeSlots(),
+                        builder: (context) => OngoingOrders(),
                       ),
                     );
                   },
-                  child: Text("Reserved Timetable"),
+                  child: Text("Progress Page"),
                 ),
               ],
             ),
