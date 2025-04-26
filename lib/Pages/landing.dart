@@ -16,7 +16,7 @@ class _WelcomeState extends State<Welcome> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
-          children: [
+          children: <Widget>[
             const SizedBox(height: 70),
             Container(
               color: Colors.white,
@@ -56,8 +56,42 @@ class _WelcomeState extends State<Welcome> {
                     });
                   },
                 ),
+                Text(
+                  'English',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
               ],
             ),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Radio(
+                  value: 2,
+                  groupValue: _value,
+                  onChanged: (value) {
+                    setState(() {
+                      _value = value!;
+                    });
+                  },
+                ),
+
+                Text(
+                  'සිංහල',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+
+                //Image(image: AssetImage('asset/download.png')),
+              ],
+            ),
+            Spacer(),
+            Image(image: AssetImage('asset/download.png')),
           ],
         ),
       ),
