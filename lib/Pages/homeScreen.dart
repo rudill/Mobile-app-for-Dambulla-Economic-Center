@@ -4,6 +4,8 @@ import 'package:dec_app/Pages/ReservedTimeTable.dart';
 import 'package:flutter/material.dart';
 import 'package:dec_app/Pages/landing.dart';
 
+import '../Hive/add_to_hive.dart';
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -42,13 +44,20 @@ class HomeScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => OngoingOrders(),
-                      ),
+                      MaterialPageRoute(builder: (context) => OngoingOrders()),
                     );
                   },
                   child: Text("Progress Page"),
                 ),
+                // ElevatedButton(
+                //   onPressed: () {
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(builder: (context) => HiveForm()),
+                //     );
+                //   },
+                //   child: Text('Add to hive base'),
+                // ),
               ],
             ),
           ),
