@@ -109,6 +109,11 @@ class HiveArchive {
     });
   }
 
+  addToHiveBoxFromForm(int index, String name) {
+    box.put('index$index', index);
+    box.put('myName$index', name);
+  }
+
   List<Map<String, dynamic>> getReservedNameAndIndex(int listIndex) {
     final List<Map<String, dynamic>> reservedData = [];
     for (int i = 0; i < 38; i++) {
@@ -122,7 +127,7 @@ class HiveArchive {
   }
 
   String returnName(int listIndex) {
-    addToHiveBox();
+    //addToHiveBox();
     for (int i = 0; i < 38; i++) {
       final index = box.get('index$i');
       if (listIndex == index) {
