@@ -25,3 +25,5 @@ class Home extends StatelessWidget {
     );
   }
 }
+
+//keytool -list -v -keystore "C:\Users\Ruvinda Dilshan\.android\debug.keystore" -alias androiddebugkey -storepass android -keypass android
