@@ -71,6 +71,7 @@ flutter:
      - asset/img_1.png
      - asset/img_2.png
      - asset/salePerson.png
+     - asset/
      
 
   # An image asset can refer to one or more resolution-specific "variants", see
