@@ -1,3 +1,4 @@
+import 'package:dec_app/Pages/FarmerRegistation.dart';
 import 'package:dec_app/Pages/OngoingOrders.dart';
 import 'package:dec_app/Pages/ReservedTimeTable.dart';
 
@@ -48,6 +49,15 @@ class HomeScreen extends StatelessWidget {
                     );
                   },
                   child: Text("Progress Page"),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SignUpApp()),
+                    );
+                  },
+                  child: Text("Register Form"),
                 ),
                 // ElevatedButton(
                 //   onPressed: () {
