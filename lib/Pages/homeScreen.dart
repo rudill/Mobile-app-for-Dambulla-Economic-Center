@@ -1,6 +1,7 @@
 import 'package:dec_app/Pages/FarmerRegistation.dart';
 import 'package:dec_app/Pages/OngoingOrders.dart';
 import 'package:dec_app/Pages/ReservedTimeTable.dart';
+import 'package:dec_app/Pages/personselect.dart';
 
 import 'package:flutter/material.dart';
 import 'package:dec_app/Pages/landing.dart';
@@ -59,6 +60,17 @@ class HomeScreen extends StatelessWidget {
                   },
                   child: Text("Register Form"),
                 ),
+
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Person()),
+                    );
+                  },
+                  child: Text("Person Select"),
+                ),
+
                 // ElevatedButton(
                 //   onPressed: () {
                 //     Navigator.push(

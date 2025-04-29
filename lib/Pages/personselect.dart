@@ -31,18 +31,38 @@ class _PersonState extends State<Person> {
           ),
 
           Padding(
-            padding: EdgeInsets.only(left: 20),
+            padding: EdgeInsets.only(right: 10),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     CircleAvatar(
-                      radius: 60,
-                      backgroundImage: AssetImage('asset/img_2.png'),
+                      radius: 50,
+                      backgroundImage: AssetImage('asset/farmer.png'),
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: 9),
+
                     Text(
                       'ගොවි මහත්මයෙක්',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+
+                SizedBox(width: 50),
+
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: AssetImage('asset/owner.png'),
+                      radius: 50,
+                    ),
+                    SizedBox(height: 9),
+                    Text(
+                      'වෙළඳසැල් හිමිකරුවෙක්',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ],
