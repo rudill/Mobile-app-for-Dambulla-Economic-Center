@@ -6,7 +6,6 @@ import 'package:dec_app/Pages/SellerRegistration.dart';
 import 'package:flutter/material.dart';
 import 'package:dec_app/Pages/landing.dart';
 
-import '../Hive/add_to_hive.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
