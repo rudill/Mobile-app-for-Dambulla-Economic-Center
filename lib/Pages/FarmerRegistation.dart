@@ -27,7 +27,7 @@ class SignUpScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(height: 5),
-                Image.asset('asset/signup_image.png', height: 150),
+                Image.asset('assets/signup_image.png', height: 150),
                 SizedBox(height: 50),
                 Text(
                   'ඔබගේ තොරතුරු ලබා දෙන්න.',
