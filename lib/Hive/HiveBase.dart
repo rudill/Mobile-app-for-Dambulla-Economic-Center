@@ -54,8 +54,6 @@ class HiveArchive {
     box.put('myName$index', name);
   }
 
-
-
   clearHiveBox() {
     box.clear();
   }
