@@ -46,7 +46,7 @@ class SignUpScreen extends StatelessWidget {
                     color: Colors.black,
                   ),
                 ),
-                SizedBox(height:5),
+                SizedBox(height: 5),
                 TextFormField(
                   decoration: InputDecoration(
                     labelText: 'මුල් නම ඇතුලත් කරන්න.',
