@@ -54,7 +54,9 @@ class _PersonState extends State<Person> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => SignUpApp()),
+                          MaterialPageRoute(
+                            builder: (context) => Farmerregistration(),
+                          ),
                         );
                       },
                       child: Text(
@@ -89,7 +91,9 @@ class _PersonState extends State<Person> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => SignUpApp()),
+                          MaterialPageRoute(
+                            builder: (context) => Farmerregistration(),
+                          ),
                         );
                       },
                       child: Text(
