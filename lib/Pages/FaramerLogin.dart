@@ -73,7 +73,7 @@ class LoginPage extends StatelessWidget {
                   minimumSize: Size(double.infinity, 64),
                   backgroundColor: Colors.green,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(12),
                   ),
                 ), // full width
               ),
