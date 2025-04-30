@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(Farmerregistration());
+  runApp(SellerRegistration());
 }
 
-class Farmerregistration extends StatelessWidget {
+class SellerRegistration extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(debugShowCheckedModeBanner: false, home: SignUpScreen());
@@ -27,7 +27,7 @@ class SignUpScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  'ගොවි මහතෙකු ලෙස ලියාපදිංචිය.',
+                  'වෙළදසැල් හිමිවරයෙකු ලෙස ලියාපදිංචිය.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 29,
@@ -46,17 +46,25 @@ class SignUpScreen extends StatelessWidget {
                     color: Colors.black,
                   ),
                 ),
-                SizedBox(height: 5),
+                SizedBox(height:5),
                 TextFormField(
                   decoration: InputDecoration(
-                    labelText: 'මුල් නම ඇතුලත් කරන්න.',
+                    labelText: 'සම්පූර්ණ නම',
                     border: OutlineInputBorder(),
                   ),
                 ),
                 SizedBox(height: 15),
                 TextFormField(
                   decoration: InputDecoration(
-                    labelText: 'වාසගම ඇතුලත් කරන්න.',
+                    labelText: 'වෙළදසැලේ නම',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                SizedBox(height: 15),
+                TextFormField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: 'වෙළදසැල් ලියාපදිංචි අංකය',
                     border: OutlineInputBorder(),
                   ),
                 ),

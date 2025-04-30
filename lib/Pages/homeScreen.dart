@@ -1,7 +1,7 @@
 import 'package:dec_app/Pages/FarmerRegistation.dart';
 import 'package:dec_app/Pages/OngoingOrders.dart';
 import 'package:dec_app/Pages/ReservedTimeTable.dart';
-import 'package:dec_app/Pages/personselect.dart';
+import 'package:dec_app/Pages/SellerRegistration.dart';
 
 import 'package:flutter/material.dart';
 import 'package:dec_app/Pages/landing.dart';
@@ -53,22 +53,25 @@ class HomeScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => SignUpApp()),
+                      MaterialPageRoute(
+                        builder: (context) => Farmerregistration(),
+                      ),
                     );
                   },
-                  child: Text("Register Form"),
+                  child: Text("Famer Register Form"),
                 ),
 
                 ElevatedButton(
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Person()),
+                      MaterialPageRoute(
+                        builder: (context) => SellerRegistration(),
+                      ),
                     );
                   },
-                  child: Text("Person Select"),
+                  child: Text("Seller Register Form"),
                 ),
-
                 // ElevatedButton(
                 //   onPressed: () {
                 //     Navigator.push(
