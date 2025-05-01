@@ -53,5 +53,3 @@ Please ensure your changes are well-documented and tested.
 For inquiries or suggestions, feel free to reach out by opening an [issue](https://github.com/rudill/Mobile-app-for-Dambulla-Economic-Center/issues) or contacting the project maintainer.
 
 ---
-
-Let me know if you'd like additional sections or further customization!
