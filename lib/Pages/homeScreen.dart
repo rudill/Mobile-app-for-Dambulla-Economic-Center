@@ -1,3 +1,4 @@
+import 'package:dec_app/Pages/FaramerLogin.dart';
 import 'package:dec_app/Pages/FarmerRegistation.dart';
 import 'package:dec_app/Pages/OngoingOrders.dart';
 import 'package:dec_app/Pages/ReservedTimeTable.dart';
@@ -71,6 +72,18 @@ class HomeScreen extends StatelessWidget {
                     );
                   },
                   child: Text("Seller Register Form"),
+                ),
+
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LoginPage(),
+                      ),
+                    );
+                  },
+                  child: Text("Farmer Login Page"),
                 ),
                 // ElevatedButton(
                 //   onPressed: () {
