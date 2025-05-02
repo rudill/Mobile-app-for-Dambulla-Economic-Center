@@ -3,19 +3,19 @@ import 'package:flutter/material.dart';
 class CategoryFruit extends StatelessWidget {
   final List<Map<String, String>> fruitList = [
     {
-      "name": "අප්පල්",
+      "name": "ඇඹුල් කෙසෙල්",
       "image": "https://images.pexels.com/photos/102104/pexels-photo-102104.jpeg"
     },
     {
-      "name": "කෙසෙල්",
-      "image": "https://images.pexels.com/photos/41957/bananas-fruits-food-healthy-41957.jpeg"
+      "name": "කොමඩු",
+      "image": "https://images.pexels.com/photos/102104/pexels-photo-102104.jpeg"
     },
-    {"name": "දොඩම්", "image": "assets/orange.png"},
-    {"name": "අඹ", "image": "assets/mango.png"},
-    {"name": "පේර", "image": "assets/guava.png"},
-    {"name": "දුරියන්", "image": "assets/durian.png"},
-    {"name": "අනනස්", "image": "assets/pineapple.png"},
-    {"name": "අංගුරු", "image": "assets/grapes.png"},
+    {"name": "දිවුල්", "image": "https://images.pexels.com/photos/102104/pexels-photo-102104.jpeg"},
+    {"name": "ගස්ලබු", "image": "https://images.pexels.com/photos/102104/pexels-photo-102104.jpeg"},
+    {"name": "පැණි දොඩම්", "image": "https://images.pexels.com/photos/102104/pexels-photo-102104.jpeg"},
+    {"name": "අලිගැට පේර", "image": "https://images.pexels.com/photos/102104/pexels-photo-102104.jpeg"},
+    {"name": "පේර", "image": "https://images.pexels.com/photos/102104/pexels-photo-102104.jpeg"},
+    {"name": "නෙල්ලි", "image": "https://images.pexels.com/photos/102104/pexels-photo-102104.jpeg"},
   ];
 
   @override
