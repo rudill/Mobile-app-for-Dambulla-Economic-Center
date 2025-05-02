@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hive_ce/hive.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'Pages/ReservedTimeTable.dart';
 import 'Pages/homeScreen.dart';
 
 void main() async {
@@ -26,3 +25,5 @@ class Home extends StatelessWidget {
     );
   }
 }
+
+//keytool -list -v -keystore "C:\Users\Ruvinda Dilshan\.android\debug.keystore" -alias androiddebugkey -storepass android -keypass android
