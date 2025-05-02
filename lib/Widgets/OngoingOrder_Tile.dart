@@ -77,14 +77,37 @@ class _OnOrderTileState extends State<OnOrderTile> {
                       ),
                       child: Text("වෙනස් කරන්න",style: TextStyle( fontWeight: FontWeight.w700)),),
 
-                  ElevatedButton(onPressed: (){},
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.amber,
-                        foregroundColor: Colors.white,
+                  ElevatedButton(onPressed: (){
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: const Text('ඇණවූම ඉවත් කිරීම'),
+                        content: const Text('ඔබගේ ඇණවූම ඉවත් කිරීමට අවශ්‍යද?'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: const Text('නැත'),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                             // _productdelete(widget.product.id!);
+                            },
+                            child: const Text(
+                              'අවශ්‍යයි',
+                              style: TextStyle(color: Colors.red),
+                            ),
+                          ),
+                        ],
                       ),
-                      child: Text("ඉවත් කරන්න",style: TextStyle( fontWeight: FontWeight.w700)),),
-
-                ],
+                    );
+                  },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.amber,
+                      foregroundColor: Colors.white,
+                    ),
+                    child: Text("ඉවත් කරන්න",style: TextStyle( fontWeight: FontWeight.w700)),),
+                ]
               )
             ],
           ),
