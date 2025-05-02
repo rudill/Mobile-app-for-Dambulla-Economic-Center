@@ -8,6 +8,7 @@ import 'package:dec_app/Pages/ReservedTimeTable.dart';
 import 'package:dec_app/Pages/SellerLogin.dart';
 import 'package:dec_app/Pages/SellerRegistration.dart';
 import 'package:dec_app/Pages/menu.dart';
+import 'package:dec_app/Pages/priceList.dart';
 
 import 'package:flutter/material.dart';
 import 'package:dec_app/Pages/landing.dart';
@@ -152,6 +153,18 @@ class HomeScreen extends StatelessWidget {
                     );
                   },
                   child: Text("menu"),
+                ),
+
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PricePage(),
+                      ),
+                    );
+                  },
+                  child: Text("Price List"),
                 ),
 
                 // ElevatedButton(
