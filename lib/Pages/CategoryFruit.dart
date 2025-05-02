@@ -4,18 +4,18 @@ class CategoryFruit extends StatelessWidget {
   final List<Map<String, String>> fruitList = [
     {
       "name": "ඇඹුල් කෙසෙල්",
-      "image": "https://images.pexels.com/photos/102104/pexels-photo-102104.jpeg"
+      "image": "https://img.freepik.com/free-photo/bananas-white-background_1187-1671.jpg"
     },
     {
       "name": "කොමඩු",
-      "image": "https://images.pexels.com/photos/102104/pexels-photo-102104.jpeg"
+      "image": "https://img.freepik.com/free-psd/fruits-composition-isolated_23-2151856344.jpg"
     },
-    {"name": "දිවුල්", "image": "https://images.pexels.com/photos/102104/pexels-photo-102104.jpeg"},
-    {"name": "ගස්ලබු", "image": "https://images.pexels.com/photos/102104/pexels-photo-102104.jpeg"},
-    {"name": "පැණි දොඩම්", "image": "https://images.pexels.com/photos/102104/pexels-photo-102104.jpeg"},
-    {"name": "අලිගැට පේර", "image": "https://images.pexels.com/photos/102104/pexels-photo-102104.jpeg"},
-    {"name": "පේර", "image": "https://images.pexels.com/photos/102104/pexels-photo-102104.jpeg"},
-    {"name": "නෙල්ලි", "image": "https://images.pexels.com/photos/102104/pexels-photo-102104.jpeg"},
+    {"name": "දිවුල්", "image": "https://img.freepik.com/free-photo/three-fresh-apples-wooden-piece_114579-55620.jpg"},
+    {"name": "ගස්ලබු", "image": "https://img.freepik.com/free-photo/papaya-fruit-isolated_1203-6805.jpg"},
+    {"name": "පැණි දොඩම්", "image": "https://img.freepik.com/free-photo/fresh-green-lime-bamboo-basket-isolated-white-background_1150-6168.jpg"},
+    {"name": "අලිගැට පේර", "image": "https://img.freepik.com/free-photo/avocado-set-isolated-white-surface_24972-1136.jpg"},
+    {"name": "පේර", "image": "https://img.freepik.com/free-photo/guava-fruit_74190-2534.jpg"},
+    {"name": "නෙල්ලි", "image": "https://img.freepik.com/free-photo/guava-fruit_74190-2534.jpg"},
   ];
 
   @override
@@ -112,9 +112,9 @@ class CategoryFruit extends StatelessWidget {
                           children: [
                             isNetwork
                                 ? Image.network(imagePath,
-                                height: 60, fit: BoxFit.contain)
+                                height: 110, fit: BoxFit.contain)
                                 : Image.asset(imagePath,
-                                height: 60, fit: BoxFit.contain),
+                                height: 110, fit: BoxFit.contain),
                             SizedBox(height: 8),
                             Text(
                               fruit["name"]!,
