@@ -78,7 +78,7 @@ class UserProfileCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'ඒ.වී.කේ සිරිසේන',
+                    'ඒ. සිරිසේන',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
