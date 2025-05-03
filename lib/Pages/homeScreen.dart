@@ -11,6 +11,8 @@ import 'package:dec_app/Pages/SellerRegistration.dart';
 import 'package:dec_app/Pages/farmerHome.dart';
 import 'package:dec_app/Pages/menu.dart';
 import 'package:dec_app/Pages/priceList.dart';
+import 'package:dec_app/Pages/sallerHome.dart';
+import 'package:dec_app/Pages/sendRequest.dart';
 
 import 'package:flutter/material.dart';
 import 'package:dec_app/Pages/landing.dart';
@@ -174,6 +176,17 @@ class HomeScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
+                        builder: (context) => SendRequestPage(),
+                      ),
+                    );
+                  },
+                  child: Text("Send Request"),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
                         builder: (context) => Selection_screen(),
                       ),
                     );
@@ -191,6 +204,17 @@ class HomeScreen extends StatelessWidget {
                     );
                   },
                   child: Text("farmer home"),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => sallerApp(),
+                      ),
+                    );
+                  },
+                  child: Text("Seller Home"),
                 ),
                 // ElevatedButton(
                 //   onPressed: () {
