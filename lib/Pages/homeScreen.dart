@@ -8,6 +8,7 @@ import 'package:dec_app/Pages/ReservedTimeTable.dart';
 import 'package:dec_app/Pages/Selection_Page.dart';
 import 'package:dec_app/Pages/SellerLogin.dart';
 import 'package:dec_app/Pages/SellerRegistration.dart';
+import 'package:dec_app/Pages/farmerHome.dart';
 import 'package:dec_app/Pages/menu.dart';
 import 'package:dec_app/Pages/priceList.dart';
 
@@ -180,6 +181,17 @@ class HomeScreen extends StatelessWidget {
                   child: Text("veg selection"),
                 ),
 
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FarmerApp(),
+                      ),
+                    );
+                  },
+                  child: Text("farmer home"),
+                ),
                 // ElevatedButton(
                 //   onPressed: () {
                 //     Navigator.push(
