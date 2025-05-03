@@ -17,7 +17,7 @@ class LoginPage extends StatelessWidget {
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 24),
+              SizedBox(height: 28),
 
               CircleAvatar(
                 radius: 100,

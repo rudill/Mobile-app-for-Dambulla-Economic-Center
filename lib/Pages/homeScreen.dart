@@ -5,8 +5,11 @@ import 'package:dec_app/Pages/FarmerRegistation.dart';
 import 'package:dec_app/Pages/OngoingOrders.dart';
 import 'package:dec_app/Pages/ProductSubmitionForm.dart';
 import 'package:dec_app/Pages/ReservedTimeTable.dart';
+import 'package:dec_app/Pages/Selection_Page.dart';
 import 'package:dec_app/Pages/SellerLogin.dart';
 import 'package:dec_app/Pages/SellerRegistration.dart';
+import 'package:dec_app/Pages/menu.dart';
+import 'package:dec_app/Pages/priceList.dart';
 
 import 'package:flutter/material.dart';
 import 'package:dec_app/Pages/landing.dart';
@@ -112,7 +115,11 @@ class HomeScreen extends StatelessWidget {
                     );
                   },
                   child: Text("Product Submition Form"),
+
+
                 ),
+
+
 
                 ElevatedButton(
                   onPressed: () {
@@ -136,6 +143,41 @@ class HomeScreen extends StatelessWidget {
                     );
                   },
                   child: Text("Fruit Category"),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Menu(),
+                      ),
+                    );
+                  },
+                  child: Text("menu"),
+                ),
+
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PricePage(),
+                      ),
+                    );
+                  },
+                  child: Text("Price List"),
+                ),
+
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Selection_screen(),
+                      ),
+                    );
+                  },
+                  child: Text("veg selection"),
                 ),
 
                 // ElevatedButton(
