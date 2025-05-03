@@ -28,7 +28,7 @@ class FarmerReg extends StatelessWidget {
                   'ගොවි මහතෙකු ලෙස ලියාපදිංචිය.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 29,
+                    fontSize: 30,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),
