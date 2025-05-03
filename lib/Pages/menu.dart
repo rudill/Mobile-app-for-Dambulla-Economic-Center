@@ -1,3 +1,4 @@
+import 'package:dec_app/Pages/sellerprofileEdit.dart';
 import 'package:dec_app/Pages/technicalhelp.dart';
 import 'package:flutter/material.dart';
 
@@ -100,7 +101,7 @@ class UserProfileCard extends StatelessWidget {
         color: Theme.of(context).focusColor,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
-          BoxShadow(blurRadius: 5, color: Colors.black26.withOpacity(0.1)),
+          BoxShadow(blurRadius: 5, color: Colors.black26),
         ],
       ),
       child: Stack(
@@ -157,7 +158,12 @@ class GreenActionButton extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         elevation: 4,
       ),
-      onPressed: () {},
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const ProfileEditPage()),
+        );
+      },
       icon: const Icon(Icons.edit),
       label: const Text('තොරතුරු වෙනස් කිරිම', style: TextStyle(fontSize: 16)),
     );
@@ -285,8 +291,9 @@ class DarkModeToggle extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        SizedBox(height: 150),
         const Text('වරණ පරිපාලනය', style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold)),
-        const SizedBox(height: 8),
+        const SizedBox(height: 16),
         Container(
           width: 330,
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
