@@ -1,15 +1,15 @@
-import 'package:dec_app/Pages/FaramerLogin.dart';
+import 'package:dec_app/Pages/SellerLogin.dart';
 import 'package:flutter/material.dart';
 
 
-class Farmerregistration extends StatelessWidget {
+class SellerRegistration extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: FarmerReg());
+    return MaterialApp(debugShowCheckedModeBanner: false, home: SignUpScreen());
   }
 }
 
-class FarmerReg extends StatelessWidget {
+class SignUpScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -25,10 +25,10 @@ class FarmerReg extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  'ගොවි මහතෙකු ලෙස ලියාපදිංචිය.',
+                  'වෙළදසැල් හිමිවරයෙකු ලෙස ලියාපදිංචිය.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 30,
+                    fontSize: 29,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),
@@ -44,17 +44,25 @@ class FarmerReg extends StatelessWidget {
                     color: Colors.black,
                   ),
                 ),
-                SizedBox(height: 5),
+                SizedBox(height:5),
                 TextFormField(
                   decoration: InputDecoration(
-                    labelText: 'මුල් නම ඇතුලත් කරන්න.',
+                    labelText: 'සම්පූර්ණ නම',
                     border: OutlineInputBorder(),
                   ),
                 ),
                 SizedBox(height: 15),
                 TextFormField(
                   decoration: InputDecoration(
-                    labelText: 'වාසගම ඇතුලත් කරන්න.',
+                    labelText: 'වෙළදසැලේ නම',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                SizedBox(height: 15),
+                TextFormField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: 'වෙළදසැල් ලියාපදිංචි අංකය',
                     border: OutlineInputBorder(),
                   ),
                 ),
@@ -91,7 +99,7 @@ class FarmerReg extends StatelessWidget {
                     border: OutlineInputBorder(),
                   ),
                 ),
-                SizedBox(height: 30),
+                SizedBox(height: 25),
                 SizedBox(
                   width: double.infinity,
                   height: 50,
@@ -121,7 +129,7 @@ class FarmerReg extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => LoginPage()),
+                      MaterialPageRoute(builder: (context) => SellerloginPage()),
                     );
                   },
                   child: Text('ගිණුමක්‌ තීබේද? මෙතන ක්ලික් කරන්න.'),
