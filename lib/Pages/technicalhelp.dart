@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'menu.dart'; // Make sure this import is correct
 
 class TechnicalHelpPage extends StatelessWidget {
   @override
@@ -7,10 +8,36 @@ class TechnicalHelpPage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            // Top bar
-            SizedBox(height: 40),
+            // Back button
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.only(left: 16.0, top: 24.0, bottom: 8.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Menu()),
+                    );
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.arrow_back, color: Colors.black),
+                      SizedBox(width: 6),
+                      Text(
+                        'ආපසු',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
+            // Top green header
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 12),
                 decoration: BoxDecoration(
@@ -52,7 +79,7 @@ class TechnicalHelpPage extends StatelessWidget {
                             'හැකි ඉක්මනින් විසඳා ගැනීමට උදව්\n'
                             'කරන්නෙමු.',
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 16, height: 1.6),
+                        style: TextStyle(fontSize: 18, height: 1.6),
                       ),
                       SizedBox(height: 24),
                       Row(
@@ -63,15 +90,15 @@ class TechnicalHelpPage extends StatelessWidget {
                           Text(
                             'අප අමතන්න:',
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                         ],
                       ),
                       SizedBox(height: 8),
-                      Text('+94 77 123 4567', style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold)),
-                      Text('+94 76 987 6543', style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold)),
+                      Text('+94 77 123 4567', style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold)),
+                      Text('+94 76 987 6543', style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold)),
                     ],
                   ),
                 ),
@@ -82,7 +109,7 @@ class TechnicalHelpPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Image.asset(
-                'assets/images/help.png',
+                'assets/images/help.png', // Ensure this path is correct and declared in pubspec.yaml
                 height: 250,
                 fit: BoxFit.contain,
               ),
