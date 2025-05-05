@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../main.dart';
-import '../homeScreen.dart';
 
 
 class Farmerregistration extends StatelessWidget {
