@@ -1,4 +1,4 @@
-import 'package:dec_app/Pages/FaramerLogin.dart';
+import 'package:dec_app/Pages/Farmer/FaramerLogin.dart';
 import 'package:flutter/material.dart';
 
 

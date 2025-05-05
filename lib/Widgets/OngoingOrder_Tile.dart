@@ -1,4 +1,4 @@
-import 'package:dec_app/Pages/OrderUpdate.dart';
+import 'package:dec_app/Pages/Seller/OrderUpdate.dart';
 import 'package:flutter/material.dart';
 
 class OnOrderTile extends StatefulWidget {
