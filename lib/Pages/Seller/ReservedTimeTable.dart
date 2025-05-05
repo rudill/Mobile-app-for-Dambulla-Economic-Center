@@ -2,7 +2,7 @@ import 'package:dec_app/Hive/HiveBase.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../Hive/add_to_hive.dart';
+import '../../Hive/add_to_hive.dart';
 
 class ReservedTimeSlots extends StatefulWidget {
   const ReservedTimeSlots({super.key});

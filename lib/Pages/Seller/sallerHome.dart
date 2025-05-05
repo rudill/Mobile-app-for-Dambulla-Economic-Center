@@ -1,6 +1,6 @@
-import 'package:dec_app/Pages/OngoingOrders.dart';
-import 'package:dec_app/Pages/ProductSubmitionForm.dart';
-import 'package:dec_app/Pages/ReservedTimeTable.dart';
+import 'package:dec_app/Pages/Seller/OngoingOrders.dart';
+import 'package:dec_app/Pages/Seller/ProductSubmitionForm.dart';
+import 'package:dec_app/Pages/Seller/ReservedTimeTable.dart';
 import 'package:dec_app/Pages/Selection_Page.dart';
 import 'package:dec_app/Pages/menu.dart';
 import 'package:flutter/material.dart';
