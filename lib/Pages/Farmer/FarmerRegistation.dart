@@ -2,8 +2,9 @@ import 'package:dec_app/Pages/Farmer/FaramerLogin.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../main.dart';
-import 'homeScreen.dart';
+import '../../main.dart';
+import '../homeScreen.dart';
+
 
 class Farmerregistration extends StatelessWidget {
   @override
@@ -233,7 +234,7 @@ class FarmerReg extends StatelessWidget {
                             //Redirect Karanna thiyenne page ekata
                             context,
                             MaterialPageRoute(
-                              builder: (context) => HomeScreen(),
+                              builder: (context) => LoginPage(),
                             ),
                           );
                         } catch (error) {
