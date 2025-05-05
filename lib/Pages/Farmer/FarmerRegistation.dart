@@ -1,17 +1,15 @@
+import 'package:dec_app/Pages/Farmer/FaramerLogin.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(Farmerregistration());
-}
 
 class Farmerregistration extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: SignUpScreen());
+    return MaterialApp(debugShowCheckedModeBanner: false, home: FarmerReg());
   }
 }
 
-class SignUpScreen extends StatelessWidget {
+class FarmerReg extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -30,13 +28,13 @@ class SignUpScreen extends StatelessWidget {
                   'ගොවි මහතෙකු ලෙස ලියාපදිංචිය.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 29,
+                    fontSize: 30,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),
                 ),
                 SizedBox(height: 5),
-                Image.asset('asset/signup_image.png', height: 150),
+                Image.asset('assets/images/signup_image.png', height: 150),
                 SizedBox(height: 30),
                 Text(
                   'ඔබගේ තොරතුරු ලබා දෙන්න.',
@@ -93,7 +91,7 @@ class SignUpScreen extends StatelessWidget {
                     border: OutlineInputBorder(),
                   ),
                 ),
-                SizedBox(height: 25),
+                SizedBox(height: 30),
                 SizedBox(
                   width: double.infinity,
                   height: 50,
@@ -118,6 +116,17 @@ class SignUpScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+                SizedBox(height: 5),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginPage()),
+                    );
+                  },
+                  child: Text('ගිණුමක්‌ තීබේද? මෙතන ක්ලික් කරන්න.'),
+                ),
+                SizedBox(height: 5),
               ],
             ),
           ),

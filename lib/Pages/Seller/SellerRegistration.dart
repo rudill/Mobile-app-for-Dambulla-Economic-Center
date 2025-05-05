@@ -1,8 +1,6 @@
+import 'package:dec_app/Pages/Seller/SellerLogin.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(SellerRegistration());
-}
 
 class SellerRegistration extends StatelessWidget {
   @override
@@ -36,7 +34,7 @@ class SignUpScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 5),
-                Image.asset('asset/signup_image.png', height: 150),
+                Image.asset('assets/images/signup_image.png', height: 150),
                 SizedBox(height: 30),
                 Text(
                   'ඔබගේ තොරතුරු ලබා දෙන්න.',
@@ -126,6 +124,17 @@ class SignUpScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+                SizedBox(height: 5),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SellerloginPage()),
+                    );
+                  },
+                  child: Text('ගිණුමක්‌ තීබේද? මෙතන ක්ලික් කරන්න.'),
+                ),
+                SizedBox(height: 5),
               ],
             ),
           ),
