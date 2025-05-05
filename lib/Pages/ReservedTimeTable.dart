@@ -1,8 +1,10 @@
-import 'package:dec_app/Hive/HiveBase.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
+import 'package:dec_app/Hive/HiveBase.dart';
 import '../Hive/add_to_hive.dart';
+import 'package:provider/provider.dart';
+import 'language_provider.dart';
+import 'trans.dart';
 
 class ReservedTimeSlots extends StatefulWidget {
   const ReservedTimeSlots({super.key});
@@ -13,9 +15,7 @@ class ReservedTimeSlots extends StatefulWidget {
 
 class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
   int itemCount = 38;
-
   final ScrollController _scrollController = ScrollController();
-
   final DateTime _startTime = DateTime(0, 1, 1, 4, 0);
 
   String _formatTime(int index) {
@@ -24,24 +24,32 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
   }
 
   Future<void> _refreshTable() async {
-    await Future.delayed(Duration(seconds: 2));
-
+    await Future.delayed(const Duration(seconds: 2));
     setState(() {
-      HiveArchive();
+      HiveArchive(); // Refresh logic can be extended here
     });
   }
 
   @override
   Widget build(BuildContext context) {
     int halfItemCount = (itemCount / 2).ceil();
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text(
-            'Reserved Time Table',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+          title: FutureBuilder<String>(
+            future: translate(context, 'Reserved Time Table'),
+            builder: (context, snapshot) {
+              return Text(
+                snapshot.data ?? 'Reserved Time Table',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                ),
+              );
+            },
           ),
-          backgroundColor: Color(0xFF208A43),
+          backgroundColor: const Color(0xFF208A43),
         ),
         body: RefreshIndicator(
           onRefresh: _refreshTable,
@@ -63,16 +71,24 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
                 MaterialPageRoute(builder: (context) => HiveForm()),
               );
             },
-            child: Text('Add New Entry To Table'),
+            child: FutureBuilder<String>(
+              future: translate(context, 'නව ඇතුළත් කිරීමක් එක් කරන්න'),
+              builder: (context, snapshot) {
+                return Text(snapshot.data ?? 'Add New Entry');
+              },
+            ),
           ),
         ),
-
         ElevatedButton(
           onPressed: HiveArchive().clearHiveBox,
-          child: Text('Clear Table'),
+          child: FutureBuilder<String>(
+            future: translate(context, 'වගුව හිස් කරන්න'),
+            builder: (context, snapshot) {
+              return Text(snapshot.data ?? 'Clear Table');
+            },
+          ),
         ),
-
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         Expanded(
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -82,21 +98,7 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
                   itemCount: halfItemCount,
                   controller: _scrollController,
                   itemBuilder: (BuildContext context, index) {
-                    return Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(_formatTime(index)),
-                        Expanded(
-                          child: Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: ListTile(
-                              tileColor: HiveArchive().addColorToCells(index),
-                              title: Text(HiveArchive().returnName(index)),
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
+                    return rowTile(index);
                   },
                 ),
               ),
@@ -106,29 +108,29 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
                   controller: _scrollController,
                   itemBuilder: (BuildContext context, index) {
                     int actualIndex = index + halfItemCount;
-                    return Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(_formatTime(actualIndex)),
-                        Expanded(
-                          child: Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: ListTile(
-                              tileColor: HiveArchive().addColorToCells(
-                                actualIndex,
-                              ),
-                              title: Text(
-                                HiveArchive().returnName(actualIndex),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
+                    return rowTile(actualIndex);
                   },
                 ),
               ),
             ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget rowTile(int index) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(_formatTime(index)),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListTile(
+              tileColor: HiveArchive().addColorToCells(index),
+              title: Text(HiveArchive().returnName(index)),
+            ),
           ),
         ),
       ],
