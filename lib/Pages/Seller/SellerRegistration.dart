@@ -1,4 +1,4 @@
-import 'package:dec_app/Pages/SellerLogin.dart';
+import 'package:dec_app/Pages/Seller/SellerLogin.dart';
 import 'package:flutter/material.dart';
 
 
