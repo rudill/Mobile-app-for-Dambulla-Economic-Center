@@ -2,6 +2,7 @@ import 'package:dec_app/Pages/CategoryFruit.dart';
 import 'package:dec_app/Pages/CategoryVegetable.dart';
 import 'package:dec_app/Pages/Farmer/FaramerLogin.dart';
 import 'package:dec_app/Pages/Farmer/FarmerRegistation.dart';
+import 'package:dec_app/Pages/Farmer/orderWaiting.dart';
 import 'package:dec_app/Pages/Seller/SellerLogin.dart';
 import 'package:dec_app/Pages/Seller/SellerRegistration.dart';
 import 'package:dec_app/Pages/Farmer/farmerHome.dart';
@@ -64,9 +65,7 @@ class HomeScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => LoginPage(),
-                      ),
+                      MaterialPageRoute(builder: (context) => LoginPage()),
                     );
                   },
                   child: Text("Farmer Login Page"),
@@ -84,9 +83,6 @@ class HomeScreen extends StatelessWidget {
                   child: Text("Seller Login Page"),
                 ),
 
-
-
-
                 ElevatedButton(
                   onPressed: () {
                     Navigator.push(
@@ -103,9 +99,7 @@ class HomeScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => CategoryFruit(),
-                      ),
+                      MaterialPageRoute(builder: (context) => CategoryFruit()),
                     );
                   },
                   child: Text("Fruit Category"),
@@ -115,9 +109,7 @@ class HomeScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => PricePage(),
-                      ),
+                      MaterialPageRoute(builder: (context) => PricePage()),
                     );
                   },
                   child: Text("Price List"),
@@ -139,9 +131,7 @@ class HomeScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => FarmerApp(),
-                      ),
+                      MaterialPageRoute(builder: (context) => FarmerApp()),
                     );
                   },
                   child: Text("farmer home"),
@@ -150,13 +140,22 @@ class HomeScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => sallerApp(),
-                      ),
+                      MaterialPageRoute(builder: (context) => sallerApp()),
                     );
                   },
                   child: Text("Seller Home"),
                 ),
+
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => OrderWaiting()),
+                    );
+                  },
+                  child: Text("Order Waiting"),
+                ),
+
                 // ElevatedButton(
                 //   onPressed: () {
                 //     Navigator.push(
