@@ -1,3 +1,6 @@
+import 'package:dec_app/Pages/ReservedTimeTable.dart';
+import 'package:dec_app/Pages/Selection_Page.dart';
+import 'package:dec_app/Pages/menu.dart';
 import 'package:flutter/material.dart';
 
 class FarmerApp extends StatelessWidget {
@@ -33,9 +36,20 @@ class FarmerHomePage extends StatelessWidget {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16),
-            child: CircleAvatar(
-              backgroundColor: Colors.green.shade100,
-              child: const Icon(Icons.person, color: Colors.green),
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Menu(),
+                  ),
+                );
+              },
+              customBorder: const CircleBorder(),
+              child: CircleAvatar(
+                backgroundColor: Colors.green.shade100,
+                child: const Icon(Icons.person, color: Colors.green),
+              ),
             ),
           ),
         ],
@@ -64,7 +78,12 @@ class FarmerHomePage extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Selection_screen(),
+                  ),
+                );},
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
                   padding: const EdgeInsets.symmetric(vertical: 18),
@@ -82,7 +101,12 @@ class FarmerHomePage extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ReservedTimeSlots(),
+                  ),
+                );},
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
                   padding: const EdgeInsets.symmetric(vertical: 18),
