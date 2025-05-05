@@ -1,4 +1,4 @@
-import 'package:dec_app/Pages/SellerRegistration.dart';
+import 'package:dec_app/Pages/Seller/SellerRegistration.dart';
 import 'package:flutter/material.dart';
 
 class SellerloginPage extends StatelessWidget {
