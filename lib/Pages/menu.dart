@@ -1,4 +1,4 @@
-import 'package:dec_app/Pages/sellerprofileEdit.dart';
+import 'package:dec_app/Pages/Seller/sellerprofileEdit.dart';
 import 'package:dec_app/Pages/technicalhelp.dart';
 import 'package:flutter/material.dart';
 

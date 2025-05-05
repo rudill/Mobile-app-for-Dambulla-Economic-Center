@@ -1,13 +1,13 @@
 import 'package:dec_app/Pages/CategoryFruit.dart';
 import 'package:dec_app/Pages/CategoryVegetable.dart';
-import 'package:dec_app/Pages/FaramerLogin.dart';
-import 'package:dec_app/Pages/FarmerRegistation.dart';
-import 'package:dec_app/Pages/SellerLogin.dart';
-import 'package:dec_app/Pages/SellerRegistration.dart';
-import 'package:dec_app/Pages/farmerHome.dart';
+import 'package:dec_app/Pages/Farmer/FaramerLogin.dart';
+import 'package:dec_app/Pages/Farmer/FarmerRegistation.dart';
+import 'package:dec_app/Pages/Seller/SellerLogin.dart';
+import 'package:dec_app/Pages/Seller/SellerRegistration.dart';
+import 'package:dec_app/Pages/Farmer/farmerHome.dart';
 import 'package:dec_app/Pages/priceList.dart';
-import 'package:dec_app/Pages/sallerHome.dart';
-import 'package:dec_app/Pages/sendRequest.dart';
+import 'package:dec_app/Pages/Seller/sallerHome.dart';
+import 'package:dec_app/Pages/Farmer/sendRequest.dart';
 
 import 'package:flutter/material.dart';
 import 'package:dec_app/Pages/landing.dart';

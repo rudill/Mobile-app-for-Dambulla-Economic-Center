@@ -1,4 +1,4 @@
-import 'package:dec_app/Pages/FarmerRegistation.dart';
+import 'package:dec_app/Pages/Farmer/FarmerRegistation.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
