@@ -85,7 +85,7 @@ class _OnOrderTileState extends State<OnOrderTile> {
                   ElevatedButton(onPressed: (){
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => OrderUpdate()),
+                      MaterialPageRoute(builder: (context) => OrderUpdate(product:widget.product)),
                     );
                   },
                       style: ElevatedButton.styleFrom(
