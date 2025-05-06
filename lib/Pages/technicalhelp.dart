@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'menu.dart'; // Make sure this import is correct
+import 'menu.dart';
 
 class TechnicalHelpPage extends StatelessWidget {
+  const TechnicalHelpPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
