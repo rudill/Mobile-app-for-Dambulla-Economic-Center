@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dec_app/Pages/Seller/OrderUpdate.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +13,19 @@ class OnOrderTile extends StatefulWidget {
 }
 
 class _OnOrderTileState extends State<OnOrderTile> {
+
+  void _productdelete (String id) async{
+    try {
+      await FirebaseFirestore.instance.collection('Product').doc(id).delete();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("ඔබගේ ඇණවූම ඉවත් කරන ලදි")),
+      );
+    } catch  (e){
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("ඔබගේ ඇණවූම ඉවත් කිරීම අසාර්ථකයි")),
+      );
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -94,7 +108,7 @@ class _OnOrderTileState extends State<OnOrderTile> {
                           TextButton(
                             onPressed: () {
                               Navigator.pop(context);
-                             // _productdelete(widget.product.id!);
+                              _productdelete(widget.product.id);
                             },
                             child: const Text(
                               'අවශ්‍යයි',
