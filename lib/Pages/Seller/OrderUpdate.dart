@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../../Models/product_model.dart';
+import 'package:intl/intl.dart';
+
 class OrderUpdate extends StatefulWidget {
-  const OrderUpdate({super.key});
+  final Product product;
+  const OrderUpdate({super.key, required this.product});
 
   @override
   State<OrderUpdate> createState() => _OrderUpdateState();
@@ -36,7 +40,7 @@ class _OrderUpdateState extends State<OrderUpdate> {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "කැරට්",
+                  widget.product.name,
                   style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
                 ),
               ),
@@ -53,8 +57,8 @@ class _OrderUpdateState extends State<OrderUpdate> {
                   child: TextField(
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-                        //labelText: "ප්‍රමාණය",
-                        hintText: "200",
+
+                        hintText: "${widget.product.quantity}",
                       border: OutlineInputBorder() ,
                     ),
                   ),
@@ -73,8 +77,8 @@ class _OrderUpdateState extends State<OrderUpdate> {
                   child: TextField(
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-                      //labelText: "ප්‍රමාණය",
-                      hintText: "රු.300.00",
+
+                      hintText: "රු.${widget.product.price}",
                       border: OutlineInputBorder() ,
                     ),
                   ),
@@ -97,7 +101,7 @@ class _OrderUpdateState extends State<OrderUpdate> {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "B/25",
+                  widget.product.shopno,
                   style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
                 ),
               ),
@@ -116,7 +120,7 @@ class _OrderUpdateState extends State<OrderUpdate> {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "2025/04/16",
+                    DateFormat('yyyy-MM-dd').format(widget.product.date ),
                   style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
                 ),
               ),
