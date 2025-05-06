@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ProfileEditPage extends StatelessWidget {
-  const ProfileEditPage({super.key});
+class FarmerProfileEditPage extends StatelessWidget {
+  const FarmerProfileEditPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,16 +39,7 @@ class ProfileEditPage extends StatelessWidget {
                 ),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(bottom: 14),
-              child: TextField(
-                decoration: InputDecoration(
-                  labelText: 'වෙලදසැල් නම',
-                  border: OutlineInputBorder(),
-                  contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                ),
-              ),
-            ),
+
             const Padding(
               padding: EdgeInsets.only(bottom: 14),
               child: TextField(
