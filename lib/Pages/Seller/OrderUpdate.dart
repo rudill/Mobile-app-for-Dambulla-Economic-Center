@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../../Models/product_model.dart';
@@ -12,7 +13,34 @@ class OrderUpdate extends StatefulWidget {
 }
 
 class _OrderUpdateState extends State<OrderUpdate> {
+
+  late TextEditingController priceController;
+  late TextEditingController quantityController;
+
   @override
+  void initState() {
+    super.initState();
+    priceController = TextEditingController(text: widget.product.price.toString());
+    quantityController = TextEditingController(text: widget.product.quantity.toString());
+  }
+  Future<void> _updateProduct() async{
+    try{
+      await FirebaseFirestore.instance.collection("Product").doc(widget.product.id).update({
+        'price':double.parse(priceController.text),
+        'quantity' :int.parse(quantityController.text)
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("ඇණවුම යාවත්කාලීන කිරීම සාර්ථකයි")),
+      );
+      Navigator.pop(context);
+
+    }catch (e){
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("ඇණවුම යාවත්කාලීන කිරීම අසාර්ථකයි")),
+      );
+    }
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -22,7 +50,7 @@ class _OrderUpdateState extends State<OrderUpdate> {
       ),
 
 
-      body: Padding(
+      body: SingleChildScrollView(
         padding:  EdgeInsets.symmetric(vertical: 17,horizontal: 15),
         child: Column(
 
@@ -55,16 +83,15 @@ class _OrderUpdateState extends State<OrderUpdate> {
               children: [
                 Expanded(
                   child: TextField(
+                    controller: quantityController,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-
-                        hintText: "${widget.product.quantity}",
                       border: OutlineInputBorder() ,
                     ),
                   ),
                 ),
                 Text("KG" , style: TextStyle( fontWeight: FontWeight.w600, fontSize: 20)),
-                SizedBox(width: 200,),
+                SizedBox(width: 180,),
               ],
             ),
             SizedBox(height: 15,),
@@ -75,10 +102,9 @@ class _OrderUpdateState extends State<OrderUpdate> {
               children: [
                 Expanded(
                   child: TextField(
+                    controller: priceController,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-
-                      hintText: "රු.${widget.product.price}",
                       border: OutlineInputBorder() ,
                     ),
                   ),
@@ -128,7 +154,9 @@ class _OrderUpdateState extends State<OrderUpdate> {
             SizedBox(height: 45,),
 
             Center(
-              child: ElevatedButton(onPressed: (){},
+              child: ElevatedButton(onPressed: (){
+                _updateProduct();
+              },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
                   foregroundColor: Colors.white,
@@ -136,17 +164,12 @@ class _OrderUpdateState extends State<OrderUpdate> {
                 child: Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: Text("තහවුරු කරන්න",style: TextStyle( fontWeight: FontWeight.w700,fontSize: 20)),
-                ),),
+                ),
+              ),
             ),
-
-
           ],
         ),
       ),
-
-
-
-
 
     );
   }
