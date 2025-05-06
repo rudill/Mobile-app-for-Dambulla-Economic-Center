@@ -27,6 +27,11 @@ jobs:
       with:
         flutter-version: '3.29.2'
 
+
+    # Accept Android SDK licenses
+    - name: Accept Android SDK licenses
+      run: yes | sdkmanager --licenses
+
     # Install dependencies
     - name: Install dependencies
       run: flutter pub get
