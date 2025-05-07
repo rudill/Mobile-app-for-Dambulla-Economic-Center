@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../Firestore/setReservations.dart';
+
 class SendRequestPage extends StatefulWidget {
   @override
   _SendRequestPageState createState() => _SendRequestPageState();
@@ -12,6 +14,24 @@ class _SendRequestPageState extends State<SendRequestPage> {
   TextEditingController itemController = TextEditingController();
   TextEditingController contactController = TextEditingController();
   TextEditingController addressController = TextEditingController();
+  TextEditingController sellerController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    dateController = TextEditingController();
+    quantityController = TextEditingController();
+    itemController = TextEditingController();
+    contactController = TextEditingController();
+    addressController = TextEditingController();
+    sellerController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +68,9 @@ class _SendRequestPageState extends State<SendRequestPage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
             child: Card(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
               elevation: 4,
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -56,27 +78,39 @@ class _SendRequestPageState extends State<SendRequestPage> {
                   children: [
                     Text(
                       'කිරිති වෙළඳසැල',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     SizedBox(height: 16),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('නිමකරැවේ:', style: TextStyle(fontWeight: FontWeight.w500)),
+                        Text(
+                          'නිමකරැවේ:',
+                          style: TextStyle(fontWeight: FontWeight.w500),
+                        ),
                         Text('එම් කිරිති මහාත්මා'),
                       ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('කඩ අංකය:', style: TextStyle(fontWeight: FontWeight.w500)),
+                        Text(
+                          'කඩ අංකය:',
+                          style: TextStyle(fontWeight: FontWeight.w500),
+                        ),
                         Text('B/25'),
                       ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('දුරකථන අංකය:', style: TextStyle(fontWeight: FontWeight.w500)),
+                        Text(
+                          'දුරකථන අංකය:',
+                          style: TextStyle(fontWeight: FontWeight.w500),
+                        ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
@@ -95,7 +129,7 @@ class _SendRequestPageState extends State<SendRequestPage> {
                           color: Colors.yellow[700],
                         );
                       }),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -107,7 +141,9 @@ class _SendRequestPageState extends State<SendRequestPage> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Card(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: SingleChildScrollView(
@@ -123,21 +159,32 @@ class _SendRequestPageState extends State<SendRequestPage> {
                         SizedBox(height: 12),
                         buildTextField('ලිපිනය', addressController),
                         SizedBox(height: 16),
+                        buildTextField('Seller ID', sellerController),
                         Text(
                           'ලැබෙන මුළු මුදල රු.10,000.00',
                           style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black87),
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87,
+                          ),
                         ),
                         SizedBox(height: 16),
                         ElevatedButton(
-                          onPressed: () {
-                            // handle submission
+                          onPressed: () async {
+                          await SendReservation(
+                              quantity: int.parse(quantityController.text),
+                              sellerID: int.parse(sellerController.text),
+                              farmerName: itemController.text,
+                              phoneNumber: int.parse(contactController.text),
+                              farmerAddress: addressController.text,
+                            ).createReservation(context);
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green,
-                            padding: EdgeInsets.symmetric(horizontal: 40, vertical: 14),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 40,
+                              vertical: 14,
+                            ),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
@@ -166,7 +213,8 @@ class _SendRequestPageState extends State<SendRequestPage> {
         labelText: label,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
         focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.green)),
+          borderSide: BorderSide(color: Colors.green),
+        ),
       ),
     );
   }
@@ -187,7 +235,8 @@ class _SendRequestPageState extends State<SendRequestPage> {
           lastDate: DateTime(2030),
         );
         if (picked != null) {
-          final formatted = DateFormat('MM/dd/yyyy').format(picked.start) +
+          final formatted =
+              DateFormat('MM/dd/yyyy').format(picked.start) +
               ' - ' +
               DateFormat('MM/dd/yyyy').format(picked.end);
           dateController.text = formatted;
