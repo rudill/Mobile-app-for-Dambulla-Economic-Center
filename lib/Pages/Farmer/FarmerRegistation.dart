@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../main.dart';
 
-
 class Farmerregistration extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
