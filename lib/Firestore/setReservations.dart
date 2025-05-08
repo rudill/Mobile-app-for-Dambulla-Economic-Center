@@ -30,7 +30,7 @@ class SendReservation {
         'status': 'pending',
       });
       return ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('success')));
-    } catch (e) {
+    } catch (exception) {
       return ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('failed')));
     }
   }
