@@ -1,8 +1,9 @@
+import 'package:dec_app/Pages/Seller/sallerHome.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'SellerLogin.dart';
-
 
 class SellerRegistration extends StatelessWidget {
   @override
@@ -14,8 +15,6 @@ class SellerRegistration extends StatelessWidget {
 class SignUpScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
 
-  //Define karanawa variable tika firebase ekata danna
-
   final FullNameController = TextEditingController();
   final ShopNameController = TextEditingController();
   final ShopRegNumController = TextEditingController();
@@ -23,6 +22,9 @@ class SignUpScreen extends StatelessWidget {
   final NICController = TextEditingController();
   final EmailController = TextEditingController();
   final PWDController = TextEditingController();
+
+  FirebaseAuth auth = FirebaseAuth.instance;
+  User? user;
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +98,6 @@ class SignUpScreen extends StatelessWidget {
                 TextFormField(
                   //Shop Reg Num Section----------------------------------------(3)
                   controller: ShopRegNumController,
-                  obscureText: false, //Need to Remove this.
                   decoration: InputDecoration(
                     labelText: 'වෙළදසැල් ලියාපදිංචි අංකය',
                     border: OutlineInputBorder(),
@@ -198,18 +199,52 @@ class SignUpScreen extends StatelessWidget {
                     ),
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return Dialog(
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    CircularProgressIndicator(),
+                                    SizedBox(width: 16),
+                                    Text("කරුණාකර රැඳී සිටින්න..."),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
                         try {
+                          UserCredential userCredential = await auth
+                              .createUserWithEmailAndPassword(
+                                email: EmailController.text.trim(),
+                                password: PWDController.text.trim(),
+                              );
+
+                          user = userCredential.user;
+
+                          await user!.updateDisplayName(
+                            FullNameController.text.trim(),
+                          );
+                          await user!.reload();
+                          user = auth.currentUser;
+
                           CollectionReference collRef = FirebaseFirestore
                               .instance
                               .collection("SellerReg");
-                          collRef.add({
-                            'Email': EmailController.text,
-                            'Full Name': FullNameController.text,
-                            'NIC': NICController.text,
-                            'PWD': PWDController.text,
-                            'Shop Name': ShopNameController.text,
-                            'Shop Reg Num': ShopRegNumController.text,
+                          await collRef.add({
+                            'Email': EmailController.text.trim(),
+                            'FullName': FullNameController.text.trim(),
+                            'NIC': NICController.text.trim(),
+                            'Phno': PhnoController.text.trim(),
+                            'ShopName': ShopNameController.text.trim(),
+                            'ShopReg': ShopRegNumController.text.trim(),
                           });
+
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
@@ -223,12 +258,11 @@ class SignUpScreen extends StatelessWidget {
                                     ),
                                     child: Text("හරි"),
                                     onPressed: () {
-                                      //Closed Cutton eka
                                       Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => SellerloginPage(),
-                                        ), // Home Page ekata dala thiyenne
+                                          builder: (context) => sallerApp(),
+                                        ), //Need to redirect
                                       );
                                     },
                                   ),
@@ -237,25 +271,27 @@ class SignUpScreen extends StatelessWidget {
                             },
                           );
 
-                          EmailController.clear();
                           FullNameController.clear();
-                          NICController.clear();
-                          PWDController.clear();
                           ShopNameController.clear();
                           ShopRegNumController.clear();
-
-                        } catch (error) {
-                          //Error msg display karanawa
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text("අසාර්ථකයි!"),
-                                content: Text(
-                                  "කිසියම් දෝෂයක්. නැවත උත්සහ කරන්න!",
-                                ),
-                              );
-                            },
+                          PhnoController.clear();
+                          NICController.clear();
+                          EmailController.clear();
+                          PWDController.clear();
+                        } on FirebaseAuthException catch (e) {
+                          if (e.code == 'weak-password') {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Password too weak.')),
+                            );
+                          } else if (e.code == 'email-already-in-use') {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Email already in use.')),
+                            );
+                          }
+                        } catch (e) {
+                          print(e);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('An error occurred.')),
                           );
                         }
                       }
