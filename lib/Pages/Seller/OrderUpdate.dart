@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../../Firestore/productData.dart';
 import '../../Models/product_model.dart';
 import 'package:intl/intl.dart';
 
@@ -23,23 +23,7 @@ class _OrderUpdateState extends State<OrderUpdate> {
     priceController = TextEditingController(text: widget.product.price.toString());
     quantityController = TextEditingController(text: widget.product.quantity.toString());
   }
-  Future<void> _updateProduct() async{
-    try{
-      await FirebaseFirestore.instance.collection("Product").doc(widget.product.id).update({
-        'price':double.parse(priceController.text),
-        'quantity' :int.parse(quantityController.text)
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("ඇණවුම යාවත්කාලීන කිරීම සාර්ථකයි")),
-      );
-      Navigator.pop(context);
 
-    }catch (e){
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("ඇණවුම යාවත්කාලීන කිරීම අසාර්ථකයි")),
-      );
-    }
-  }
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -154,8 +138,14 @@ class _OrderUpdateState extends State<OrderUpdate> {
             SizedBox(height: 45,),
 
             Center(
-              child: ElevatedButton(onPressed: (){
-                _updateProduct();
+              child: ElevatedButton(onPressed: () async{
+                Map<String,dynamic>productDetails ={
+                  'price':double.parse(priceController.text),
+                  'quantity' :int.parse(quantityController.text)
+                };
+                Database().updateProduct(productDetails, widget.product.id, context);
+                priceController.clear();
+                quantityController.clear();
               },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
