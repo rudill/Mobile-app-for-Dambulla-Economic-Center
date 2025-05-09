@@ -1,6 +1,8 @@
 import 'package:dec_app/Pages/Farmer/FaramerLogin.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'farmerHome.dart';
 
 import '../../main.dart';
 
@@ -20,6 +22,9 @@ class FarmerReg extends StatelessWidget {
   final NICController = TextEditingController();
   final EmailController = TextEditingController();
   final PWDController = TextEditingController();
+
+  FirebaseAuth auth = FirebaseAuth.instance;
+  User? user;
 
   @override
   Widget build(BuildContext context) {
@@ -179,21 +184,50 @@ class FarmerReg extends StatelessWidget {
                     ),
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
+                        showDialog( //Message eka display karana eka
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return Dialog(
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    CircularProgressIndicator(),
+                                    SizedBox(width: 16),
+                                    Text("කරුණාකර රැඳී සිටින්න..."),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
                         try {
-                          CollectionReference collRef = FirebaseFirestore
-                              .instance
-                              .collection(
-                            "FamerReg",
-                          ); //Firebase eke nama dila thiyenne
+                          // 1. Register user with Firebase Auth
+                          UserCredential userCredential = await auth.createUserWithEmailAndPassword(
+                            email: EmailController.text.trim(),
+                            password: PWDController.text.trim(),
+                          );
+
+                          user = userCredential.user;
+
+                          // 2. Update display name
+                          await user!.updateDisplayName(FnameController.text.trim());
+                          await user!.reload();
+                          user = auth.currentUser;
+
+                          // 3. Save other data to Firestore
+                          CollectionReference collRef = FirebaseFirestore.instance.collection("FamerReg");
                           await collRef.add({
-                            'Email': EmailController.text,
-                            'First Name': FnameController.text,
-                            'Last Name': LnameController.text,
-                            'NIC': NICController.text,
-                            'Password': PWDController.text,
-                            'Phone Number': PhnoController.text,
+                            'Email': EmailController.text.trim(),
+                            'First Name': FnameController.text.trim(),
+                            'Last Name': LnameController.text.trim(),
+                            'NIC': NICController.text.trim(),
+                            'Phone Number': PhnoController.text.trim(),
                           });
 
+                          // 4. Show success dialog
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
@@ -202,17 +236,12 @@ class FarmerReg extends StatelessWidget {
                                 content: Text("ඔබේ දත්ත සාර්ථකව උඩුගත විය."),
                                 actions: [
                                   TextButton(
-                                    style: TextButton.styleFrom(
-                                      foregroundColor: Colors.green,
-                                    ),
+                                    style: TextButton.styleFrom(foregroundColor: Colors.green),
                                     child: Text("හරි"),
                                     onPressed: () {
-                                      //Closed Cutton eka
                                       Navigator.pushReplacement(
                                         context,
-                                        MaterialPageRoute(
-                                          builder: (context) => Home(),
-                                        ), // Home Page ekata dala thiyenne
+                                        MaterialPageRoute(builder: (context) => FarmerHomePage()),
                                       );
                                     },
                                   ),
@@ -221,36 +250,38 @@ class FarmerReg extends StatelessWidget {
                             },
                           );
 
-                          FnameController.clear(); //Okkoma clear karanna
+                          // 5. Clear all fields
+                          FnameController.clear();
                           LnameController.clear();
                           PhnoController.clear();
                           NICController.clear();
                           EmailController.clear();
                           PWDController.clear();
 
-                          Navigator.pushReplacement(
-                            //Redirect Karanna thiyenne page ekata
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => LoginPage(),
-                            ),
-                          );
-                        } catch (error) {
-                          //Fail Unoth Display wena msg eka
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text("අසාර්ථකයි!"),
-                                content: Text(
-                                  "කිසියම් දෝෂයක්. නැවත උත්සහ කරන්න!",
-                                ),
-                              );
-                            },
+                          // 6. Navigate to next screen
+                          Navigator.pushReplacementNamed(context, 'profile');
+
+                        } on FirebaseAuthException catch (e) {
+                          if (e.code == 'weak-password') {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Password too weak.')),
+                            );
+                          } else if (e.code == 'email-already-in-use') {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Email already in use.')),
+                            );
+                          }
+                        } catch (e) {
+                          print(e);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('An error occurred.')),
                           );
                         }
                       }
                     },
+
+
+                    //async end in here*****************
                     child: Text(
                       'ලියාපදිංචි කරන්න',
                       style: TextStyle(
@@ -260,6 +291,8 @@ class FarmerReg extends StatelessWidget {
                     ),
                   ),
                 ),
+
+                //Working Correctly***********************
                 SizedBox(height: 5),
                 TextButton(
                   onPressed: () {
