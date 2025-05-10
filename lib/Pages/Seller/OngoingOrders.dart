@@ -1,10 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dec_app/Pages/Seller/ProductSubmitionForm.dart';
 import 'package:flutter/material.dart';
 
-import '../../Models/product_model.dart';
 import '../../Widgets/OngoingOrder_Tile.dart';
-
+import '../../Firestore/productData.dart';
 
 class OngoingOrders extends StatefulWidget {
   const OngoingOrders({super.key});
@@ -23,8 +21,8 @@ class _OngoingOrdersState extends State<OngoingOrders> {
         backgroundColor: Color(0xFF208A43),
       ),
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('Product').snapshots(),
-        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        stream: Database().productDetails(),
+        builder: (context,snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
@@ -33,7 +31,8 @@ class _OngoingOrdersState extends State<OngoingOrders> {
             return const Center(child: Text('කිසියම් දෝෂයක් සිදුවී ඇත'));
           }
 
-          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+          final products = snapshot.data;
+          if (products== null || products.isEmpty) {
             return Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -42,7 +41,7 @@ class _OngoingOrdersState extends State<OngoingOrders> {
                     'කිසිදු ක්‍රියාකාරී ඇණවුමක් නැත',
                     style: TextStyle(fontSize: 16),
                   ),
-                  SizedBox(height: 16), // space between text and button
+                  SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -62,10 +61,6 @@ class _OngoingOrdersState extends State<OngoingOrders> {
               ),
             );
           }
-
-          final products = snapshot.data!.docs.map((doc) {
-            return Product.fromMap(doc.data() as Map<String, dynamic>, doc.id);
-          }).toList();
 
           return ListView.builder(
             itemCount: products.length,
