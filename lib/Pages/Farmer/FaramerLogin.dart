@@ -45,7 +45,6 @@ class _LoginPageState extends State<LoginPage> {
                 Text('ගොවි මහතෙකු ලෙස', style: TextStyle(fontSize: 25)),
                 SizedBox(height: 24),
 
-                // Email Field
                 TextFormField(
                   controller: _emailController,
                   decoration: InputDecoration(
@@ -142,7 +141,6 @@ class _LoginPageState extends State<LoginPage> {
                         } else if (e.code == 'wrong-password') {
                           message = 'Incorrect password. Please try again.';
                         } else {
-                          // General error message for any other cases
                           message = 'Login failed: ${e.message}';
                         }
 
@@ -159,7 +157,6 @@ class _LoginPageState extends State<LoginPage> {
                       }
                     }
                   },
-                  //old part*************
                   child: Text('ගිණුමට පිවිසෙන්න.'),
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(double.infinity, 64),
