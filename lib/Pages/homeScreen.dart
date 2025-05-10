@@ -102,16 +102,6 @@ class HomeScreen extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => PricePage()),
-                      );
-                    },
-                    child: Text("Price List"),
-                  ),
-        
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
                         MaterialPageRoute(
                           builder: (context) => SendRequestPage(),
                         ),

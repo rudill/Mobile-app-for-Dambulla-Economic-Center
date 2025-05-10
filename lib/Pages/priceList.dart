@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class PricePage extends StatelessWidget {
-  PricePage({super.key});
+  PricePage({super.key, required String itemName});
 
   final List<Map<String, dynamic>> priceData = [
     {
