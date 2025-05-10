@@ -1,4 +1,4 @@
-import 'package:dec_app/Pages/CategoryFruit.dart';
+
 import 'package:dec_app/Pages/CategoryVegetable.dart';
 import 'package:dec_app/Pages/Farmer/FaramerLogin.dart';
 import 'package:dec_app/Pages/Farmer/FarmerRegistation.dart';
@@ -96,16 +96,7 @@ class HomeScreen extends StatelessWidget {
                     },
                     child: Text("Vegetable Category"),
                   ),
-        
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => CategoryFruit()),
-                      );
-                    },
-                    child: Text("Fruit Category"),
-                  ),
+
         
                   ElevatedButton(
                     onPressed: () {
