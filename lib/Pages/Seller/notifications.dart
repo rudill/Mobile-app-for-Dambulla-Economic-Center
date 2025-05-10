@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../../Components/time_picker.dart';
+import '../../Components/time_switcher.dart';
 import '../../Firestore/getReservations.dart';
 import '../../Hive/HiveBase.dart';
 
@@ -73,13 +75,14 @@ class _NotificationsFromFireStoreState
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               ElevatedButton(
-                                onPressed: () {
-                                  getPickedTime(context);
+                                onPressed: () async {
+                                  HiveArchive().addToHiveBoxFromForm(
+                                    TimeSwitcher(
+                                      pickedTime: await getPickedTime(context),
+                                    ).switchTimeToTimeSlot(),
 
-                                  // HiveArchive().addToHiveBoxFromForm(
-                                  //   1,
-                                  //   res['farmerName'],
-                                  // );
+                                    res['farmerName'],
+                                  );
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.green,
@@ -100,16 +103,5 @@ class _NotificationsFromFireStoreState
         );
       },
     );
-  }
-}
-
-Future<void> getPickedTime(BuildContext context) async {
-  final TimeOfDay? selectedTime = await showTimePicker(
-    context: context,
-    initialTime: TimeOfDay.now(),
-  );
-
-  if (selectedTime != null) {
-    print('Selected time: ${selectedTime.format(context)}');
   }
 }
