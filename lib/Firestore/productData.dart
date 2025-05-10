@@ -6,6 +6,23 @@ import '../Models/product_model.dart';
 class Database{
   final String collectionName ='Product';
 
+  Future <void> addProduct(Map<String,dynamic> productdetails, BuildContext context )async{
+    try{
+      await FirebaseFirestore.instance
+          .collection(collectionName)
+          .add(productdetails);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("ඔබගේ ඇණවූම එක් කිරීම සාර්ථකයි")),);
+      Navigator.pop(context);
+    }
+    catch (e){
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("ඔබගේ ඇණවූම එක් කිරීම අසාර්ථකයි")),
+      );
+    }
+  }
+
   Future<void> deleteProduct(String id, BuildContext context)async{
     try {
       await FirebaseFirestore.instance
