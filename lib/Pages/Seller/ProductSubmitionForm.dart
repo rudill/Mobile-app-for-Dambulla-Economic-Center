@@ -1,4 +1,8 @@
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+import '../../Models/productDetails.dart';
 
 class ProductSubmitionForm extends StatefulWidget {
   @override
@@ -8,16 +12,18 @@ class ProductSubmitionForm extends StatefulWidget {
 class _ProductSubmitionFormState extends State<ProductSubmitionForm> {
   String selectedOption = 'veg';
   String selectedItem= 'කැරට්';
-
+  String SellerID='pZ7z0kWAlXn8AoctF73q';
 
   final TextEditingController quantityController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
-  final TextEditingController inputController = TextEditingController();
-  final TextEditingController dateController = TextEditingController();
+  final TextEditingController shopNoController = TextEditingController();
+  late  TextEditingController dateController = TextEditingController();
 
-  final List<String> vegItems = ['කැරට්', 'ලොකු ළුණු', 'බෝංචි', 'තක්කාලි', 'ලංකා අල'];
-  final List<String> fruitItems = ['Banana', 'Papaya', 'Mango', 'Apple', 'Grapes'];
 
+  void initState() {
+    super.initState();
+    dateController = TextEditingController(text:DateFormat('yyyy-MM-dd').format(DateTime.now()) );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +131,7 @@ class _ProductSubmitionFormState extends State<ProductSubmitionForm> {
                   SizedBox(height: 20),
                   _buildTextField("මිල", priceController, prefixText: "රු."),
                   SizedBox(height: 20),
-                  _buildTextField("කඩ අංකය", inputController),
+                  _buildTextField("කඩ අංකය", shopNoController),
                   SizedBox(height: 20),
                   _buildTextField("දිනය", dateController, hintText: "YYYY-MM-DD"),
                   SizedBox(height: 40),
