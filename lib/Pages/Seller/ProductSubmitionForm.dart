@@ -1,7 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../Firestore/productData.dart';
 import '../../Models/productDetails.dart';
 
 class ProductSubmitionForm extends StatefulWidget {
@@ -12,7 +12,7 @@ class ProductSubmitionForm extends StatefulWidget {
 class _ProductSubmitionFormState extends State<ProductSubmitionForm> {
   String selectedOption = 'veg';
   String selectedItem= 'කැරට්';
-  String SellerID='pZ7z0kWAlXn8AoctF73q';
+  String SellerID='WsFQ8wNTiup3oecWJusv';
 
   final TextEditingController quantityController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
@@ -139,7 +139,16 @@ class _ProductSubmitionFormState extends State<ProductSubmitionForm> {
                     width: double.infinity,
                     height: 48,
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
+                        Map<String,dynamic>productdetails={
+                          'price':double.parse(priceController.text),
+                          'quantity' :int.parse(quantityController.text),
+                          'name': selectedItem,
+                          'shopNo': shopNoController.text,
+                          'date': DateTime.parse(dateController.text),
+                          'sellerID':SellerID
+                        };
+                        Database().addProduct(productdetails, context);
 
                       },
                       style: ElevatedButton.styleFrom(
