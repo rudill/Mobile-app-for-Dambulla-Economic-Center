@@ -1,4 +1,8 @@
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+import '../../Models/productDetails.dart';
 
 class ProductSubmitionForm extends StatefulWidget {
   @override
@@ -6,14 +10,20 @@ class ProductSubmitionForm extends StatefulWidget {
 }
 
 class _ProductSubmitionFormState extends State<ProductSubmitionForm> {
-  String selectedOption = 'පුරවන්න';
+  String selectedOption = 'veg';
+  String selectedItem= 'කැරට්';
+  String SellerID='pZ7z0kWAlXn8AoctF73q';
 
-
-  final TextEditingController nameController = TextEditingController();
   final TextEditingController quantityController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
-  final TextEditingController inputController = TextEditingController();
-  final TextEditingController dateController = TextEditingController();
+  final TextEditingController shopNoController = TextEditingController();
+  late  TextEditingController dateController = TextEditingController();
+
+
+  void initState() {
+    super.initState();
+    dateController = TextEditingController(text:DateFormat('yyyy-MM-dd').format(DateTime.now()) );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,21 +68,23 @@ class _ProductSubmitionFormState extends State<ProductSubmitionForm> {
                   Row(
                     children: [
                       Radio(
-                        value: 'එළවලු',
+                        value: 'veg',
                         groupValue: selectedOption,
                         onChanged: (value) {
                           setState(() {
                             selectedOption = value!;
+                            selectedItem = vegItems.first;
                           });
                         },
                       ),
                       Text("එළවලු"),
                       Radio(
-                        value: 'පළතුරු',
+                        value: 'fruit',
                         groupValue: selectedOption,
                         onChanged: (value) {
                           setState(() {
                             selectedOption = value!;
+                            selectedItem = fruitItems.first;
                           });
                         },
                       ),
@@ -80,8 +92,35 @@ class _ProductSubmitionFormState extends State<ProductSubmitionForm> {
                     ],
                   ),
                   SizedBox(height: 10),
-                  _buildTextField("එළවලු/පළතුරු නම", nameController),
-                  SizedBox(height: 10),
+                  if (selectedOption == 'veg' || selectedOption == 'fruit')
+
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 12),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black45),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: DropdownButtonFormField<String>(
+                        value: selectedItem,
+                        decoration: InputDecoration(
+                          labelText: "${selectedOption == 'veg' ? 'එළවලු' : 'පළතුරු'} නම" ,
+                          labelStyle: TextStyle(color: Colors.black54),
+                          border: InputBorder.none,
+                        ),
+                        items: (selectedOption == 'veg' ? vegItems : fruitItems).map((String item) {
+                          return DropdownMenuItem<String>(
+                            value: item,
+                            child: Text(item),
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedItem = newValue!;
+                          });
+                        },
+                      ),
+                    ),
+                  SizedBox(height: 20),
                   Row(
                     children: [
                       Expanded(child: _buildTextField("ප්‍රමාණය", quantityController)),
@@ -89,13 +128,13 @@ class _ProductSubmitionFormState extends State<ProductSubmitionForm> {
                       Text("KG"),
                     ],
                   ),
-                  SizedBox(height: 10),
-                  _buildTextField("මිල", priceController, prefixText: "රු."),
-                  SizedBox(height: 10),
-                  _buildTextField("කඩ අංකය", inputController),
-                  SizedBox(height: 10),
-                  _buildTextField("දිනය", dateController, hintText: "mm/dd/yyyy"),
                   SizedBox(height: 20),
+                  _buildTextField("මිල", priceController, prefixText: "රු."),
+                  SizedBox(height: 20),
+                  _buildTextField("කඩ අංකය", shopNoController),
+                  SizedBox(height: 20),
+                  _buildTextField("දිනය", dateController, hintText: "YYYY-MM-DD"),
+                  SizedBox(height: 40),
                   SizedBox(
                     width: double.infinity,
                     height: 48,
