@@ -5,6 +5,7 @@ import '../../Components/time_picker.dart';
 import '../../Components/time_switcher.dart';
 import '../../Firestore/getReservations.dart';
 import '../../Hive/HiveBase.dart';
+import '../../Models/product_updater.dart';
 
 class NotificationsFromFireStore extends StatefulWidget {
   const NotificationsFromFireStore({super.key});
@@ -82,6 +83,11 @@ class _NotificationsFromFireStoreState
                                     ).switchTimeToTimeSlot(),
 
                                     res['farmerName'],
+                                  );
+
+                                  UpdateOngoingOrder(
+                                    quantity: res['quantity'],
+                                    productID: res['productID'],
                                   );
                                 },
                                 style: ElevatedButton.styleFrom(
