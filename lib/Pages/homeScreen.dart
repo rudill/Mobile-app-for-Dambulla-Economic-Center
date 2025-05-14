@@ -98,7 +98,7 @@ class HomeScreen extends StatelessWidget {
                   ),
 
         
-                  ElevatedButton(
+                  /*ElevatedButton(
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -108,7 +108,7 @@ class HomeScreen extends StatelessWidget {
                       );
                     },
                     child: Text("Send Request"),
-                  ),
+                  ),*/
         
                   ElevatedButton(
                     onPressed: () {
