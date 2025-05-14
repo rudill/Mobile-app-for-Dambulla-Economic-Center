@@ -1,5 +1,8 @@
-import 'package:dec_app/Pages/FarmerRegistation.dart';
+import 'package:dec_app/Pages/Farmer/FarmerRegistation.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+import 'farmerHome.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -10,6 +13,9 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  FirebaseAuth auth = FirebaseAuth.instance;
+  User? user;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +45,6 @@ class _LoginPageState extends State<LoginPage> {
                 Text('ගොවි මහතෙකු ලෙස', style: TextStyle(fontSize: 25)),
                 SizedBox(height: 24),
 
-                // Email Field
                 TextFormField(
                   controller: _emailController,
                   decoration: InputDecoration(
@@ -55,7 +60,6 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 16),
 
-                // Password Field
                 TextFormField(
                   controller: _passwordController,
                   decoration: InputDecoration(
@@ -72,7 +76,6 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 12),
 
-                // Text Button
                 TextButton(
                   onPressed: () {
                     Navigator.push(
@@ -85,15 +88,73 @@ class _LoginPageState extends State<LoginPage> {
                   child: Text('ලියාපදිංචි වී නැද්ද? මෙතන ක්ලික් කරන්න'),
                 ),
 
-                // Sign In Button
                 SizedBox(height: 12),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      // Proceed with login
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('සාර්ථකව පිවිසෙයි')),
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (BuildContext context) {
+                          return Dialog(
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  CircularProgressIndicator(),
+                                  SizedBox(width: 16),
+                                  Text("කරුණාකර රැඳී සිටින්න..."),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
                       );
+
+                      try {
+                        UserCredential userCredential = await auth
+                            .signInWithEmailAndPassword(
+                              email: _emailController.text.trim(),
+                              password: _passwordController.text.trim(),
+                            );
+
+                        User? user = userCredential.user;
+                        if (user != null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('සාර්ථකව පිවිසෙයි')),
+                          );
+                          await Future.delayed(Duration(milliseconds: 500));
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => FarmerHomePage(),
+                            ),
+                          );
+                        }
+                      } on FirebaseAuthException catch (e) {
+                        String message;
+
+                        if (e.code == 'user-not-found') {
+                          message =
+                              'Email not found. Please check your email address.';
+                        } else if (e.code == 'wrong-password') {
+                          message = 'Incorrect password. Please try again.';
+                        } else {
+                          message = 'Login failed: ${e.message}';
+                        }
+
+                        ScaffoldMessenger.of(
+                          context,
+                        ).showSnackBar(SnackBar(content: Text(message)));
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('An unexpected error occurred.'),
+                          ),
+                        );
+                        print(e);
+                      }
                     }
                   },
                   child: Text('ගිණුමට පිවිසෙන්න.'),

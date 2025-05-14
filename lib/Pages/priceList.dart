@@ -1,7 +1,8 @@
+import 'package:dec_app/Pages/Farmer/sendRequest.dart';
 import 'package:flutter/material.dart';
 
 class PricePage extends StatelessWidget {
-  PricePage({super.key});
+  PricePage({super.key, required String itemName});
 
   final List<Map<String, dynamic>> priceData = [
     {
@@ -56,13 +57,27 @@ class PricePage extends StatelessWidget {
                 final Color cardColor =
                 index % 2 == 0 ? Color(0xFFE2F6E1) : Colors.white;
 
-                return _buildPriceCard(
+                final seller = priceData[index];
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            SendRequestPage(shopName: seller['shopName']),
+                      ),
+                    );
+                  },
+
+
+                  child: _buildPriceCard(
                   cardColor,
                   priceData[index]['shopName'],
                   priceData[index]['ownerName'],
                   priceData[index]['weight'],
                   priceData[index]['shopNumber'],
                   priceData[index]['price'],
+                  ),
                 );
               },
             ),
