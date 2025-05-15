@@ -14,6 +14,8 @@ class _MenuState extends State<Menu> {
   ThemeMode _themeMode = ThemeMode.light;
   double _fontSize = 1.0;
 
+  get user => null;
+
   void _toggleTheme(bool isDark) {
     setState(() {
       _themeMode = isDark ? ThemeMode.dark : ThemeMode.light;
@@ -109,7 +111,7 @@ class _MenuState extends State<Menu> {
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => sallerApp()),
+                                MaterialPageRoute(builder: (context) => sallerApp(userId: user!.uid)),
                               );
                             },
                           ),

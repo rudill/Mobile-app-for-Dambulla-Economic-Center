@@ -4,7 +4,7 @@ class RetrieveReservations {
   Stream<QuerySnapshot> getReservationRequests(int sellerID) {
     return FirebaseFirestore.instance
         .collection('reservation')
-        .where('farmerID', isEqualTo: sellerID)
+        .where('sellerID', isEqualTo: sellerID)
         .where('status', isEqualTo: 'pending')
         .snapshots();
   }

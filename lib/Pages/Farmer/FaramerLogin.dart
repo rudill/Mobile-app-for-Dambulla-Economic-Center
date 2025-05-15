@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dec_app/Pages/Farmer/FarmerRegistation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,6 +17,7 @@ class _LoginPageState extends State<LoginPage> {
 
   FirebaseAuth auth = FirebaseAuth.instance;
   User? user;
+
 
   @override
   Widget build(BuildContext context) {
@@ -121,16 +123,28 @@ class _LoginPageState extends State<LoginPage> {
 
                         User? user = userCredential.user;
                         if (user != null) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('සාර්ථකව පිවිසෙයි')),
-                          );
-                          await Future.delayed(Duration(milliseconds: 500));
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => FarmerHomePage(),
-                            ),
-                          );
+                          DocumentSnapshot userDoc = await FirebaseFirestore.instance
+                              .collection('Users')
+                              .doc(user.uid)
+                              .get();
+
+                          if (userDoc.exists && userDoc['role'] == 'farmer') {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('සාර්ථකව පිවිසෙයි')),
+                            );
+                            await Future.delayed(Duration(milliseconds: 500));
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => FarmerHomePage(userId: user.uid),
+                              ),
+                            );
+                          } else {
+                            await FirebaseAuth.instance.signOut();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('ඔබට ගොවි ගිණුමට පිවිසුමට ප්‍රවේශ විය නොහැක.')),
+                            );
+                          }
                         }
                       } on FirebaseAuthException catch (e) {
                         String message;

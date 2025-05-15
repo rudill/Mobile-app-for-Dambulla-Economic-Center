@@ -1,7 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dec_app/Pages/Seller/OrderUpdate.dart';
 import 'package:flutter/material.dart';
 
+import '../Firestore/productData.dart';
 import '../Models/product_model.dart';
 
 class OnOrderTile extends StatefulWidget {
@@ -13,18 +13,6 @@ class OnOrderTile extends StatefulWidget {
 }
 
 class _OnOrderTileState extends State<OnOrderTile> {
-  void _productdelete(String id) async {
-    try {
-      await FirebaseFirestore.instance.collection('Product').doc(id).delete();
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("ඔබගේ ඇණවූම ඉවත් කරන ලදි")));
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("ඔබගේ ඇණවූම ඉවත් කිරීම අසාර්ථකයි")),
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -132,9 +120,8 @@ class _OnOrderTileState extends State<OnOrderTile> {
                                   child: const Text('නැත'),
                                 ),
                                 TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                    _productdelete(widget.product.id);
+                                  onPressed: () async{
+                                    await Database().deleteProduct(widget.product.id, context);
                                   },
                                   child: const Text(
                                     'අවශ්‍යයි',
