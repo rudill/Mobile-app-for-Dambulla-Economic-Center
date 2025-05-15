@@ -3,6 +3,8 @@ import 'package:dec_app/Pages/Seller/sallerHome.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../../Firestore/seller_log.dart';
+
 class SellerloginPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _SemailController = TextEditingController();
@@ -106,24 +108,38 @@ class SellerloginPage extends StatelessWidget {
                         },
                       );
 
+                      final sellerService = SellerService();
+
                       try {
-                        UserCredential userCredential = await auth.signInWithEmailAndPassword(
-                          email: _SemailController.text.trim(),
-                          password: _SpasswordController.text.trim(),
+                        final user = await sellerService.signInSeller(
+                          _SemailController.text.trim(),
+                          _SpasswordController.text.trim(),
                         );
 
-                        User? user = userCredential.user;
                         if (user != null) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('සාර්ථකව පිවිසෙයි')),
-                          );
-                          await Future.delayed(Duration(milliseconds: 500));
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (context) => sallerApp()),
-                          );
+                          final seller = await sellerService.getSellerData(user.uid);
+
+                          Navigator.pop(context); // Close dialog
+
+                          if (seller != null) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('සාර්ථකව පිවිසෙයි')),
+                            );
+                            await Future.delayed(Duration(milliseconds: 500));
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (context) => sallerApp(userId: user.uid)),
+                            );
+                          } else {
+                            await sellerService.signOut();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('ඔබට විකුණුම් ගිණුමට පිවිසුමට ප්‍රවේශ විය නොහැක.')),
+                            );
+                          }
                         }
+
                       } on FirebaseAuthException catch (e) {
+                        Navigator.pop(context); // Close dialog
                         String message;
                         if (e.code == 'user-not-found') {
                           message = 'Email not found. Please check your email address.';
@@ -137,6 +153,7 @@ class SellerloginPage extends StatelessWidget {
                           SnackBar(content: Text(message)),
                         );
                       } catch (e) {
+                        Navigator.pop(context); // Close dialog
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text('An unexpected error occurred.')),
                         );

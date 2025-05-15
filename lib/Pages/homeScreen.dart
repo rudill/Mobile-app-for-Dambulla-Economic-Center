@@ -17,6 +17,9 @@ import 'package:dec_app/Pages/landing.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
+  get user => null;
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -123,7 +126,7 @@ class HomeScreen extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => sallerApp()),
+                        MaterialPageRoute(builder: (context) => sallerApp(userId: user!.uid)),
                       );
                     },
                     child: Text("Seller Home"),

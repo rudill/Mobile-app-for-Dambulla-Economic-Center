@@ -245,6 +245,11 @@ class SignUpScreen extends StatelessWidget {
                             'ShopReg': ShopRegNumController.text.trim(),
                           });
 
+                          await FirebaseFirestore.instance.collection('Users').doc(user!.uid).set({
+                            'email': EmailController.text.trim(),
+                            'role': 'seller',
+                          });
+
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
@@ -261,7 +266,7 @@ class SignUpScreen extends StatelessWidget {
                                       Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => sallerApp(),
+                                          builder: (context) => sallerApp(userId: user!.uid),
                                         ), //Need to redirect
                                       );
                                     },

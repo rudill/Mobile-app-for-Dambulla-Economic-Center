@@ -1,7 +1,7 @@
 import 'package:dec_app/Pages/Farmer/FaramerLogin.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../../Firestore/FamerReg.dart';
 import 'farmerHome.dart';
 
 class Farmerregistration extends StatelessWidget {
@@ -180,53 +180,17 @@ class FarmerReg extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (BuildContext context) {
-                            return Dialog(
-                              child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    CircularProgressIndicator(),
-                                    SizedBox(width: 16),
-                                    Text("කරුණාකර රැඳී සිටින්න..."),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                        try {
-                          UserCredential userCredential = await auth
-                              .createUserWithEmailAndPassword(
-                                email: EmailController.text.trim(),
-                                password: PWDController.text.trim(),
-                              );
-
-                          user = userCredential.user;
-
-                          await user!.updateDisplayName(
-                            FnameController.text.trim(),
-                          );
-                          await user!.reload();
-                          user = auth.currentUser;
-
-                          CollectionReference collRef = FirebaseFirestore
-                              .instance
-                              .collection("FamerReg");
-                          await collRef.add({
-                            'Email': EmailController.text.trim(),
-                            'First Name': FnameController.text.trim(),
-                            'Last Name': LnameController.text.trim(),
-                            'NIC': NICController.text.trim(),
-                            'Phone Number': PhnoController.text.trim(),
-                          });
-
+                    onPressed: () {
+                      registerFarmer(
+                        context: context,
+                        emailController: EmailController,
+                        pwdController: PWDController,
+                        fnameController: FnameController,
+                        lnameController: LnameController,
+                        nicController: NICController,
+                        phnoController: PhnoController,
+                        formKey: _formKey,
+                        onSuccess: (userId) {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
@@ -235,16 +199,13 @@ class FarmerReg extends StatelessWidget {
                                 content: Text("ඔබේ දත්ත සාර්ථකව උඩුගත විය."),
                                 actions: [
                                   TextButton(
-                                    style: TextButton.styleFrom(
-                                      foregroundColor: Colors.green,
-                                    ),
+                                    style: TextButton.styleFrom(foregroundColor: Colors.green),
                                     child: Text("හරි"),
                                     onPressed: () {
                                       Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
-                                          builder:
-                                              (context) => FarmerHomePage(),
+                                          builder: (context) => FarmerHomePage(userId: userId),
                                         ),
                                       );
                                     },
@@ -253,30 +214,8 @@ class FarmerReg extends StatelessWidget {
                               );
                             },
                           );
-
-                          FnameController.clear();
-                          LnameController.clear();
-                          PhnoController.clear();
-                          NICController.clear();
-                          EmailController.clear();
-                          PWDController.clear();
-                        } on FirebaseAuthException catch (e) {
-                          if (e.code == 'weak-password') {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Password too weak.')),
-                            );
-                          } else if (e.code == 'email-already-in-use') {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Email already in use.')),
-                            );
-                          }
-                        } catch (e) {
-                          print(e);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('An error occurred.')),
-                          );
-                        }
-                      }
+                        },
+                      );
                     },
 
                     child: Text(

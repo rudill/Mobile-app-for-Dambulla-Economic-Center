@@ -9,7 +9,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'SellerLogin.dart';
 
 class sallerApp extends StatelessWidget {
-  sallerApp({super.key});
+  final String userId;
+  sallerApp({super.key, required this.userId});
 
   FirebaseAuth auth = FirebaseAuth.instance;
   User? user;
