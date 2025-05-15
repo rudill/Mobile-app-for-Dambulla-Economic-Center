@@ -16,6 +16,9 @@ class _SendRequestPageState extends State<SendRequestPage> {
   TextEditingController addressController = TextEditingController();
   TextEditingController sellerController = TextEditingController();
 
+  final String productID = 'බෝංචි';
+  final int farmerID = 675678;
+
   @override
   void initState() {
     super.initState();
@@ -171,12 +174,14 @@ class _SendRequestPageState extends State<SendRequestPage> {
                         SizedBox(height: 16),
                         ElevatedButton(
                           onPressed: () async {
-                          await SendReservation(
+                            await SendReservation(
                               quantity: int.parse(quantityController.text),
                               sellerID: int.parse(sellerController.text),
                               farmerName: itemController.text,
                               phoneNumber: int.parse(contactController.text),
                               farmerAddress: addressController.text,
+                              productID: productID,
+                              farmerID: farmerID,
                             ).createReservation(context);
                           },
                           style: ElevatedButton.styleFrom(
