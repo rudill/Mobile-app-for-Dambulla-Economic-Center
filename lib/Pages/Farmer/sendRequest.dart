@@ -19,7 +19,7 @@ class _SendRequestPageState extends State<SendRequestPage> {
   TextEditingController sellerController = TextEditingController();
 
   final String productID = '4sAI5OU1WCJpGuUHw2jw';
-  final int farmerID = 675678;
+  final String farmerID = 'ef342efxs';
 
   @override
   void initState() {
@@ -180,7 +180,7 @@ class _SendRequestPageState extends State<SendRequestPage> {
                               context,
                               ReservationDetails(
                                 quantity: int.parse(quantityController.text),
-                                sellerID: int.parse(sellerController.text),
+                                sellerID: sellerController.text,
                                 farmerName: itemController.text,
                                 phoneNumber: int.parse(contactController.text),
                                 farmerAddress: addressController.text,

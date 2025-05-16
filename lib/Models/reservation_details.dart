@@ -2,8 +2,8 @@ import 'package:intl/intl.dart';
 
 class ReservationDetails {
   int quantity;
-  int sellerID;
-  int farmerID;
+  String sellerID;
+  String farmerID;
   String productID;
   String farmerName;
   int phoneNumber;
@@ -30,7 +30,7 @@ class ReservationDetails {
       'phoneNumber': phoneNumber,
       'farmerAddress': farmerAddress,
       'status': 'pending',
-      'date' : DateFormat('yyyy-MM-dd').format(DateTime.now())
+      'date' :(DateTime.now())
     };
   }
 }

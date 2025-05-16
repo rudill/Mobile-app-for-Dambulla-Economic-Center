@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../Models/reservation_details.dart';
 
 class ReservationCollection {
-  Stream<QuerySnapshot> getReservationRequests(int sellerID) {
+  Stream<QuerySnapshot> getReservationRequests(String sellerID) {
     return FirebaseFirestore.instance
         .collection('reservation')
         .where('sellerID', isEqualTo: sellerID)

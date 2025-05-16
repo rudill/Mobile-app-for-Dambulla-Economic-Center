@@ -27,7 +27,7 @@ class _NotificationsFromFireStoreState
 
   StreamBuilder<QuerySnapshot<Object?>> reservationRequests() {
     return StreamBuilder(
-      stream: ReservationCollection().getReservationRequests(21),
+      stream: ReservationCollection().getReservationRequests('21'),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return CircularProgressIndicator();
 
