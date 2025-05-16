@@ -1,14 +1,19 @@
 import 'package:dec_app/Pages/Seller/OrderUpdate.dart';
 import 'package:flutter/material.dart';
 
+import '../Firestore/productData.dart';
+import '../Models/product_model.dart';
+
 class OnOrderTile extends StatefulWidget {
-  const OnOrderTile({super.key});
+  final Product product;
+  const OnOrderTile({super.key, required this.product});
 
   @override
   State<OnOrderTile> createState() => _OnOrderTileState();
 }
 
 class _OnOrderTileState extends State<OnOrderTile> {
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -21,25 +26,36 @@ class _OnOrderTileState extends State<OnOrderTile> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("කැරට්  200Kg",style: TextStyle( fontWeight: FontWeight.w700, fontSize: 15),),
+                  Text(
+                    '${widget.product.name}  ${widget.product.quantity}Kg',
+                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
+                  ),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    borderRadius: BorderRadius.circular(5)
-                  ),
-                    child: Text("1KG රු. 200.00",style: TextStyle( fontWeight: FontWeight.w500, fontSize: 15),),
+                      border: Border.all(color: Colors.black),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Text(
+                      "1KG රු. ${widget.product.price}",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 15,
+                      ),
+                    ),
                   ),
                 ],
               ),
-              SizedBox(height: 10,),
+              SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Stack(
                     alignment: Alignment.center,
                     children: [
-                      SizedBox(height: 55,width: 55,
+                      SizedBox(
+                        height: 55,
+                        width: 55,
                         child: CircularProgressIndicator(
                           value: 0.2,
                           color: Color(0xFF208A43),
@@ -58,57 +74,75 @@ class _OnOrderTileState extends State<OnOrderTile> {
                     ],
                   ),
 
-                  Text("200Kg න් 40Kg සම්පුර්ණ වී ඇත",style: TextStyle( fontWeight: FontWeight.w500, fontSize: 15),)
+                  Text(
+                    "${widget.product.quantity} න් 40Kg සම්පුර්ණ වී ඇත",
+                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
+                  ),
                 ],
               ),
-              SizedBox(height: 10,),
+              SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  ElevatedButton(onPressed: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => OrderUpdate()),
-                    );
-                  },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green,
-                        foregroundColor: Colors.white,
-                      ),
-                      child: Text("වෙනස් කරන්න",style: TextStyle( fontWeight: FontWeight.w700)),),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder:
+                              (context) => OrderUpdate(product: widget.product),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      foregroundColor: Colors.white,
+                    ),
+                    child: Text(
+                      "වෙනස් කරන්න",
+                      style: TextStyle(fontWeight: FontWeight.w700),
+                    ),
+                  ),
 
-                  ElevatedButton(onPressed: (){
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: const Text('ඇණවූම ඉවත් කිරීම'),
-                        content: const Text('ඔබගේ ඇණවූම ඉවත් කිරීමට අවශ්‍යද?'),
-                        actions: [
-                          TextButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: const Text('නැත'),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                             // _productdelete(widget.product.id!);
-                            },
-                            child: const Text(
-                              'අවශ්‍යයි',
-                              style: TextStyle(color: Colors.red),
+                  ElevatedButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder:
+                            (context) => AlertDialog(
+                              title: const Text('ඇණවූම ඉවත් කිරීම'),
+                              content: const Text(
+                                'ඔබගේ ඇණවූම ඉවත් කිරීමට අවශ්‍යද?',
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: const Text('නැත'),
+                                ),
+                                TextButton(
+                                  onPressed: () async{
+                                    await Database().deleteProduct(widget.product.id, context);
+                                  },
+                                  child: const Text(
+                                    'අවශ්‍යයි',
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.amber,
                       foregroundColor: Colors.white,
                     ),
-                    child: Text("ඉවත් කරන්න",style: TextStyle( fontWeight: FontWeight.w700)),),
-                ]
-              )
+                    child: Text(
+                      "ඉවත් කරන්න",
+                      style: TextStyle(fontWeight: FontWeight.w700),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
