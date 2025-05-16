@@ -1,46 +1,12 @@
-import 'package:dec_app/Pages/Farmer/sendRequest.dart';
 import 'package:flutter/material.dart';
+import '../Firestore/price_list_service.dart';
+import 'Farmer/sendRequest.dart';
 
 class PricePage extends StatelessWidget {
-  PricePage({super.key, required String itemName});
+  final String itemName;
+  final PriceListService _priceListService = PriceListService();
 
-  final List<Map<String, dynamic>> priceData = [
-    {
-      'shopName': 'කීර්ති වෙළඳසැල',
-      'ownerName': 'එම්. කීර්ති මහතා',
-      'weight': '500 Kg',
-      'shopNumber': 'B/25',
-      'price': '200',
-    },
-    {
-      'shopName': 'තරිදු වෙළඳසැල',
-      'ownerName': 'කේ. තරිදු මහතා',
-      'weight': '300 Kg',
-      'shopNumber': 'B/26',
-      'price': '220',
-    },
-    {
-      'shopName': 'උපාලි වෙළඳසැල',
-      'ownerName': 'එම්.එම් උපාලි මහතා',
-      'weight': '200 Kg',
-      'shopNumber': 'B/27',
-      'price': '240',
-    },
-    {
-      'shopName': 'විජය වෙළඳසැල',
-      'ownerName': 'එච්.එම් විජය මහතා',
-      'weight': '250 Kg',
-      'shopNumber': 'B/28',
-      'price': '250',
-    },
-    {
-      'shopName': 'අනුර වෙළඳසැල',
-      'ownerName': 'එල්.එම් අනුර මහතා',
-      'weight': '750 Kg',
-      'shopNumber': 'B/29',
-      'price': '210',
-    },
-  ];
+  PricePage({super.key, required this.itemName});
 
   @override
   Widget build(BuildContext context) {
@@ -50,34 +16,56 @@ class PricePage extends StatelessWidget {
         children: [
           _buildCustomAppBar(context),
           Expanded(
-            child: ListView.builder(
-              itemCount: priceData.length,
-              itemBuilder: (context, index) {
-                // Use green color for even indices and white color for odd indices
-                final Color cardColor =
-                index % 2 == 0 ? Color(0xFFE2F6E1) : Colors.white;
+            child: StreamBuilder<List<Map<String, dynamic>>>(
+              stream: _priceListService.getPriceList(itemName),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                }
 
-                final seller = priceData[index];
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            SendRequestPage(shopName: seller['shopName']),
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+
+                if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Center(child: Text('No data available'));
+                }
+
+                final priceData = snapshot.data!;
+                return ListView.builder(
+                  itemCount: priceData.length,
+                  itemBuilder: (context, index) {
+                    final Color cardColor =
+                    index % 2 == 0 ? Color(0xFFE2F6E1) : Colors.white;
+                    final data = priceData[index];
+
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder:
+                                (context) => SendRequestPage(
+                                  shopName: data['shopName'],
+                                  ownerName: data['ownerName'],
+                                  shopNumber: data['shopNumber'],
+                                  price: data['price'],
+                                  phoneNo: data['phoneNo'],
+                                  sellerId: data['sellerId']
+                                ),
+                          ),
+                        );
+                      },
+                      child: _buildPriceCard(
+                        cardColor,
+                        data['shopName'],
+                        data['ownerName'],
+                        data['weight'],
+                        data['shopNumber'],
+                        data['price'],
                       ),
                     );
                   },
-
-
-                  child: _buildPriceCard(
-                  cardColor,
-                  priceData[index]['shopName'],
-                  priceData[index]['ownerName'],
-                  priceData[index]['weight'],
-                  priceData[index]['shopNumber'],
-                  priceData[index]['price'],
-                  ),
                 );
               },
             ),
@@ -96,7 +84,7 @@ class PricePage extends StatelessWidget {
       String price,
       ) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+      margin: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       decoration: BoxDecoration(
         color: color,
@@ -111,20 +99,24 @@ class PricePage extends StatelessWidget {
         ],
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                shopName,
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
+              Expanded(
+                child: Text(
+                  shopName,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
+              SizedBox(width: 8),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                 decoration: BoxDecoration(
                   color: Color(0xFF047333),
                   borderRadius: BorderRadius.circular(4),
@@ -140,35 +132,39 @@ class PricePage extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 24),
+          SizedBox(height: 16),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    ownerName,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      ownerName,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
-                  ),
-                  Text(
-                    'කඩ අංකය : $shopNumber',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
+                    SizedBox(height: 4),
+                    Text(
+                      'කඩ අංකය : $shopNumber',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-
+              SizedBox(width: 8),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(color: Colors.black),
