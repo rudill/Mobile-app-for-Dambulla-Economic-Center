@@ -250,8 +250,8 @@ class _SendRequestPageState extends State<SendRequestPage> {
         if (picked != null) {
           final formatted =
               DateFormat('MM/dd/yyyy').format(picked.start) +
-              ' - ' +
-              DateFormat('MM/dd/yyyy').format(picked.end);
+                  ' - ' +
+                  DateFormat('MM/dd/yyyy').format(picked.end);
           dateController.text = formatted;
         }
       },
