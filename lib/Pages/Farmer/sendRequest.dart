@@ -4,6 +4,14 @@ import 'package:intl/intl.dart';
 import '../../Firestore/setReservations.dart';
 
 class SendRequestPage extends StatefulWidget {
+  final String shopName;
+  final String ownerName;
+  final String shopNumber;
+  final String price;
+  final String phoneNo;
+  final String sellerId;
+
+  SendRequestPage({required this.shopName, required this.ownerName, required this.shopNumber, required this.price, required this.phoneNo, required this.sellerId});
   @override
   _SendRequestPageState createState() => _SendRequestPageState();
 }
