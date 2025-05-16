@@ -2,7 +2,8 @@ import 'package:dec_app/Hive/HiveBase.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../Hive/add_to_hive.dart';
+import '../../Hive/add_to_hive.dart';
+import 'notifications.dart';
 
 class ReservedTimeSlots extends StatefulWidget {
   const ReservedTimeSlots({super.key});
@@ -53,23 +54,39 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
 
   Column tableView(BuildContext context, int halfItemCount) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => HiveForm()),
-              );
-            },
-            child: Text('Add New Entry To Table'),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HiveForm()),
+                  );
+                },
+                child: Text('Add New Entry To Table'),
+              ),
+              ElevatedButton(
+                onPressed: HiveArchive().clearHiveBox,
+                child: Text('Clear Table'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => NotificationsFromFireStore(),
+                    ),
+                  );
+                },
+                child: Text('Notifications'),
+              ),
+            ],
           ),
-        ),
-
-        ElevatedButton(
-          onPressed: HiveArchive().clearHiveBox,
-          child: Text('Clear Table'),
         ),
 
         SizedBox(height: 20),
