@@ -14,14 +14,17 @@ class FarmerApp extends StatelessWidget {
     return MaterialApp(
       title: 'Farmer Home',
       theme: ThemeData(primarySwatch: Colors.green),
-      home: const FarmerHomePage(),
+      home: FarmerHomePage(userId: 'userId'),
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
 class FarmerHomePage extends StatelessWidget {
-  const FarmerHomePage({super.key});
+  final String userId;
+
+  FarmerHomePage({super.key, required this.userId});
+
 
   @override
   Widget build(BuildContext context) {
