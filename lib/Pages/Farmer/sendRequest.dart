@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../Firestore/Reservation.dart';
 import '../../Firestore/setReservations.dart';
+import '../../Models/reservation_details.dart';
 
 class SendRequestPage extends StatefulWidget {
   @override
@@ -16,7 +18,7 @@ class _SendRequestPageState extends State<SendRequestPage> {
   TextEditingController addressController = TextEditingController();
   TextEditingController sellerController = TextEditingController();
 
-  final String productID = 'බෝංචි';
+  final String productID = '4sAI5OU1WCJpGuUHw2jw';
   final int farmerID = 675678;
 
   @override
@@ -174,15 +176,18 @@ class _SendRequestPageState extends State<SendRequestPage> {
                         SizedBox(height: 16),
                         ElevatedButton(
                           onPressed: () async {
-                            await SendReservation(
-                              quantity: int.parse(quantityController.text),
-                              sellerID: int.parse(sellerController.text),
-                              farmerName: itemController.text,
-                              phoneNumber: int.parse(contactController.text),
-                              farmerAddress: addressController.text,
-                              productID: productID,
-                              farmerID: farmerID,
-                            ).createReservation(context);
+                            await ReservationCollection().createReservation(
+                              context,
+                              ReservationDetails(
+                                quantity: int.parse(quantityController.text),
+                                sellerID: int.parse(sellerController.text),
+                                farmerName: itemController.text,
+                                phoneNumber: int.parse(contactController.text),
+                                farmerAddress: addressController.text,
+                                productID: productID,
+                                farmerID: farmerID,
+                              ),
+                            );
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green,

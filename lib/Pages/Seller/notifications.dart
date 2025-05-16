@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../Components/time_picker.dart';
 import '../../Components/time_switcher.dart';
-import '../../Firestore/getReservations.dart';
+import '../../Firestore/Reservation.dart';
 import '../../Hive/HiveBase.dart';
 import '../../Models/product_updater.dart';
 
@@ -27,7 +27,7 @@ class _NotificationsFromFireStoreState
 
   StreamBuilder<QuerySnapshot<Object?>> reservationRequests() {
     return StreamBuilder(
-      stream: RetrieveReservations().getReservationRequests(21),
+      stream: ReservationCollection().getReservationRequests(21),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return CircularProgressIndicator();
 
@@ -89,6 +89,8 @@ class _NotificationsFromFireStoreState
                                     quantity: res['quantity'],
                                     productID: res['productID'],
                                   );
+                                  await ReservationCollection()
+                                      .updateReservationStatus(res['id']);
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.green,
