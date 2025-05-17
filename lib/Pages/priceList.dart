@@ -46,13 +46,13 @@ class PricePage extends StatelessWidget {
                           MaterialPageRoute(
                             builder:
                                 (context) => SendRequestPage(
-                                  shopName: data['shopName'],
-                                  ownerName: data['ownerName'],
-                                  shopNumber: data['shopNumber'],
-                                  price: data['price'],
-                                  phoneNo: data['phoneNo'],
-                                  sellerId: data['sellerId']
-                                ),
+                                shopName: data['shopName'],
+                                ownerName: data['ownerName'],
+                                shopNumber: data['shopNumber'],
+                                price: data['price'],
+                                phoneNo: data['phoneNo'],
+                                sellerId: data['sellerId']
+                            ),
                           ),
                         );
                       },

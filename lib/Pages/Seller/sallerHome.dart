@@ -2,7 +2,7 @@ import 'package:dec_app/Pages/Seller/OngoingOrders.dart';
 import 'package:dec_app/Pages/Seller/ProductSubmitionForm.dart';
 import 'package:dec_app/Pages/Seller/ReservedTimeTable.dart';
 import 'package:dec_app/Pages/Selection_Page.dart';
-import 'package:dec_app/Pages/menu.dart';
+import 'package:dec_app/Pages/Seller/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 

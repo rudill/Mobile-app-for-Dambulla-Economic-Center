@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'menu.dart';
+import 'Seller/menu.dart';
 
 class TechnicalHelpPage extends StatelessWidget {
   const TechnicalHelpPage({super.key});

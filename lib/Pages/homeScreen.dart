@@ -87,7 +87,7 @@ class HomeScreen extends StatelessWidget {
 
 
         
-                  ElevatedButton(
+                 /* ElevatedButton(
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -95,8 +95,8 @@ class HomeScreen extends StatelessWidget {
                       );
                     },
                     child: Text("farmer home"),
-                  ),
-                  ElevatedButton(
+                  ),*/
+                 /* ElevatedButton(
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -104,7 +104,7 @@ class HomeScreen extends StatelessWidget {
                       );
                     },
                     child: Text("Seller Home"),
-                  ),
+                  ),*/
         
                   ElevatedButton(
                     onPressed: () {
@@ -116,7 +116,7 @@ class HomeScreen extends StatelessWidget {
                     child: Text("Order Waiting"),
                   ),
         
-                  ElevatedButton(
+                 /* ElevatedButton(
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -126,7 +126,7 @@ class HomeScreen extends StatelessWidget {
                       );
                     },
                     child: Text("Farmer profile edit"),
-                  ),
+                  ),*/
         
                   // ElevatedButton(
                   //   onPressed: () {
