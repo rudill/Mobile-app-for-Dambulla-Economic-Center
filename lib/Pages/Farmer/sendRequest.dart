@@ -259,6 +259,7 @@ class _SendRequestPageState extends State<SendRequestPage> {
           firstDate: DateTime.now(),
           lastDate: DateTime(2030),
         );
+
         if (pickedDate != null) {
           final formatted = DateFormat('MM/dd/yyyy').format(pickedDate);
           dateController.text = formatted;

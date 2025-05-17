@@ -1,273 +1,199 @@
 import 'package:flutter/material.dart';
+import '../../Firestore/reservationStatus.dart';
 
 class OrderWaiting extends StatefulWidget {
-  const OrderWaiting({super.key});
+  const OrderWaiting({Key? key}) : super(key: key);
 
   @override
   State<OrderWaiting> createState() => _OrderWaitingState();
 }
 
 class _OrderWaitingState extends State<OrderWaiting> {
+  String Famerid = 'bCjtxwrokC3LyYHoNOGy';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Image(image: AssetImage('assets/images/upShape.png')),
-          SizedBox(height: 10),
-          SizedBox(
-            width: 90,
-            height: 90,
-            child: Image(image: AssetImage('assets/images/clock_icon.png')),
-          ),
-
-          SizedBox(height: 20),
-
-          Container(
-            padding: EdgeInsets.all(16),
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      'දිනය: ',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
+      appBar: AppBar(backgroundColor: Color(0xFF208A43)),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            StreamBuilder<List<Map<String, dynamic>>>(
+              stream: OrderWaitingData().getOrderWaitingData(Famerid),
+              builder: (context, snapshot) {
+                //below
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 350),
+                      child: CircularProgressIndicator(),
                     ),
-                    SizedBox(width: 16),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Text('2024/10/24', style: TextStyle(fontSize: 16)),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 8),
+                  );
+                }
+                //up
 
-                Row(
-                  children: [
-                    Text(
-                      'එලවලු ප්‍රමාණය: ',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                    SizedBox(width: 16),
-                    Text('ලංකා අල 100kg', style: TextStyle(fontSize: 16)),
-                  ],
-                ),
-                SizedBox(height: 8),
-
-                Row(
-                  children: [
-                    Text(
-                      'වෙලදසැල: ',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                    SizedBox(width: 16),
-                    Text('කීර්ති වෙළඳසැල', style: TextStyle(fontSize: 16)),
-                  ],
-                ),
-                SizedBox(height: 8),
-
-                Row(
-                  children: [
-                    Text(
-                      'කඩ අංකය: ',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                    SizedBox(width: 16),
-                    Text('B/25', style: TextStyle(fontSize: 16)),
-                  ],
-                ),
-              ],
-            ),
-          ),
-
-          SizedBox(height: 20),
-
-          Container(
-            width: 380,
-            height: 90,
-            decoration: BoxDecoration(
-              color: const Color(0xFF20AB43),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Center(
-              child: Text(
-                'තහවුරු කරන තෙක් සිටින්න',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ),
-          SizedBox(height: 20),
-          Title(
-            color: Colors.black,
-            child: Text(
-              'පසුගිය ඇනවුම්',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-            ),
-          ),
-
-          SizedBox(height: 20),
-
-          Container(
-            //height: 90,
-            width: 380,
-            decoration: BoxDecoration(
-              color: Colors.grey[200],
-              border: Border.all(color: Colors.grey),
-              borderRadius: BorderRadius.circular(15),
-            ),
-
-            child: Padding(
-              padding: EdgeInsets.all(10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '2025/01/11',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 4),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'ලීක්ස් 20kg',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                }
+                if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return Text('No waiting orders.');
+                }
+                return SizedBox(
+                  height: 500,
+                  child: PageView.builder(
+                    itemCount: snapshot.data!.length,
+                    controller: PageController(viewportFraction: 0.9),
+                    itemBuilder: (context, index) {
+                      var data = snapshot.data![index];
+                      return Container(
+                        margin: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
                         ),
-                      ),
-                      Text(
-                        'රුපියල්. 18,600.00',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  width: 90,
+                                  height: 90,
+                                  child: Image(
+                                    image: AssetImage(
+                                      data['status'] == 'pending'
+                                          ? 'assets/images/clock_icon.png'
+                                          : 'assets/images/OrderAcceptTick.png',
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 15),
+                            Row(
+                              children: [
+                                Text(
+                                  'දිනය:',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                SizedBox(width: 16),
+                                Text('${data['date']}'),
+                              ],
+                            ),
+                            SizedBox(height: 8),
+
+                            Row(
+                              children: [
+                                Text(
+                                  'එලවලු ප්‍රමාණය: ',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                SizedBox(width: 16),
+                                Text(
+                                  '${data['productName']}  ${data['quantity']}KG',
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 8),
+
+                            Row(
+                              children: [
+                                Text(
+                                  'වෙලදසැල: ',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                SizedBox(width: 16),
+                                Text(
+                                  '${data['shopName']}',
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 8),
+
+                            Row(
+                              children: [
+                                Text(
+                                  'කඩ අංකය: ',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                SizedBox(width: 16),
+                                Text(
+                                  '${data['shopNo']}',
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 8),
+
+                            Row(
+                              children: [
+                                Text(
+                                  'දුරකථන අංකය: ',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                SizedBox(width: 16),
+                                Text(
+                                  '${data['phoneNo']}',
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 30),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    width: 380,
+                                    height: 90,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF20AB43),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        data['status'] == 'pending'
+                                            ? 'තහවුරු කරන තෙක් සිටින්න'
+                                            : 'කාලය පෙ.ව 6.30-7.00',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
+                      );
+                    },
                   ),
-                ],
-              ),
+                );
+              },
             ),
-          ),
-
-          SizedBox(height: 20),
-
-          Container(
-            //height: 90,
-            width: 380,
-            decoration: BoxDecoration(
-              color: Colors.grey[200],
-              border: Border.all(color: Colors.grey),
-              borderRadius: BorderRadius.circular(15),
-            ),
-
-            child: Padding(
-              padding: EdgeInsets.all(10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '2025/01/10',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 4),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'කැරට් 50kg',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                      Text(
-                        'රුපියල්. 15,300.00',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-
-          SizedBox(height: 20),
-
-          Container(
-            //height: 90,
-            width: 380,
-            decoration: BoxDecoration(
-              color: Colors.grey[200],
-              border: Border.all(color: Colors.grey),
-              borderRadius: BorderRadius.circular(15),
-            ),
-
-            child: Padding(
-              padding: EdgeInsets.all(10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '2025/10/11',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 4),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'ලංකා අල 30kg',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                      Text(
-                        'රුපියල්. 15,300.00',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

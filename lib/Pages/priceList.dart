@@ -44,6 +44,7 @@ class PricePage extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
+
                             builder: (context) => SendRequestPage(
                               shopName: data['shopName'],
                               ownerName: data['ownerName'],
