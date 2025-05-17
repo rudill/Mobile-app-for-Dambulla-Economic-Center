@@ -1,8 +1,8 @@
 import 'package:dec_app/Pages/Farmer/FaramerLogin.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-
-import '../../main.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../../Firestore/FamerReg.dart';
+import 'farmerHome.dart';
 
 class Farmerregistration extends StatelessWidget {
   @override
@@ -20,6 +20,9 @@ class FarmerReg extends StatelessWidget {
   final NICController = TextEditingController();
   final EmailController = TextEditingController();
   final PWDController = TextEditingController();
+
+  FirebaseAuth auth = FirebaseAuth.instance;
+  User? user;
 
   @override
   Widget build(BuildContext context) {
@@ -177,23 +180,17 @@ class FarmerReg extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        try {
-                          CollectionReference collRef = FirebaseFirestore
-                              .instance
-                              .collection(
-                            "FamerReg",
-                          ); //Firebase eke nama dila thiyenne
-                          await collRef.add({
-                            'Email': EmailController.text,
-                            'First Name': FnameController.text,
-                            'Last Name': LnameController.text,
-                            'NIC': NICController.text,
-                            'Password': PWDController.text,
-                            'Phone Number': PhnoController.text,
-                          });
-
+                    onPressed: () {
+                      registerFarmer(
+                        context: context,
+                        emailController: EmailController,
+                        pwdController: PWDController,
+                        fnameController: FnameController,
+                        lnameController: LnameController,
+                        nicController: NICController,
+                        phnoController: PhnoController,
+                        formKey: _formKey,
+                        onSuccess: (userId) {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
@@ -202,17 +199,14 @@ class FarmerReg extends StatelessWidget {
                                 content: Text("ඔබේ දත්ත සාර්ථකව උඩුගත විය."),
                                 actions: [
                                   TextButton(
-                                    style: TextButton.styleFrom(
-                                      foregroundColor: Colors.green,
-                                    ),
+                                    style: TextButton.styleFrom(foregroundColor: Colors.green),
                                     child: Text("හරි"),
                                     onPressed: () {
-                                      //Closed Cutton eka
                                       Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => Home(),
-                                        ), // Home Page ekata dala thiyenne
+                                          builder: (context) => FarmerHomePage(userId: userId),
+                                        ),
                                       );
                                     },
                                   ),
@@ -220,37 +214,10 @@ class FarmerReg extends StatelessWidget {
                               );
                             },
                           );
-
-                          FnameController.clear(); //Okkoma clear karanna
-                          LnameController.clear();
-                          PhnoController.clear();
-                          NICController.clear();
-                          EmailController.clear();
-                          PWDController.clear();
-
-                          Navigator.pushReplacement(
-                            //Redirect Karanna thiyenne page ekata
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => LoginPage(),
-                            ),
-                          );
-                        } catch (error) {
-                          //Fail Unoth Display wena msg eka
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text("අසාර්ථකයි!"),
-                                content: Text(
-                                  "කිසියම් දෝෂයක්. නැවත උත්සහ කරන්න!",
-                                ),
-                              );
-                            },
-                          );
-                        }
-                      }
+                        },
+                      );
                     },
+
                     child: Text(
                       'ලියාපදිංචි කරන්න',
                       style: TextStyle(
@@ -260,6 +227,7 @@ class FarmerReg extends StatelessWidget {
                     ),
                   ),
                 ),
+
                 SizedBox(height: 5),
                 TextButton(
                   onPressed: () {

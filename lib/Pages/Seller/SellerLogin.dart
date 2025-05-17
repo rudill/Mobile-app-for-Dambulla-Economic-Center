@@ -1,8 +1,17 @@
 import 'package:dec_app/Pages/Seller/SellerRegistration.dart';
+import 'package:dec_app/Pages/Seller/sallerHome.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+import '../../Firestore/seller_log.dart';
 
 class SellerloginPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController _SemailController = TextEditingController();
+  final TextEditingController _SpasswordController = TextEditingController();
+
+  FirebaseAuth auth = FirebaseAuth.instance;
+  User? user;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +42,7 @@ class SellerloginPage extends StatelessWidget {
                 SizedBox(height: 24),
 
                 TextFormField(
+                  controller: _SemailController,
                   decoration: InputDecoration(
                     labelText: 'ඔබගේ විද්‍යුත් ලිපිනය',
                     border: OutlineInputBorder(),
@@ -47,6 +57,7 @@ class SellerloginPage extends StatelessWidget {
                 SizedBox(height: 16),
 
                 TextFormField(
+                  controller: _SpasswordController,
                   decoration: InputDecoration(
                     labelText: 'ඔබගේ රහස් අංකය',
                     border: OutlineInputBorder(),
@@ -75,12 +86,79 @@ class SellerloginPage extends StatelessWidget {
 
                 SizedBox(height: 12),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      // If form is valid, proceed
-                      ScaffoldMessenger.of(
-                        context,
-                      ).showSnackBar(SnackBar(content: Text('Logging in...')));
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (BuildContext context) {
+                          return Dialog(
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  CircularProgressIndicator(),
+                                  SizedBox(width: 16),
+                                  Text("කරුණාකර රැඳී සිටින්න..."),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      );
+
+                      final sellerService = SellerService();
+
+                      try {
+                        final user = await sellerService.signInSeller(
+                          _SemailController.text.trim(),
+                          _SpasswordController.text.trim(),
+                        );
+
+                        if (user != null) {
+                          final seller = await sellerService.getSellerData(user.uid);
+
+                          Navigator.pop(context); // Close dialog
+
+                          if (seller != null) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('සාර්ථකව පිවිසෙයි')),
+                            );
+                            await Future.delayed(Duration(milliseconds: 500));
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (context) => sallerApp(userId: user.uid)),
+                            );
+                          } else {
+                            await sellerService.signOut();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('ඔබට විකුණුම් ගිණුමට පිවිසුමට ප්‍රවේශ විය නොහැක.')),
+                            );
+                          }
+                        }
+
+                      } on FirebaseAuthException catch (e) {
+                        Navigator.pop(context); // Close dialog
+                        String message;
+                        if (e.code == 'user-not-found') {
+                          message = 'Email not found. Please check your email address.';
+                        } else if (e.code == 'wrong-password') {
+                          message = 'Incorrect password. Please try again.';
+                        } else {
+                          message = 'Login failed: ${e.message}';
+                        }
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(message)),
+                        );
+                      } catch (e) {
+                        Navigator.pop(context); // Close dialog
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('An unexpected error occurred.')),
+                        );
+                        print(e);
+                      }
                     }
                   },
                   child: Text('ගිණුමට පිවිසෙන්න.'),

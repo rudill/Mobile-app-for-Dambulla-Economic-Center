@@ -6,16 +6,14 @@ import 'package:path_provider/path_provider.dart';
 
 import 'Pages/homeScreen.dart';
 import 'firebase_options.dart';
+import 'Widgets/font_size_controller.dart';
+import 'Widgets/theme_controller.dart';
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   final dir = await getApplicationDocumentsDirectory();
   Hive.init(dir.path);
-
   await Hive.openBox('myBox');
 
   runApp(const Home());
@@ -26,9 +24,26 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+    return ValueListenableBuilder<ThemeMode>(
+      valueListenable: ThemeController.themeMode,
+      builder: (context, themeMode, _) {
+        return ValueListenableBuilder<double>(
+          valueListenable: FontSizeController.fontSize,
+          builder: (context, fontSize, _) {
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              themeMode: themeMode,
+              theme: AppTheme.lightTheme,
+              darkTheme: AppTheme.darkTheme,
+              builder: (context, child) => MediaQuery(
+                data: MediaQuery.of(context).copyWith(textScaleFactor: fontSize),
+                child: child!,
+              ),
+              home: const HomeScreen(),
+            );
+          },
+        );
+      },
     );
   }
 }
