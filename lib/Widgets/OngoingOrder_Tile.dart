@@ -1,6 +1,7 @@
 import 'package:dec_app/Pages/Seller/OrderUpdate.dart';
 import 'package:flutter/material.dart';
 
+import '../Components/productQuantityManager.dart';
 import '../Firestore/productData.dart';
 import '../Models/product_model.dart';
 
@@ -16,6 +17,10 @@ class _OnOrderTileState extends State<OnOrderTile> {
 
   @override
   Widget build(BuildContext context) {
+
+    int filledQuantity =ProductQuantityManager().getFilledQuantity(widget.product.id);
+    double progress = (filledQuantity / widget.product.quantity).clamp(0, 1);
+
     return Padding(
       padding: const EdgeInsets.all(6.0),
       child: Card(
@@ -57,14 +62,14 @@ class _OnOrderTileState extends State<OnOrderTile> {
                         height: 55,
                         width: 55,
                         child: CircularProgressIndicator(
-                          value: 0.2,
+                          value: progress,
                           color: Color(0xFF208A43),
                           backgroundColor: Color(0xD1D1D3E4),
                           strokeWidth: 5,
                         ),
                       ),
                       Text(
-                        "20%",
+                        "${(progress * 100).toStringAsFixed(0)}%",
                         style: TextStyle(
                           fontSize: 10,
                           fontWeight: FontWeight.bold,
@@ -73,9 +78,8 @@ class _OnOrderTileState extends State<OnOrderTile> {
                       ),
                     ],
                   ),
-
                   Text(
-                    "${widget.product.quantity} න් 40Kg සම්පුර්ණ වී ඇත",
+                    "${filledQuantity}Kg / ${widget.product.quantity}Kg සම්පුර්ණ වී ඇත",
                     style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
                   ),
                 ],
