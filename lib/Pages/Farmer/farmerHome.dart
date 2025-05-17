@@ -1,6 +1,8 @@
+
+import 'package:dec_app/Pages/Farmer/menuf.dart';
 import 'package:dec_app/Pages/Farmer/orderWaiting.dart';
 import 'package:dec_app/Pages/Selection_Page.dart';
-import 'package:dec_app/Pages/menu.dart';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -14,14 +16,17 @@ class FarmerApp extends StatelessWidget {
     return MaterialApp(
       title: 'Farmer Home',
       theme: ThemeData(primarySwatch: Colors.green),
-      home: const FarmerHomePage(),
+      home: FarmerHomePage(userId: 'userId'),
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
 class FarmerHomePage extends StatelessWidget {
-  const FarmerHomePage({super.key});
+  final String userId;
+
+  FarmerHomePage({super.key, required this.userId});
+
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +49,7 @@ class FarmerHomePage extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Menu()),
+                  MaterialPageRoute(builder: (context) => Menuf()),
                 );
               },
               customBorder: const CircleBorder(),

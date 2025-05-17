@@ -1,9 +1,25 @@
+import 'package:dec_app/Pages/Farmer/orderWaiting.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import '../../Firestore/setReservations.dart';
 
 class SendRequestPage extends StatefulWidget {
+  final String shopName;
+  final String ownerName;
+  final String shopNumber;
+  final String price;
+  final String phoneNo;
+  final String sellerId;
+
+  SendRequestPage({
+    required this.shopName,
+    required this.ownerName,
+    required this.shopNumber,
+    required this.price,
+    required this.phoneNo,
+    required this.sellerId,
+  });
+
   @override
   _SendRequestPageState createState() => _SendRequestPageState();
 }
@@ -16,21 +32,32 @@ class _SendRequestPageState extends State<SendRequestPage> {
   TextEditingController addressController = TextEditingController();
   TextEditingController sellerController = TextEditingController();
 
+  final String productID = 'බෝංචි';
+  final int farmerID = 675678;
+
+  double? totalPrice;
+
   @override
   void initState() {
     super.initState();
-    dateController = TextEditingController();
-    quantityController = TextEditingController();
-    itemController = TextEditingController();
-    contactController = TextEditingController();
-    addressController = TextEditingController();
-    sellerController = TextEditingController();
-  }
+    sellerController.text = widget.sellerId;
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
+    // Set initial total to unit price
+    totalPrice = double.tryParse(widget.price);
+
+    quantityController.addListener(() {
+      final qty = int.tryParse(quantityController.text);
+      final unitPrice = double.tryParse(widget.price);
+      if (qty != null && unitPrice != null) {
+        setState(() {
+          totalPrice = qty * unitPrice;
+        });
+      } else {
+        setState(() {
+          totalPrice = double.tryParse(widget.price); // fallback to unit price
+        });
+      }
+    });
   }
 
   @override
@@ -39,7 +66,6 @@ class _SendRequestPageState extends State<SendRequestPage> {
       backgroundColor: Colors.grey[100],
       body: Column(
         children: [
-          // Top green wave with back arrow
           Stack(
             children: [
               Container(
@@ -56,7 +82,7 @@ class _SendRequestPageState extends State<SendRequestPage> {
                 left: 16,
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.pop(context); // Navigate back
+                    Navigator.pop(context);
                   },
                   child: Icon(Icons.arrow_back, color: Colors.white, size: 28),
                 ),
@@ -77,58 +103,30 @@ class _SendRequestPageState extends State<SendRequestPage> {
                 child: Column(
                   children: [
                     Text(
-                      'කිරිති වෙළඳසැල',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      widget.shopName,
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 16),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          'නිමකරැවේ:',
-                          style: TextStyle(fontWeight: FontWeight.w500),
-                        ),
-                        Text('එම් කිරිති මහාත්මා'),
+                        Text('හිමිකරු:', style: TextStyle(fontWeight: FontWeight.w500)),
+                        Text(widget.ownerName),
                       ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          'කඩ අංකය:',
-                          style: TextStyle(fontWeight: FontWeight.w500),
-                        ),
-                        Text('B/25'),
+                        Text('කඩ අංකය:', style: TextStyle(fontWeight: FontWeight.w500)),
+                        Text(widget.shopNumber),
                       ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          'දුරකථන අංකය:',
-                          style: TextStyle(fontWeight: FontWeight.w500),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text('011-345 4555'),
-                            Text('077-455 5444'),
-                          ],
-                        ),
+                        Text('දුරකථන අංකය:', style: TextStyle(fontWeight: FontWeight.w500)),
+                        Text(widget.phoneNo),
                       ],
-                    ),
-                    SizedBox(height: 12),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(5, (index) {
-                        return Icon(
-                          index < 3 ? Icons.star : Icons.star_border,
-                          color: Colors.yellow[700],
-                        );
-                      }),
                     ),
                   ],
                 ),
@@ -151,7 +149,7 @@ class _SendRequestPageState extends State<SendRequestPage> {
                       children: [
                         buildDateField(context),
                         SizedBox(height: 12),
-                        buildTextField('ලැබදෙන ප්‍රමාණය', quantityController),
+                        buildQuantityField('ලබාදෙන ප්‍රමාණය', quantityController),
                         SizedBox(height: 12),
                         buildTextField('නම', itemController),
                         SizedBox(height: 12),
@@ -160,8 +158,11 @@ class _SendRequestPageState extends State<SendRequestPage> {
                         buildTextField('ලිපිනය', addressController),
                         SizedBox(height: 16),
                         buildTextField('Seller ID', sellerController),
+                        SizedBox(height: 16),
                         Text(
-                          'ලැබෙන මුළු මුදල රු.10,000.00',
+                          totalPrice != null
+                              ? 'ලැබෙන මුළු මුදල රු.${totalPrice!.toStringAsFixed(2)}'
+                              : 'මුළු මුදල ගණනය වීමට බලාසිටින්න',
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -171,29 +172,33 @@ class _SendRequestPageState extends State<SendRequestPage> {
                         SizedBox(height: 16),
                         ElevatedButton(
                           onPressed: () async {
-                          await SendReservation(
+                            await SendReservation(
                               quantity: int.parse(quantityController.text),
                               sellerID: int.parse(sellerController.text),
                               farmerName: itemController.text,
                               phoneNumber: int.parse(contactController.text),
                               farmerAddress: addressController.text,
+                              productID: productID,
+                              farmerID: farmerID,
                             ).createReservation(context);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => OrderWaiting()),
+                            );
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green,
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 40,
-                              vertical: 14,
-                            ),
+                            padding: EdgeInsets.symmetric(horizontal: 40, vertical: 14),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
                           ),
-                          child: Text(
+                          child: const Text(
                             'කාලය වෙන්කරවා ගැනිම',
                             style: TextStyle(fontSize: 16, color: Colors.white),
                           ),
                         ),
+
                       ],
                     ),
                   ),
@@ -202,6 +207,22 @@ class _SendRequestPageState extends State<SendRequestPage> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  // Modified to add "KG" suffix
+  Widget buildQuantityField(String label, TextEditingController controller) {
+    return TextField(
+      controller: controller,
+      keyboardType: TextInputType.number,
+      decoration: InputDecoration(
+        labelText: label,
+        suffixText: 'KG',
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.green),
+        ),
       ),
     );
   }
@@ -216,6 +237,9 @@ class _SendRequestPageState extends State<SendRequestPage> {
           borderSide: BorderSide(color: Colors.green),
         ),
       ),
+      keyboardType: label == 'Seller ID' || label == 'දුරකථන අංකය'
+          ? TextInputType.number
+          : TextInputType.text,
     );
   }
 
@@ -229,16 +253,15 @@ class _SendRequestPageState extends State<SendRequestPage> {
         suffixIcon: Icon(Icons.calendar_today),
       ),
       onTap: () async {
-        final picked = await showDateRangePicker(
+        final pickedDate = await showDatePicker(
           context: context,
-          firstDate: DateTime(2020),
+          initialDate: DateTime.now(),
+          firstDate: DateTime.now(),
           lastDate: DateTime(2030),
         );
-        if (picked != null) {
-          final formatted =
-              DateFormat('MM/dd/yyyy').format(picked.start) +
-              ' - ' +
-              DateFormat('MM/dd/yyyy').format(picked.end);
+
+        if (pickedDate != null) {
+          final formatted = DateFormat('MM/dd/yyyy').format(pickedDate);
           dateController.text = formatted;
         }
       },

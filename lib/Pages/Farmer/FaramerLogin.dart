@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dec_app/Pages/Farmer/FarmerRegistation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,6 +17,7 @@ class _LoginPageState extends State<LoginPage> {
 
   FirebaseAuth auth = FirebaseAuth.instance;
   User? user;
+
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +47,6 @@ class _LoginPageState extends State<LoginPage> {
                 Text('ගොවි මහතෙකු ලෙස', style: TextStyle(fontSize: 25)),
                 SizedBox(height: 24),
 
-                // Email Field
                 TextFormField(
                   controller: _emailController,
                   decoration: InputDecoration(
@@ -122,16 +123,28 @@ class _LoginPageState extends State<LoginPage> {
 
                         User? user = userCredential.user;
                         if (user != null) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('සාර්ථකව පිවිසෙයි')),
-                          );
-                          await Future.delayed(Duration(milliseconds: 500));
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => FarmerHomePage(),
-                            ),
-                          );
+                          DocumentSnapshot userDoc = await FirebaseFirestore.instance
+                              .collection('Users')
+                              .doc(user.uid)
+                              .get();
+
+                          if (userDoc.exists && userDoc['role'] == 'farmer') {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('සාර්ථකව පිවිසෙයි')),
+                            );
+                            await Future.delayed(Duration(milliseconds: 500));
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => FarmerHomePage(userId: user.uid),
+                              ),
+                            );
+                          } else {
+                            await FirebaseAuth.instance.signOut();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('ඔබට ගොවි ගිණුමට පිවිසුමට ප්‍රවේශ විය නොහැක.')),
+                            );
+                          }
                         }
                       } on FirebaseAuthException catch (e) {
                         String message;
@@ -142,7 +155,6 @@ class _LoginPageState extends State<LoginPage> {
                         } else if (e.code == 'wrong-password') {
                           message = 'Incorrect password. Please try again.';
                         } else {
-                          // General error message for any other cases
                           message = 'Login failed: ${e.message}';
                         }
 
@@ -159,7 +171,6 @@ class _LoginPageState extends State<LoginPage> {
                       }
                     }
                   },
-                  //old part*************
                   child: Text('ගිණුමට පිවිසෙන්න.'),
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(double.infinity, 64),
