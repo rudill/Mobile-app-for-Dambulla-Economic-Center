@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../Components/productQuantityManager.dart';
 import '../../Components/time_picker.dart';
 import '../../Components/time_switcher.dart';
-import '../../Firestore/getReservations.dart';
+import '../../Firestore/Reservation.dart';
 import '../../Hive/HiveBase.dart';
-import '../../Models/product_updater.dart';
 
 class NotificationsFromFireStore extends StatefulWidget {
   const NotificationsFromFireStore({super.key});
@@ -15,6 +15,8 @@ class NotificationsFromFireStore extends StatefulWidget {
   State<NotificationsFromFireStore> createState() =>
       _NotificationsFromFireStoreState();
 }
+
+User? user = FirebaseAuth.instance.currentUser;
 
 class _NotificationsFromFireStoreState
     extends State<NotificationsFromFireStore> {
@@ -28,7 +30,7 @@ class _NotificationsFromFireStoreState
 
   StreamBuilder<QuerySnapshot<Object?>> reservationRequests() {
     return StreamBuilder(
-      stream: RetrieveReservations().getReservationRequests(21),
+      stream: ReservationCollection().getReservationRequests(user!.uid),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return CircularProgressIndicator();
 
@@ -38,12 +40,7 @@ class _NotificationsFromFireStoreState
           itemCount: reservations?.length,
           itemBuilder: (context, index) {
             final res = reservations?[index].data() as Map<String, dynamic>;
-            return
-            //   ListTile(
-            //   title: Text('Reservation from ${res['farmerName']}'),
-            //   subtitle: Text('Quantity is ${res['quantity']}'),
-            // );
-            Padding(
+            return Padding(
               padding: const EdgeInsets.all(8.0),
               child: Card(
                 child: Padding(
@@ -88,12 +85,13 @@ class _NotificationsFromFireStoreState
 
                                     res['farmerName'],
                                   );
+                                  await ReservationCollection()
+                                      .updateReservationStatus(res['id']);
 
-                                  // UpdateOngoingOrder(
-                                  //   quantity: res['quantity'],
-                                  //   productID: res['productID'],
-                                  // );
-                                  ProductQuantityManager().updateFilledQuantity(productID, quantity);
+                                  ProductQuantityManager().updateFilledQuantity(
+                                    productID,
+                                    quantity,
+                                  );
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.green,
