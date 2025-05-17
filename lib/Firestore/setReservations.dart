@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 
 class SendReservation {
   int quantity;
-  int sellerID;
-  int farmerID;
+  String sellerID;
+  String farmerID;
   String productID;
   String farmerName;
   int phoneNumber;
   String farmerAddress;
+  double totalPrice;
+  DateTime date;
 
   SendReservation({
     required this.quantity,
@@ -18,6 +20,8 @@ class SendReservation {
     required this.farmerAddress,
     required this.productID,
     required this.farmerID,
+    required this.totalPrice,
+    required this.date
   });
 
   Future<ScaffoldFeatureController<SnackBar, SnackBarClosedReason>>
@@ -34,6 +38,8 @@ class SendReservation {
         'productID': productID,
         'farmerAddress': farmerAddress,
         'phoneNumber': phoneNumber,
+        'totalPrice' :totalPrice,
+        'date' :date,
         'status': 'pending',
       });
       return ScaffoldMessenger.of(

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -12,7 +13,7 @@ class ProductSubmitionForm extends StatefulWidget {
 class _ProductSubmitionFormState extends State<ProductSubmitionForm> {
   String selectedOption = 'veg';
   String selectedItem= 'කැරට්';
-  String SellerID='WsFQ8wNTiup3oecWJusv';
+  User? user = FirebaseAuth.instance.currentUser;
 
   final TextEditingController quantityController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
@@ -146,7 +147,7 @@ class _ProductSubmitionFormState extends State<ProductSubmitionForm> {
                           'name': selectedItem,
                           'shopNo': shopNoController.text,
                           'date': DateTime.parse(dateController.text),
-                          'sellerID':SellerID
+                          'sellerID':user!.uid
                         };
                         Database().addProduct(productdetails, context);
 

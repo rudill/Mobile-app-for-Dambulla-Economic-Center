@@ -52,6 +52,7 @@ class PricePage extends StatelessWidget {
                               price: data['price'],
                               phoneNo: data['phoneNo'],
                               sellerId: data['sellerId'],
+                              productId:data['productId'],
                             ),
                           ),
                         );

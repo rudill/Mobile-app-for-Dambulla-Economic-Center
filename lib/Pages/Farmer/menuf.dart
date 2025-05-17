@@ -1,3 +1,4 @@
+import 'package:dec_app/Pages/Farmer/FaramerLogin.dart';
 import 'package:dec_app/Pages/Farmer/farmerHome.dart';
 import 'package:dec_app/Pages/Farmer/farmerprofileEdit.dart';
 import 'package:dec_app/Pages/technicalhelp.dart';
@@ -108,6 +109,27 @@ class _MenufState extends State<Menuf> {
                     buildFontSizeCard(context),
                     const SizedBox(height: 32),
                     buildThemeToggle(isDark),
+                    const SizedBox(height: 32),
+                    ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                        backgroundColor: Colors.red,
+                        foregroundColor: Colors.white,
+                        textStyle: TextStyle(fontSize: 18),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      icon: Icon(Icons.logout, size: 28),
+                      label: Text('Logout'),
+                      onPressed: () async {
+                        await FirebaseAuth.instance.signOut();
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => LoginPage()),
+                        );
+                      },
+                    )
                   ],
                 ),
               ),
