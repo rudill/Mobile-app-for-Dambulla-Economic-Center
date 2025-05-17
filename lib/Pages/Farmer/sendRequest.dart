@@ -1,14 +1,24 @@
-import 'package:dec_app/Firestore/sellerData.dart';
+import 'package:dec_app/Pages/Farmer/orderWaiting.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 import '../../Firestore/setReservations.dart';
 
 class SendRequestPage extends StatefulWidget {
   final String shopName;
+  final String ownerName;
+  final String shopNumber;
+  final String price;
+  final String phoneNo;
+  final String sellerId;
 
-  const SendRequestPage({super.key, required this.shopName});
+  SendRequestPage({
+    required this.shopName,
+    required this.ownerName,
+    required this.shopNumber,
+    required this.price,
+    required this.phoneNo,
+    required this.sellerId,
+  });
 
   @override
   _SendRequestPageState createState() => _SendRequestPageState();
@@ -22,57 +32,32 @@ class _SendRequestPageState extends State<SendRequestPage> {
   TextEditingController addressController = TextEditingController();
   TextEditingController sellerController = TextEditingController();
 
-  Map<String, dynamic>? vendorData;
-  Map<String, dynamic>? sellerPhoneData;
+  final String productID = 'බෝංචි';
+  final int farmerID = 675678;
 
-  double totalAmount = 0.0;
+  double? totalPrice;
 
   @override
   void initState() {
     super.initState();
-    quantityController.addListener(_calculateTotal);
-    fetchData();
-    dateController = TextEditingController();
-    quantityController = TextEditingController();
-    itemController = TextEditingController();
-    contactController = TextEditingController();
-    addressController = TextEditingController();
-    sellerController = TextEditingController();
-  }
+    sellerController.text = widget.sellerId;
 
-  void _calculateTotal() {
-    final quantityText = quantityController.text;
-    if (vendorData != null && quantityText.isNotEmpty) {
-      final quantity = double.tryParse(quantityText) ?? 0;
-      final unitPrice = double.tryParse(vendorData!['price'].toString()) ?? 0;
-      setState(() {
-        totalAmount = quantity * unitPrice;
-      });
-    } else {
-      setState(() {
-        totalAmount = 0;
-      });
-    }
-  }
+    // Set initial total to unit price
+    totalPrice = double.tryParse(widget.price);
 
-  Future<void> fetchData() async {
-    try {
-      final priceData = await getVendorData(widget.shopName);
-      final phoneData = await getSellerPhoneData(widget.shopName);
-
-      setState(() {
-        vendorData = priceData;
-        sellerPhoneData = phoneData;
-      });
-    } catch (e) {
-      print("Error fetching data: $e");
-    }
-  }
-
-  @override
-  void dispose() {
-    quantityController.removeListener(_calculateTotal);
-    super.dispose();
+    quantityController.addListener(() {
+      final qty = int.tryParse(quantityController.text);
+      final unitPrice = double.tryParse(widget.price);
+      if (qty != null && unitPrice != null) {
+        setState(() {
+          totalPrice = qty * unitPrice;
+        });
+      } else {
+        setState(() {
+          totalPrice = double.tryParse(widget.price); // fallback to unit price
+        });
+      }
+    });
   }
 
   @override
@@ -104,14 +89,10 @@ class _SendRequestPageState extends State<SendRequestPage> {
               ),
             ],
           ),
-          vendorData == null
-              ? Padding(
-            padding: const EdgeInsets.all(16),
-            child: CircularProgressIndicator(),
-          )
-              : Padding(
-            padding:
-            const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+
+          // Vendor info card
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
             child: Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
@@ -122,44 +103,29 @@ class _SendRequestPageState extends State<SendRequestPage> {
                 child: Column(
                   children: [
                     Text(
-                      vendorData!['shopName'] ?? '',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      widget.shopName,
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 16),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('හිමිකරු:',
-                            style:
-                            TextStyle(fontWeight: FontWeight.w500)),
-                        Text(vendorData!['ownerName'] ?? ''),
+                        Text('හිමිකරු:', style: TextStyle(fontWeight: FontWeight.w500)),
+                        Text(widget.ownerName),
                       ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('කඩ අංකය:',
-                            style:
-                            TextStyle(fontWeight: FontWeight.w500)),
-                        Text(vendorData!['shopNumber'] ?? ''),
+                        Text('කඩ අංකය:', style: TextStyle(fontWeight: FontWeight.w500)),
+                        Text(widget.shopNumber),
                       ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('දුරකථන අංකය:',
-                            style:
-                            TextStyle(fontWeight: FontWeight.w500)),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(sellerPhoneData?['phone1'] ?? ''),
-                            Text(sellerPhoneData?['phone2'] ?? ''),
-                          ],
-                        ),
+                        Text('දුරකථන අංකය:', style: TextStyle(fontWeight: FontWeight.w500)),
+                        Text(widget.phoneNo),
                       ],
                     ),
                   ],
@@ -167,6 +133,8 @@ class _SendRequestPageState extends State<SendRequestPage> {
               ),
             ),
           ),
+
+          // Form
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -181,7 +149,7 @@ class _SendRequestPageState extends State<SendRequestPage> {
                       children: [
                         buildDateField(context),
                         SizedBox(height: 12),
-                        buildTextField('ලබාදෙන ප්‍රමාණය', quantityController),
+                        buildQuantityField('ලබාදෙන ප්‍රමාණය', quantityController),
                         SizedBox(height: 12),
                         buildTextField('නම', itemController),
                         SizedBox(height: 12),
@@ -190,14 +158,16 @@ class _SendRequestPageState extends State<SendRequestPage> {
                         buildTextField('ලිපිනය', addressController),
                         SizedBox(height: 16),
                         buildTextField('Seller ID', sellerController),
+                        SizedBox(height: 16),
                         Text(
-                          totalAmount > 0
-                              ? 'ලැබෙන මුළු මුදල: රු.${totalAmount.toStringAsFixed(2)}'
-                              : 'ලැබෙන මුළු මුදල: රු.${vendorData?['price'] ?? "0"}',
+                          totalPrice != null
+                              ? 'ලැබෙන මුළු මුදල රු.${totalPrice!.toStringAsFixed(2)}'
+                              : 'මුළු මුදල ගණනය වීමට බලාසිටින්න',
                           style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black87),
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87,
+                          ),
                         ),
                         SizedBox(height: 16),
                         ElevatedButton(
@@ -208,21 +178,27 @@ class _SendRequestPageState extends State<SendRequestPage> {
                               farmerName: itemController.text,
                               phoneNumber: int.parse(contactController.text),
                               farmerAddress: addressController.text,
+                              productID: productID,
+                              farmerID: farmerID,
                             ).createReservation(context);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => OrderWaiting()),
+                            );
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green,
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 40, vertical: 14),
+                            padding: EdgeInsets.symmetric(horizontal: 40, vertical: 14),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
                           ),
-                          child: Text(
+                          child: const Text(
                             'කාලය වෙන්කරවා ගැනිම',
                             style: TextStyle(fontSize: 16, color: Colors.white),
                           ),
                         ),
+
                       ],
                     ),
                   ),
@@ -235,25 +211,35 @@ class _SendRequestPageState extends State<SendRequestPage> {
     );
   }
 
-  Widget buildTextField(String label, TextEditingController controller) {
+  // Modified to add "KG" suffix
+  Widget buildQuantityField(String label, TextEditingController controller) {
     return TextField(
       controller: controller,
-      keyboardType: label == 'ලබාදෙන ප්‍රමාණය'
-          ? TextInputType.number
-          : TextInputType.text,
+      keyboardType: TextInputType.number,
       decoration: InputDecoration(
         labelText: label,
-        suffixText: label == 'ලබාදෙන ප්‍රමාණය' ? 'KG' : null,
+        suffixText: 'KG',
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.green),
         ),
       ),
-      onChanged: label == 'ලබාදෙන ප්‍රමාණය'
-          ? (value) {
-        _calculateTotal();
-      }
-          : null,
+    );
+  }
+
+  Widget buildTextField(String label, TextEditingController controller) {
+    return TextField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: label,
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.green),
+        ),
+      ),
+      keyboardType: label == 'Seller ID' || label == 'දුරකථන අංකය'
+          ? TextInputType.number
+          : TextInputType.text,
     );
   }
 
@@ -274,7 +260,7 @@ class _SendRequestPageState extends State<SendRequestPage> {
           lastDate: DateTime(2030),
         );
         if (pickedDate != null) {
-          final formatted = DateFormat('yyyy/MM/dd').format(pickedDate);
+          final formatted = DateFormat('MM/dd/yyyy').format(pickedDate);
           dateController.text = formatted;
         }
       },

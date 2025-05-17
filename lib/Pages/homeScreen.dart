@@ -1,5 +1,4 @@
 
-import 'package:dec_app/Pages/CategoryVegetable.dart';
 import 'package:dec_app/Pages/Farmer/FaramerLogin.dart';
 import 'package:dec_app/Pages/Farmer/FarmerRegistation.dart';
 import 'package:dec_app/Pages/Farmer/farmerprofileEdit.dart';
@@ -7,15 +6,16 @@ import 'package:dec_app/Pages/Farmer/orderWaiting.dart';
 import 'package:dec_app/Pages/Seller/SellerLogin.dart';
 import 'package:dec_app/Pages/Seller/SellerRegistration.dart';
 import 'package:dec_app/Pages/Farmer/farmerHome.dart';
-import 'package:dec_app/Pages/priceList.dart';
 import 'package:dec_app/Pages/Seller/sallerHome.dart';
-import 'package:dec_app/Pages/Farmer/sendRequest.dart';
 
 import 'package:flutter/material.dart';
 import 'package:dec_app/Pages/landing.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
+
+  get user => null;
+  
 
   @override
   Widget build(BuildContext context) {
@@ -84,31 +84,8 @@ class HomeScreen extends StatelessWidget {
                     },
                     child: Text("Seller Login Page"),
                   ),
-        
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CategoryVegetable(),
-                        ),
-                      );
-                    },
-                    child: Text("Vegetable Category"),
-                  ),
 
-        
-                  /*ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SendRequestPage(),
-                        ),
-                      );
-                    },
-                    child: Text("Send Request"),
-                  ),*/
+
         
                   ElevatedButton(
                     onPressed: () {
@@ -123,7 +100,7 @@ class HomeScreen extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => sallerApp()),
+                        MaterialPageRoute(builder: (context) => sallerApp(userId: user!.uid)),
                       );
                     },
                     child: Text("Seller Home"),
