@@ -2,7 +2,6 @@ import 'package:dec_app/Pages/Farmer/orderWaiting.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../Firestore/Reservation.dart';
-import '../../Firestore/setReservations.dart';
 import '../../Models/reservation_details.dart';
 
 class SendRequestPage extends StatefulWidget {
@@ -13,7 +12,7 @@ class SendRequestPage extends StatefulWidget {
   final String phoneNo;
   final String sellerId;
 
-  SendRequestPage({
+  const SendRequestPage({super.key,
     required this.shopName,
     required this.ownerName,
     required this.shopNumber,
@@ -199,6 +198,8 @@ class _SendRequestPageState extends State<SendRequestPage> {
                                 farmerAddress: addressController.text,
                                 productID: productID,
                                 farmerID: farmerID,
+                                date: dateController.text,
+                                totalPrice: totalPrice
                               ),
                             );
                             Navigator.push(

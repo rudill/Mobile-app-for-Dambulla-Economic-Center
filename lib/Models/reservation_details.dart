@@ -1,4 +1,3 @@
-
 class ReservationDetails {
   int quantity;
   String sellerID;
@@ -7,6 +6,8 @@ class ReservationDetails {
   String farmerName;
   int phoneNumber;
   String farmerAddress;
+  String date;
+  double? totalPrice;
 
   ReservationDetails({
     required this.quantity,
@@ -16,6 +17,8 @@ class ReservationDetails {
     required this.farmerAddress,
     required this.productID,
     required this.farmerID,
+    required this.date,
+    required this.totalPrice,
   });
 
   Map<String, dynamic> reservationData(String id) {
@@ -29,7 +32,9 @@ class ReservationDetails {
       'phoneNumber': phoneNumber,
       'farmerAddress': farmerAddress,
       'status': 'pending',
-      'date' :(DateTime.now())
+      'date': (DateTime.now()),
+      'requested date': date,
+      'totalPrice': totalPrice,
     };
   }
 }
