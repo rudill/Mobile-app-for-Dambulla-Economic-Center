@@ -6,8 +6,9 @@ class ReservationDetails {
   String farmerName;
   int phoneNumber;
   String farmerAddress;
-  String date;
+  //String date;
   double? totalPrice;
+  DateTime date;
 
   ReservationDetails({
     required this.quantity,
@@ -32,7 +33,6 @@ class ReservationDetails {
       'phoneNumber': phoneNumber,
       'farmerAddress': farmerAddress,
       'status': 'pending',
-      'date': (DateTime.now()),
       'requested date': date,
       'totalPrice': totalPrice,
     };

@@ -1,4 +1,5 @@
 import 'package:dec_app/Pages/Farmer/orderWaiting.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../Firestore/Reservation.dart';
@@ -11,14 +12,17 @@ class SendRequestPage extends StatefulWidget {
   final String price;
   final String phoneNo;
   final String sellerId;
+  final String productId;
 
-  const SendRequestPage({super.key,
+  const SendRequestPage({
+    super.key,
     required this.shopName,
     required this.ownerName,
     required this.shopNumber,
     required this.price,
     required this.phoneNo,
     required this.sellerId,
+    required this.productId,
   });
 
   @override
@@ -28,13 +32,14 @@ class SendRequestPage extends StatefulWidget {
 class _SendRequestPageState extends State<SendRequestPage> {
   TextEditingController dateController = TextEditingController();
   TextEditingController quantityController = TextEditingController();
-  TextEditingController itemController = TextEditingController();
+  TextEditingController farmerNameController = TextEditingController();
   TextEditingController contactController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController sellerController = TextEditingController();
 
   final String productID = 'බෝංචි';
   final String farmerID = 'ef342efxs';
+  User? user = FirebaseAuth.instance.currentUser;
 
   double? totalPrice;
 
@@ -160,6 +165,12 @@ class _SendRequestPageState extends State<SendRequestPage> {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
+                        // buildDateField(context),
+                        // SizedBox(height: 12),
+                        // buildQuantityField(
+                        //   'ලබාදෙන ප්‍රමාණය',
+                        //   quantityController,
+                        // ),
                         buildDateField(context),
                         SizedBox(height: 12),
                         buildQuantityField(
@@ -167,14 +178,13 @@ class _SendRequestPageState extends State<SendRequestPage> {
                           quantityController,
                         ),
                         SizedBox(height: 12),
-                        buildTextField('නම', itemController),
+                        buildTextField('නම', farmerNameController),
                         SizedBox(height: 12),
                         buildTextField('දුරකථන අංකය', contactController),
                         SizedBox(height: 12),
                         buildTextField('ලිපිනය', addressController),
                         SizedBox(height: 16),
-                        buildTextField('Seller ID', sellerController),
-                        SizedBox(height: 16),
+
                         Text(
                           totalPrice != null
                               ? 'ලැබෙන මුළු මුදල රු.${totalPrice!.toStringAsFixed(2)}'
@@ -193,13 +203,13 @@ class _SendRequestPageState extends State<SendRequestPage> {
                               ReservationDetails(
                                 quantity: int.parse(quantityController.text),
                                 sellerID: sellerController.text,
-                                farmerName: itemController.text,
+                                farmerName: farmerNameController.text,
                                 phoneNumber: int.parse(contactController.text),
                                 farmerAddress: addressController.text,
-                                productID: productID,
-                                farmerID: farmerID,
-                                date: dateController.text,
-                                totalPrice: totalPrice
+                                productID: widget.productId,
+                                farmerID: user!.uid,
+                                date: DateTime.parse(dateController.text),
+                                totalPrice: totalPrice,
                               ),
                             );
                             Navigator.push(
@@ -287,7 +297,7 @@ class _SendRequestPageState extends State<SendRequestPage> {
         );
 
         if (pickedDate != null) {
-          final formatted = DateFormat('MM/dd/yyyy').format(pickedDate);
+          final formatted = DateFormat('yyyy-MM-dd').format(pickedDate);
           dateController.text = formatted;
         }
       },

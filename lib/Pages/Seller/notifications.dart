@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../Components/productQuantityManager.dart';
@@ -15,6 +16,8 @@ class NotificationsFromFireStore extends StatefulWidget {
       _NotificationsFromFireStoreState();
 }
 
+User? user = FirebaseAuth.instance.currentUser;
+
 class _NotificationsFromFireStoreState
     extends State<NotificationsFromFireStore> {
   @override
@@ -27,7 +30,7 @@ class _NotificationsFromFireStoreState
 
   StreamBuilder<QuerySnapshot<Object?>> reservationRequests() {
     return StreamBuilder(
-      stream: ReservationCollection().getReservationRequests('21'),
+      stream: ReservationCollection().getReservationRequests(user!.uid),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return CircularProgressIndicator();
 
