@@ -1,7 +1,9 @@
 import 'package:dec_app/Pages/Farmer/orderWaiting.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../../Firestore/Reservation.dart';
 import '../../Firestore/setReservations.dart';
+import '../../Models/reservation_details.dart';
 
 class SendRequestPage extends StatefulWidget {
   final String shopName;
@@ -33,7 +35,7 @@ class _SendRequestPageState extends State<SendRequestPage> {
   TextEditingController sellerController = TextEditingController();
 
   final String productID = 'බෝංචි';
-  final int farmerID = 675678;
+  final String farmerID = 'ef342efxs';
 
   double? totalPrice;
 
@@ -104,27 +106,39 @@ class _SendRequestPageState extends State<SendRequestPage> {
                   children: [
                     Text(
                       widget.shopName,
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     SizedBox(height: 16),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('හිමිකරු:', style: TextStyle(fontWeight: FontWeight.w500)),
+                        Text(
+                          'හිමිකරු:',
+                          style: TextStyle(fontWeight: FontWeight.w500),
+                        ),
                         Text(widget.ownerName),
                       ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('කඩ අංකය:', style: TextStyle(fontWeight: FontWeight.w500)),
+                        Text(
+                          'කඩ අංකය:',
+                          style: TextStyle(fontWeight: FontWeight.w500),
+                        ),
                         Text(widget.shopNumber),
                       ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('දුරකථන අංකය:', style: TextStyle(fontWeight: FontWeight.w500)),
+                        Text(
+                          'දුරකථන අංකය:',
+                          style: TextStyle(fontWeight: FontWeight.w500),
+                        ),
                         Text(widget.phoneNo),
                       ],
                     ),
@@ -149,7 +163,10 @@ class _SendRequestPageState extends State<SendRequestPage> {
                       children: [
                         buildDateField(context),
                         SizedBox(height: 12),
-                        buildQuantityField('ලබාදෙන ප්‍රමාණය', quantityController),
+                        buildQuantityField(
+                          'ලබාදෙන ප්‍රමාණය',
+                          quantityController,
+                        ),
                         SizedBox(height: 12),
                         buildTextField('නම', itemController),
                         SizedBox(height: 12),
@@ -172,23 +189,31 @@ class _SendRequestPageState extends State<SendRequestPage> {
                         SizedBox(height: 16),
                         ElevatedButton(
                           onPressed: () async {
-                            await SendReservation(
-                              quantity: int.parse(quantityController.text),
-                              sellerID: int.parse(sellerController.text),
-                              farmerName: itemController.text,
-                              phoneNumber: int.parse(contactController.text),
-                              farmerAddress: addressController.text,
-                              productID: productID,
-                              farmerID: farmerID,
-                            ).createReservation(context);
+                            await ReservationCollection().createReservation(
+                              context,
+                              ReservationDetails(
+                                quantity: int.parse(quantityController.text),
+                                sellerID: sellerController.text,
+                                farmerName: itemController.text,
+                                phoneNumber: int.parse(contactController.text),
+                                farmerAddress: addressController.text,
+                                productID: productID,
+                                farmerID: farmerID,
+                              ),
+                            );
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => OrderWaiting()),
+                              MaterialPageRoute(
+                                builder: (context) => OrderWaiting(),
+                              ),
                             );
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green,
-                            padding: EdgeInsets.symmetric(horizontal: 40, vertical: 14),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 40,
+                              vertical: 14,
+                            ),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
@@ -198,7 +223,6 @@ class _SendRequestPageState extends State<SendRequestPage> {
                             style: TextStyle(fontSize: 16, color: Colors.white),
                           ),
                         ),
-
                       ],
                     ),
                   ),
@@ -237,9 +261,10 @@ class _SendRequestPageState extends State<SendRequestPage> {
           borderSide: BorderSide(color: Colors.green),
         ),
       ),
-      keyboardType: label == 'Seller ID' || label == 'දුරකථන අංකය'
-          ? TextInputType.number
-          : TextInputType.text,
+      keyboardType:
+          label == 'Seller ID' || label == 'දුරකථන අංකය'
+              ? TextInputType.number
+              : TextInputType.text,
     );
   }
 
