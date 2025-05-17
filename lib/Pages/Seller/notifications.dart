@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../../Components/productQuantityManager.dart';
 import '../../Components/time_picker.dart';
 import '../../Components/time_switcher.dart';
 import '../../Firestore/getReservations.dart';
@@ -77,6 +78,9 @@ class _NotificationsFromFireStoreState
                             children: [
                               ElevatedButton(
                                 onPressed: () async {
+                                  int quantity = res['quantity'];
+                                  String productID = res['productID'];
+
                                   HiveArchive().addToHiveBoxFromForm(
                                     TimeSwitcher(
                                       pickedTime: await getPickedTime(context),
@@ -85,10 +89,11 @@ class _NotificationsFromFireStoreState
                                     res['farmerName'],
                                   );
 
-                                  UpdateOngoingOrder(
-                                    quantity: res['quantity'],
-                                    productID: res['productID'],
-                                  );
+                                  // UpdateOngoingOrder(
+                                  //   quantity: res['quantity'],
+                                  //   productID: res['productID'],
+                                  // );
+                                  ProductQuantityManager().updateFilledQuantity(productID, quantity);
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.green,
