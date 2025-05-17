@@ -7,6 +7,8 @@ import 'package:dec_app/Widgets/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'SellerLogin.dart';
+
 class Menu extends StatefulWidget {
   const Menu({super.key});
 
@@ -120,6 +122,27 @@ class _MenuState extends State<Menu> {
                     buildFontSizeCard(context),
                     const SizedBox(height: 32),
                     buildThemeToggle(isDark),
+                    const SizedBox(height: 32),
+                    ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                        backgroundColor: Colors.red,
+                        foregroundColor: Colors.white,
+                        textStyle: TextStyle(fontSize: 15),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      icon: Icon(Icons.logout, size: 28),
+                      label: Text('Logout'),
+                      onPressed: () async {
+                        await FirebaseAuth.instance.signOut();
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => SellerloginPage()),
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -315,6 +338,8 @@ class _MenuState extends State<Menu> {
           ),
         ),
       ],
+
     );
   }
+
 }
