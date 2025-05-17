@@ -1,7 +1,9 @@
 import 'package:dec_app/Pages/Farmer/orderWaiting.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../Firestore/setReservations.dart';
+
 
 class SendRequestPage extends StatefulWidget {
   final String shopName;
@@ -10,6 +12,7 @@ class SendRequestPage extends StatefulWidget {
   final String price;
   final String phoneNo;
   final String sellerId;
+  final String productId;
 
   SendRequestPage({
     required this.shopName,
@@ -18,6 +21,7 @@ class SendRequestPage extends StatefulWidget {
     required this.price,
     required this.phoneNo,
     required this.sellerId,
+    required this.productId
   });
 
   @override
@@ -27,21 +31,16 @@ class SendRequestPage extends StatefulWidget {
 class _SendRequestPageState extends State<SendRequestPage> {
   TextEditingController dateController = TextEditingController();
   TextEditingController quantityController = TextEditingController();
-  TextEditingController itemController = TextEditingController();
+  TextEditingController farmerNameController = TextEditingController();
   TextEditingController contactController = TextEditingController();
   TextEditingController addressController = TextEditingController();
-  TextEditingController sellerController = TextEditingController();
 
-  final String productID = 'බෝංචි';
-  final int farmerID = 675678;
-
+  User? user = FirebaseAuth.instance.currentUser;
   double? totalPrice;
 
   @override
   void initState() {
     super.initState();
-    sellerController.text = widget.sellerId;
-
     // Set initial total to unit price
     totalPrice = double.tryParse(widget.price);
 
@@ -151,14 +150,13 @@ class _SendRequestPageState extends State<SendRequestPage> {
                         SizedBox(height: 12),
                         buildQuantityField('ලබාදෙන ප්‍රමාණය', quantityController),
                         SizedBox(height: 12),
-                        buildTextField('නම', itemController),
+                        buildTextField('නම', farmerNameController),
                         SizedBox(height: 12),
                         buildTextField('දුරකථන අංකය', contactController),
                         SizedBox(height: 12),
                         buildTextField('ලිපිනය', addressController),
                         SizedBox(height: 16),
-                        buildTextField('Seller ID', sellerController),
-                        SizedBox(height: 16),
+
                         Text(
                           totalPrice != null
                               ? 'ලැබෙන මුළු මුදල රු.${totalPrice!.toStringAsFixed(2)}'
@@ -174,12 +172,14 @@ class _SendRequestPageState extends State<SendRequestPage> {
                           onPressed: () async {
                             await SendReservation(
                               quantity: int.parse(quantityController.text),
-                              sellerID: int.parse(sellerController.text),
-                              farmerName: itemController.text,
+                              farmerName: farmerNameController.text,
                               phoneNumber: int.parse(contactController.text),
                               farmerAddress: addressController.text,
-                              productID: productID,
-                              farmerID: farmerID,
+                              productID: widget.productId,
+                              farmerID: user!.uid,
+                              sellerID: widget.sellerId,
+                              totalPrice: totalPrice ?? 0.0,
+                              date: DateTime.parse(dateController.text),
                             ).createReservation(context);
                             Navigator.push(
                               context,
@@ -261,7 +261,7 @@ class _SendRequestPageState extends State<SendRequestPage> {
         );
 
         if (pickedDate != null) {
-          final formatted = DateFormat('MM/dd/yyyy').format(pickedDate);
+          final formatted = DateFormat('yyyy-MM-dd').format(pickedDate);
           dateController.text = formatted;
         }
       },

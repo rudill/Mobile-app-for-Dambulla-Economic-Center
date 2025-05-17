@@ -1,10 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../Models/product_model.dart';
 
 class Database{
   final String collectionName ='Product';
+  User? user = FirebaseAuth.instance.currentUser;
+
 
   Future <void> addProduct(Map<String,dynamic> productdetails, BuildContext context )async{
     try{
@@ -60,7 +63,7 @@ class Database{
 
   Stream<List<Product>> productDetails() {
     return FirebaseFirestore.instance
-        .collection(collectionName)
+        .collection(collectionName).where('sellerID', isEqualTo: user!.uid)
         .snapshots().map((snapshot) {
       return snapshot.docs.map((doc) {
         return Product.fromMap(doc.data() as Map<String, dynamic>, doc.id);

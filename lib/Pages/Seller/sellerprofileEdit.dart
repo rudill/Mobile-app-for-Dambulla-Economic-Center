@@ -39,7 +39,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
 
         nameController.text = data['FullName'] ?? '';
         shopNameController.text = data['ShopName'] ?? '';
-        phoneController.text = data['Phno'] ?? '';
+        phoneController.text = data['PhoneNo'] ?? '';
         regNumberController.text = data['ShopReg'] ?? '';
       }
     } catch (e) {
@@ -56,7 +56,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
       await FirebaseFirestore.instance.collection('SellerReg').doc(documentId!).update({
         'FullName': nameController.text,
         'ShopName': shopNameController.text,
-        'Phno': phoneController.text,
+        'PhoneNo': phoneController.text,
         'ShopReg': regNumberController.text,
       });
 
