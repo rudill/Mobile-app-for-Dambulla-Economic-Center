@@ -6,7 +6,7 @@ import '../../Components/productQuantityManager.dart';
 import '../../Components/time_picker.dart';
 import '../../Components/time_switcher.dart';
 import '../../Firestore/Reservation.dart';
-import '../../Hive/HiveBase.dart';
+import '../../Models/hive_reservation_data.dart';
 
 class NotificationsFromFireStore extends StatefulWidget {
   const NotificationsFromFireStore({super.key});
@@ -78,13 +78,34 @@ class _NotificationsFromFireStoreState
                                   int quantity = res['quantity'];
                                   String productID = res['productID'];
 
-                                  HiveArchive().addToHiveBoxFromForm(
-                                    TimeSwitcher(
-                                      pickedTime: await getPickedTime(context),
-                                    ).switchTimeToTimeSlot(),
+                                  // HiveArchive().addToHiveBoxFromForm(
 
-                                    res['farmerName'],
-                                  );
+                                  //
+                                  //   res['farmerName'],
+                                  // );
+
+                                  HiveReservationData(
+                                    index:
+                                        TimeSwitcher(
+                                          pickedTime: await getPickedTime(
+                                            context,
+                                          ),
+                                        ).switchTimeToTimeSlot(),
+                                    id: res['id'],
+                                    quantity: res['quantity'],
+                                    sellerID: res['sellerID'],
+                                    farmerName: res['farmerName'],
+                                    phoneNumber: res['phoneNumber'],
+                                    farmerAddress: res['farmerAddress'],
+                                    productID: res['productID'],
+                                    farmerID: res['farmerID'],
+                                    date:
+                                        (res['requested date'] as Timestamp)
+                                            .toDate(),
+                                    totalPrice: res['totalPrice'],
+                                    status: res['status'],
+                                  ).addToReservationHiveBox();
+
                                   await ReservationCollection()
                                       .updateReservationStatus(res['id']);
 

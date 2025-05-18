@@ -14,6 +14,7 @@ void main() async {
   final dir = await getApplicationDocumentsDirectory();
   Hive.init(dir.path);
   await Hive.openBox('myBox');
+  await Hive.openBox('reservations');
 
   runApp(const Home());
 }

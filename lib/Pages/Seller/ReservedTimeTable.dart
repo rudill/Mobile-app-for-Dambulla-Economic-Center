@@ -90,6 +90,10 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
                   itemCount: halfItemCount,
                   controller: _scrollController,
                   itemBuilder: (BuildContext context, index) {
+                    final reservation = HiveArchive().getReservationDetails(
+                      index,
+                    );
+
                     return Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -100,13 +104,13 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
                             child: GestureDetector(
                               child: ListTile(
                                 tileColor: HiveArchive().addColorToCells(index),
-                                title: Text(HiveArchive().returnName(index)),
+                                title: Text(reservation?['farmerName'] ?? ''),
                               ),
                               onTap: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => ReservationInfo(),
+                                    builder: (context) => ReservationInfo(index: index,),
                                   ),
                                 );
                               },
@@ -124,6 +128,11 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
                   controller: _scrollController,
                   itemBuilder: (BuildContext context, index) {
                     int actualIndex = index + halfItemCount;
+
+                    final reservation = HiveArchive().getReservationDetails(
+                      actualIndex,
+                    );
+
                     return Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -136,15 +145,13 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
                                 tileColor: HiveArchive().addColorToCells(
                                   actualIndex,
                                 ),
-                                title: Text(
-                                  HiveArchive().returnName(actualIndex),
-                                ),
+                                title: Text(reservation?['farmerName'] ?? ''),
                               ),
                               onTap: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => ReservationInfo(),
+                                    builder: (context) => ReservationInfo(index: actualIndex,),
                                   ),
                                 );
                               },
