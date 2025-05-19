@@ -62,7 +62,7 @@ class FarmerReg extends StatelessWidget {
                 ),
                 SizedBox(height: 5),
 
-                // First Name (Translated)
+                // First Name
                 FutureBuilder<String>(
                   future: translator.translate('මුල් නම ඇතුලත් කරන්න'),
                   builder: (context, snapshot) {
@@ -88,7 +88,7 @@ class FarmerReg extends StatelessWidget {
 
                 SizedBox(height: 15),
 
-                // Last Name (Translated)
+                // Last Name
                 FutureBuilder<String>(
                   future: translator.translate('වාසගම ඇතුලත් කරන්න'),
                   builder: (context, snapshot) {
@@ -114,7 +114,7 @@ class FarmerReg extends StatelessWidget {
 
                 SizedBox(height: 15),
 
-                // Phone Number (Translated)
+                // Phone Number
                 FutureBuilder<String>(
                   future: translator.translate('දුරකථන අංකය ඇතුලත් කරන්න.'),
                   builder: (context, snapshot) {
@@ -140,7 +140,7 @@ class FarmerReg extends StatelessWidget {
 
                 SizedBox(height: 15),
 
-                // NIC (Translated)
+                // NIC
                 FutureBuilder<String>(
                   future: translator.translate(
                     'ජාතික හැදුනුම්පත් අංකය ඇතුලත් කරන්න.',
@@ -169,7 +169,7 @@ class FarmerReg extends StatelessWidget {
 
                 SizedBox(height: 15),
 
-                // Email (Translated)
+                // Email
                 FutureBuilder<String>(
                   future: translator.translate(
                     'විද්‍යුත් ලිපිනය ඇතුලත් කරන්න.',
@@ -199,7 +199,7 @@ class FarmerReg extends StatelessWidget {
 
                 SizedBox(height: 15),
 
-                // Password (Translated)
+                // Password
                 FutureBuilder<String>(
                   future: translator.translate('නව මුරපදයක් ඇතුලත් කරන්න.'),
                   builder: (context, snapshot) {
@@ -224,7 +224,7 @@ class FarmerReg extends StatelessWidget {
 
                 SizedBox(height: 30),
 
-                // Submit Button
+                // Submit
                 SizedBox(
                   width: double.infinity,
                   height: 50,
@@ -264,8 +264,7 @@ class FarmerReg extends StatelessWidget {
                                       Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
-                                          builder:
-                                              (context) => LoginPage(),
+                                          builder: (context) => LoginPage(),
                                         ),
                                       );
                                     },

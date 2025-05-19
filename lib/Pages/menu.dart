@@ -1,4 +1,3 @@
-
 import 'package:dec_app/Pages/Seller/sallerHome.dart';
 import 'package:dec_app/Pages/Seller/sellerprofileEdit.dart';
 import 'package:dec_app/Pages/technicalhelp.dart';
@@ -6,11 +5,11 @@ import 'package:dec_app/Widgets/font_size_controller.dart';
 import 'package:dec_app/Widgets/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:dec_app/Azure_Translation/translatable_text.dart';
 
 import '../Firestore/auth_service.dart';
 import 'Farmer/farmerprofileEdit.dart';
 import 'LoginPage.dart';
-
 
 class Menu extends StatefulWidget {
   const Menu({super.key});
@@ -59,7 +58,9 @@ class _MenuState extends State<Menu> {
               valueListenable: FontSizeController.fontSize,
               builder: (context, fontSize, _) {
                 return MediaQuery(
-                  data: MediaQuery.of(context).copyWith(textScaleFactor: fontSize),
+                  data: MediaQuery.of(
+                    context,
+                  ).copyWith(textScaleFactor: fontSize),
                   child: child ?? const SizedBox(),
                 );
               },
@@ -77,13 +78,20 @@ class _MenuState extends State<Menu> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.green.shade800,
                         foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(horizontal: 64, vertical: 14),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 64,
+                          vertical: 14,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                         elevation: 4,
                       ),
-                      onPressed: () async{
+                      onPressed: () async {
                         if (user != null) {
-                          var userDoc = await _authService.getUserData(user!.uid);
+                          var userDoc = await _authService.getUserData(
+                            user!.uid,
+                          );
                           if (userDoc.exists) {
                             Navigator.pop(context);
                             if (userDoc['role'] == 'farmer') {
@@ -105,25 +113,38 @@ class _MenuState extends State<Menu> {
                         }
                       },
                       icon: const Icon(Icons.edit),
-                      label: const Text('තොරතුරු වෙනස් කිරිම', style: TextStyle(fontSize: 16)),
+                      label: const TranslatableText(
+                        'තොරතුරු වෙනස් කිරිම',
+                        style: TextStyle(fontSize: 16),
+                      ),
                     ),
                     const SizedBox(height: 16),
                     ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.green.shade800,
                         foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(horizontal: 84, vertical: 14),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 84,
+                          vertical: 14,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                         elevation: 4,
                       ),
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => TechnicalHelpPage()),
+                          MaterialPageRoute(
+                            builder: (context) => TechnicalHelpPage(),
+                          ),
                         );
                       },
                       icon: const Icon(Icons.settings),
-                      label: const Text('තාක්ෂණික සහාය', style: TextStyle(fontSize: 16)),
+                      label: const TranslatableText(
+                        'තාක්ෂණික සහාය',
+                        style: TextStyle(fontSize: 16),
+                      ),
                     ),
                     const SizedBox(height: 16),
                     buildFontSizeCard(context),
@@ -132,7 +153,10 @@ class _MenuState extends State<Menu> {
                     const SizedBox(height: 32),
                     ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 15,
+                          vertical: 8,
+                        ),
                         backgroundColor: Colors.red,
                         foregroundColor: Colors.white,
                         textStyle: TextStyle(fontSize: 15),
@@ -168,10 +192,7 @@ class _MenuState extends State<Menu> {
         color: Theme.of(context).focusColor,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
-          BoxShadow(
-            blurRadius: 5,
-            color: Colors.black26.withOpacity(0.1),
-          ),
+          BoxShadow(blurRadius: 5, color: Colors.black26.withOpacity(0.1)),
         ],
       ),
       child: Stack(
@@ -238,9 +259,7 @@ class _MenuState extends State<Menu> {
         decoration: BoxDecoration(
           color: Colors.green.shade800,
           borderRadius: BorderRadius.circular(10),
-          boxShadow: const [
-            BoxShadow(blurRadius: 4, color: Colors.black26),
-          ],
+          boxShadow: const [BoxShadow(blurRadius: 4, color: Colors.black26)],
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -253,7 +272,7 @@ class _MenuState extends State<Menu> {
                   child: FittedBox(
                     fit: BoxFit.scaleDown,
                     alignment: Alignment.centerLeft,
-                    child: Text(
+                    child: TranslatableText(
                       'අකුරු ප්‍රමාණය වෙනස් කිරීම',
                       style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
@@ -280,7 +299,10 @@ class _MenuState extends State<Menu> {
                     builder: (context, fontSize, _) {
                       return Text(
                         '${(fontSize * 100).toInt()}%',
-                        style: const TextStyle(fontSize: 16, color: Colors.black),
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                        ),
                         textScaleFactor: 1.0,
                       );
                     },
@@ -303,8 +325,10 @@ class _MenuState extends State<Menu> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('වරණ පරිපාලනය',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        const TranslatableText(
+          'වර්ණ තේමාව',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 8),
         Container(
           width: 330,
@@ -320,7 +344,10 @@ class _MenuState extends State<Menu> {
                 children: [
                   Icon(Icons.light_mode),
                   SizedBox(width: 4),
-                  Text("ආලෝකය", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                  TranslatableText(
+                    "ආලෝකය",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
                 ],
               ),
               Switch(
@@ -333,15 +360,16 @@ class _MenuState extends State<Menu> {
                 children: [
                   Icon(Icons.dark_mode),
                   SizedBox(width: 4),
-                  Text("අඳුරු", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                  TranslatableText(
+                    "අඳුරු",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
                 ],
               ),
             ],
           ),
         ),
       ],
-
     );
   }
-
 }
