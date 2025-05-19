@@ -1,6 +1,8 @@
+
+import 'package:dec_app/Pages/Farmer/menuf.dart';
 import 'package:dec_app/Pages/Farmer/orderWaiting.dart';
 import 'package:dec_app/Pages/Selection_Page.dart';
-import 'package:dec_app/Pages/menu.dart';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -25,7 +27,6 @@ class FarmerHomePage extends StatelessWidget {
 
   FarmerHomePage({super.key, required this.userId});
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,30 +35,17 @@ class FarmerHomePage extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: Builder(
-          builder:
-              (context) => IconButton(
-                icon: const Icon(Icons.menu, color: Colors.green),
-                onPressed: () => Scaffold.of(context).openDrawer(),
-              ),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Menu()),
-                );
-              },
-              customBorder: const CircleBorder(),
-              child: CircleAvatar(
-                backgroundColor: Colors.green.shade100,
-                child: const Icon(Icons.person, color: Colors.green),
-              ),
-            ),
+          builder: (context) => IconButton(
+            icon: const Icon(Icons.menu, color: Colors.green),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Menuf()),
+              );
+            },
           ),
-        ],
+        ),
+
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -96,7 +84,7 @@ class FarmerHomePage extends StatelessWidget {
                   ),
                 ),
                 child: const Text(
-                  'මිල දර්ශනය',
+                  'මිල දර්ශනය ',
                   style: TextStyle(fontSize: 20, color: Colors.white),
                 ),
               ),
@@ -124,29 +112,7 @@ class FarmerHomePage extends StatelessWidget {
                 ),
               ),
             ),
-            //Faraz's Code Part**********************************
-            const SizedBox(height: 30),
-            ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                backgroundColor: Colors.red,
-                foregroundColor: Colors.white,
-                textStyle: TextStyle(fontSize: 18),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              icon: Icon(Icons.logout, size: 28),
-              label: Text('Logout'),
-              onPressed: () async {
-                await FirebaseAuth.instance.signOut();
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginPage()),
-                );
-              },
-            ),
-            //Faraz Code Part*****************************************
+
             const Spacer(),
             Image.asset('assets/images/help.png'),
           ],

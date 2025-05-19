@@ -42,7 +42,7 @@ class OrderWaitingData {
         if (sellerDoc.exists) {
           combinedData.add({
             'shopName': sellerData?['ShopName'] ?? '',
-            'phoneNo': sellerData?['Phno'] ?? '',
+            'phoneNo': sellerData?['PhoneNo'] ?? '',
             'shopNo': productData?['shopNo'] ?? '',
             'productName': productData?['name'],
             'quantity': orderData['quantity'],

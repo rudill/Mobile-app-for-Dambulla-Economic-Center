@@ -134,6 +134,7 @@ class SellerloginPage extends StatelessWidget {
                             await sellerService.signOut();
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text('ඔබට විකුණුම් ගිණුමට පිවිසුමට ප්‍රවේශ විය නොහැක.')),
+
                             );
                           }
                         }

@@ -1,16 +1,17 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../Firestore/reservationStatus.dart';
 
 class OrderWaiting extends StatefulWidget {
-  const OrderWaiting({Key? key}) : super(key: key);
+  const OrderWaiting({super.key});
 
   @override
   State<OrderWaiting> createState() => _OrderWaitingState();
 }
 
 class _OrderWaitingState extends State<OrderWaiting> {
-  String Famerid = 'bCjtxwrokC3LyYHoNOGy';
 
+  User? user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +20,7 @@ class _OrderWaitingState extends State<OrderWaiting> {
         child: Column(
           children: [
             StreamBuilder<List<Map<String, dynamic>>>(
-              stream: OrderWaitingData().getOrderWaitingData(Famerid),
+              stream: OrderWaitingData().getOrderWaitingData(user!.uid),
               builder: (context, snapshot) {
                 //below
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -36,7 +37,19 @@ class _OrderWaitingState extends State<OrderWaiting> {
                   return Text('Error: ${snapshot.error}');
                 }
                 if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return Text('No waiting orders.');
+                  return Center(
+
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 500,),
+                        Text(
+                          'කිසිදු ක්‍රියාකාරී ඇණවුමක් නැත',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ],
+                    ),
+                  );
                 }
                 return SizedBox(
                   height: 500,

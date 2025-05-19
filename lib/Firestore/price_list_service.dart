@@ -28,11 +28,12 @@ class PriceListService {
           combinedData.add({
           'shopName': sellerData?['ShopName'] ?? '',
           'ownerName': sellerData?['FullName'] ?? '',
-          'phoneNo':sellerData?['Phno']??'',
-          'sellerId':productData['sellerID'],
+          'phoneNo':sellerData?['PhoneNo']??'',
+          'sellerId':productData['sellerID']??'',
           'shopNumber': productData['shopNo'] ?? '',
           'weight': '${productData['quantity']?.toString() ?? ''} Kg',
           'price': productData['price']?.toString()??'',
+            'productId':productDoc.id,
           });
         }
       }

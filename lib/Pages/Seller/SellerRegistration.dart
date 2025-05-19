@@ -233,14 +233,14 @@ class SignUpScreen extends StatelessWidget {
                           await user!.reload();
                           user = auth.currentUser;
 
-                          CollectionReference collRef = FirebaseFirestore
-                              .instance
-                              .collection("SellerReg");
-                          await collRef.add({
+                          await FirebaseFirestore.instance
+                              .collection('SellerReg')
+                              .doc(user!.uid)
+                              .set({
                             'Email': EmailController.text.trim(),
                             'FullName': FullNameController.text.trim(),
                             'NIC': NICController.text.trim(),
-                            'Phno': PhnoController.text.trim(),
+                            'PhoneNo': PhnoController.text.trim(),
                             'ShopName': ShopNameController.text.trim(),
                             'ShopReg': ShopRegNumController.text.trim(),
                           });

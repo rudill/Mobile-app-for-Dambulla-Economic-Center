@@ -46,8 +46,10 @@ Future<void> registerFarmer({
       await user.reload();
       user = auth.currentUser;
 
-      CollectionReference collRef = FirebaseFirestore.instance.collection("FramerReg");
-      await collRef.add({
+      await FirebaseFirestore.instance
+          .collection("FramerReg")
+          .doc(user!.uid)
+          .set({
         'Email': emailController.text.trim(),
         'First Name': fnameController.text.trim(),
         'Last Name': lnameController.text.trim(),
@@ -55,7 +57,8 @@ Future<void> registerFarmer({
         'Phone Number': phnoController.text.trim(),
       });
 
-      await FirebaseFirestore.instance.collection('Users').doc(user!.uid).set({
+
+      await FirebaseFirestore.instance.collection('Users').doc(user.uid).set({
         'email': emailController.text.trim(),
         'role': 'farmer',
       });

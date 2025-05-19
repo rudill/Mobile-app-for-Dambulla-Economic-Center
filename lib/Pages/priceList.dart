@@ -44,15 +44,16 @@ class PricePage extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder:
-                                (context) => SendRequestPage(
-                                  shopName: data['shopName'],
-                                  ownerName: data['ownerName'],
-                                  shopNumber: data['shopNumber'],
-                                  price: data['price'],
-                                  phoneNo: data['phoneNo'],
-                                  sellerId: data['sellerId']
-                                ),
+
+                            builder: (context) => SendRequestPage(
+                              shopName: data['shopName'],
+                              ownerName: data['ownerName'],
+                              shopNumber: data['shopNumber'],
+                              price: data['price'],
+                              phoneNo: data['phoneNo'],
+                              sellerId: data['sellerId'],
+                              productId:data['productId'],
+                            ),
                           ),
                         );
                       },
@@ -84,8 +85,8 @@ class PricePage extends StatelessWidget {
       String price,
       ) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(10),
@@ -94,7 +95,7 @@ class PricePage extends StatelessWidget {
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
             blurRadius: 10,
-            offset: Offset(0, 10),
+            offset: const Offset(0, 10),
           ),
         ],
       ),
@@ -106,7 +107,7 @@ class PricePage extends StatelessWidget {
               Expanded(
                 child: Text(
                   shopName,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
@@ -114,16 +115,16 @@ class PricePage extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                 decoration: BoxDecoration(
-                  color: Color(0xFF047333),
+                  color: const Color(0xFF047333),
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Text(
                   '$weight අවශ්‍යයි',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -132,7 +133,7 @@ class PricePage extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
@@ -142,17 +143,17 @@ class PricePage extends StatelessWidget {
                   children: [
                     Text(
                       ownerName,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         color: Colors.black,
                       ),
                       overflow: TextOverflow.ellipsis,
                     ),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     Text(
                       'කඩ අංකය : $shopNumber',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         color: Colors.black,
@@ -162,9 +163,9 @@ class PricePage extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(color: Colors.black),
@@ -173,13 +174,13 @@ class PricePage extends StatelessWidget {
                     BoxShadow(
                       color: Colors.black.withOpacity(0.1),
                       blurRadius: 10,
-                      offset: Offset(0, 6),
+                      offset: const Offset(0, 6),
                     ),
                   ],
                 ),
                 child: Column(
                   children: [
-                    Text(
+                    const Text(
                       'කිලෝවක මිළ.',
                       style: TextStyle(
                         fontSize: 12,
@@ -188,7 +189,7 @@ class PricePage extends StatelessWidget {
                     ),
                     Text(
                       'රු $price/-',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
                       ),
@@ -205,38 +206,33 @@ class PricePage extends StatelessWidget {
 }
 
 Widget _buildCustomAppBar(BuildContext context) {
-  return Container(
+  return SizedBox(
     height: 140,
     child: Stack(
       children: [
-        // Curved green background
         ClipPath(
           clipper: CurvedBottomClipper(),
           child: Container(
             height: 140,
-            color: Color(0xFF1B8E46), // Dark green color as in the image
+            color: const Color(0xFF1B8E46),
             width: double.infinity,
           ),
         ),
-        // Back button and title
         Positioned(
           top: 60,
           left: 10,
-          right: 0,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(
               children: [
-                // Back arrow button
                 GestureDetector(
                   onTap: () {
                     Navigator.pop(context);
                   },
-                  child: Icon(Icons.arrow_back, color: Colors.white, size: 32),
+                  child: const Icon(Icons.arrow_back, color: Colors.white, size: 32),
                 ),
-                SizedBox(width: 15),
-                // Title text
-                Text(
+                const SizedBox(width: 15),
+                const Text(
                   'වෙළඳපොළ මිල',
                   style: TextStyle(
                     fontSize: 28,
@@ -253,25 +249,19 @@ Widget _buildCustomAppBar(BuildContext context) {
   );
 }
 
-// Custom clipper to create the curved bottom effect for the app bar
 class CurvedBottomClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     final path = Path();
-    path.lineTo(-100, size.height - 40); // Start from bottom-left
-
-    // Create curved path
+    path.lineTo(-100, size.height - 40);
     path.quadraticBezierTo(
-      size.width / 2, // Control point x
-      size.height + 50, // Control point y
-      size.width, // End point x
-      size.height - 70, // End point y
+      size.width / 2,
+      size.height + 50,
+      size.width,
+      size.height - 70,
     );
-
-    // Complete the path
     path.lineTo(size.width, 0);
     path.close();
-
     return path;
   }
 
