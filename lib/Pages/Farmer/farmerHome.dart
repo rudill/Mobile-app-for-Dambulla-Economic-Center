@@ -1,12 +1,9 @@
-import 'package:dec_app/Pages/Farmer/menuf.dart';
 import 'package:dec_app/Pages/Farmer/orderWaiting.dart';
 import 'package:dec_app/Pages/Selection_Page.dart';
-import 'package:dec_app/Azure_Translation/translatable_text.dart';
 
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
-import 'FaramerLogin.dart';
+import '../menu.dart';
 
 class FarmerApp extends StatelessWidget {
   const FarmerApp({super.key});
@@ -16,16 +13,14 @@ class FarmerApp extends StatelessWidget {
     return MaterialApp(
       title: 'Farmer Home',
       theme: ThemeData(primarySwatch: Colors.green),
-      home: FarmerHomePage(userId: 'userId'),
-      debugShowCheckedModeBanner: false,
+      home: FarmerHomePage(),
     );
   }
 }
 
 class FarmerHomePage extends StatelessWidget {
-  final String userId;
 
-  FarmerHomePage({super.key, required this.userId});
+  FarmerHomePage({super.key,});
 
   @override
   Widget build(BuildContext context) {
@@ -35,17 +30,17 @@ class FarmerHomePage extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: Builder(
-          builder:
-              (context) => IconButton(
-                icon: const Icon(Icons.menu, color: Colors.green),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Menuf()),
-                  );
-                },
-              ),
+          builder: (context) => IconButton(
+            icon: const Icon(Icons.menu, color: Colors.green),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Menu()),
+              );
+            },
+          ),
         ),
+
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -83,8 +78,8 @@ class FarmerHomePage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
-                child: const TranslatableText(
-                  'මිල දර්ශනය',
+                child: const Text(
+                  'මිල දර්ශනය ',
                   style: TextStyle(fontSize: 20, color: Colors.white),
                 ),
               ),
@@ -106,8 +101,8 @@ class FarmerHomePage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
-                child: const TranslatableText(
-                  'වෙන් කරන ලද වේලාවන්',
+                child: const Text(
+                  'වෙන් කළ කාලය',
                   style: TextStyle(fontSize: 20, color: Colors.white),
                 ),
               ),

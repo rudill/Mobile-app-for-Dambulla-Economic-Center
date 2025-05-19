@@ -1,4 +1,5 @@
 import 'package:dec_app/Pages/Farmer/FarmerRegistation.dart';
+import 'package:dec_app/Pages/Seller/SellerRegistration.dart';
 import 'package:flutter/material.dart';
 import 'package:dec_app/Azure_Translation/translatable_text.dart';
 
@@ -113,7 +114,7 @@ class _PersonState extends State<Person> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Farmerregistration(),
+                                  builder: (context) => SellerRegistration(),
                                 ),
                               );
                             },

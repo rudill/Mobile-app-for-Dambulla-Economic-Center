@@ -2,17 +2,14 @@ import 'package:dec_app/Pages/Seller/OngoingOrders.dart';
 import 'package:dec_app/Pages/Seller/ProductSubmitionForm.dart';
 import 'package:dec_app/Pages/Seller/ReservedTimeTable.dart';
 import 'package:dec_app/Pages/Selection_Page.dart';
-import 'package:dec_app/Pages/Seller/menu.dart';
+import 'package:dec_app/Pages/menu.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 
-class sallerApp extends StatelessWidget {
-  final String userId;
-  sallerApp({super.key, required this.userId});
 
-  FirebaseAuth auth = FirebaseAuth.instance;
-  User? user;
+class SellerHome extends StatelessWidget {
+
+  SellerHome({super.key,});
 
   @override
   Widget build(BuildContext context) {
