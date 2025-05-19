@@ -1,8 +1,11 @@
 import 'package:dec_app/Pages/Farmer/FaramerLogin.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 import '../../Firestore/FamerReg.dart';
 import 'farmerHome.dart';
+import 'package:dec_app/Azure_Translation/translation_provider.dart';
+import 'package:dec_app/Azure_Translation/translatable_text.dart';
 
 class Farmerregistration extends StatelessWidget {
   @override
@@ -36,7 +39,7 @@ class FarmerReg extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
+                TranslatableText(
                   'ගොවි මහතෙකු ලෙස ලියාපදිංචිය.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -48,7 +51,7 @@ class FarmerReg extends StatelessWidget {
                 SizedBox(height: 5),
                 Image.asset('assets/images/signup_image.png', height: 150),
                 SizedBox(height: 30),
-                Text(
+                TranslatableText(
                   'ඔබගේ තොරතුරු ලබා දෙන්න.',
                   style: TextStyle(
                     fontSize: 24,
@@ -57,24 +60,36 @@ class FarmerReg extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 5),
+
                 //First Name Section--------------------------------------------(1)
-                TextFormField(
-                  controller: FnameController,
-                  decoration: InputDecoration(
-                    labelText: 'මුල් නම ඇතුලත් කරන්න.',
-                    border: OutlineInputBorder(),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'මුල් නම ඇතුලත් කිරීම අනිවාර්ය වේ!';
-                    } else if (value.length > 30) {
-                      return 'මුල් නම අක්ෂර 30කට වඩා වැඩි විය නොහැක!';
-                    } else if (RegExp(r'[^a-zA-Z\s]').hasMatch(value)) {
-                      return 'මුල් නම තුළ අංක සහ විශේෂ ලක්ෂණ අඩංගු විය නොහැක!';
-                    }
-                    return null;
+                FutureBuilder<String>(
+                  future: Provider.of<TranslationProvider>(
+                    context,
+                    listen: false,
+                  ).translate('මුල් නම ඇතුලත් කරන්න'),
+                  builder: (context, labelSnapshot) {
+                    return TextFormField(
+                      controller: FnameController,
+                      decoration: InputDecoration(
+                        labelText:
+                            labelSnapshot.data ?? 'මුල් නම ඇතුලත් කරන්න.',
+                        border: OutlineInputBorder(),
+                      ),
+
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'මුල් නම ඇතුලත් කිරීම අනිවාර්ය වේ!';
+                        } else if (value.length > 30) {
+                          return 'මුල් නම අක්ෂර 30කට වඩා වැඩි විය නොහැක!';
+                        } else if (RegExp(r'[^a-zA-Z\s]').hasMatch(value)) {
+                          return 'මුල් නම තුළ අංක සහ විශේෂ ලක්ෂණ අඩංගු විය නොහැක!';
+                        }
+                        return null;
+                      },
+                    );
                   },
                 ),
+
                 SizedBox(height: 15),
                 //Last Name Section---------------------------------------------(2)
                 TextFormField(
@@ -199,13 +214,18 @@ class FarmerReg extends StatelessWidget {
                                 content: Text("ඔබේ දත්ත සාර්ථකව උඩුගත විය."),
                                 actions: [
                                   TextButton(
-                                    style: TextButton.styleFrom(foregroundColor: Colors.green),
+                                    style: TextButton.styleFrom(
+                                      foregroundColor: Colors.green,
+                                    ),
                                     child: Text("හරි"),
                                     onPressed: () {
                                       Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => FarmerHomePage(userId: userId),
+                                          builder:
+                                              (context) => FarmerHomePage(
+                                                userId: userId,
+                                              ),
                                         ),
                                       );
                                     },
