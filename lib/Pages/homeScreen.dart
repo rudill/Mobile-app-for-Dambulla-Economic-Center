@@ -1,9 +1,7 @@
-
 import 'package:dec_app/Pages/LoginPage.dart';
 import 'package:dec_app/Pages/Farmer/FarmerRegistation.dart';
 import 'package:dec_app/Pages/Farmer/orderWaiting.dart';
 import 'package:dec_app/Pages/Seller/SellerRegistration.dart';
-
 
 import 'package:flutter/material.dart';
 import 'package:dec_app/Pages/landing.dart';
@@ -20,7 +18,7 @@ class HomeScreen extends StatelessWidget {
           children: [
             Align(
               alignment: Alignment.center,
-        
+
               child: Column(
                 children: [
                   ElevatedButton(
@@ -32,7 +30,7 @@ class HomeScreen extends StatelessWidget {
                     },
                     child: Text("Welcome Page"),
                   ),
-        
+
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -44,7 +42,7 @@ class HomeScreen extends StatelessWidget {
                     },
                     child: Text("Famer Register Form"),
                   ),
-        
+
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -56,7 +54,7 @@ class HomeScreen extends StatelessWidget {
                     },
                     child: Text("Seller Register Form"),
                   ),
-        
+
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -67,7 +65,6 @@ class HomeScreen extends StatelessWidget {
                     child: Text("Login Page"),
                   ),
 
-        
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -77,7 +74,6 @@ class HomeScreen extends StatelessWidget {
                     },
                     child: Text("Order Waiting"),
                   ),
-
                 ],
               ),
             ),
