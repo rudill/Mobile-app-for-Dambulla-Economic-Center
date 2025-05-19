@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ProfileEditPage extends StatefulWidget {
-  final String fullName; // Passed from Menu page
-  const ProfileEditPage({super.key, required this.fullName});
+  const ProfileEditPage({super.key });
 
   @override
   State<ProfileEditPage> createState() => _ProfileEditPageState();
@@ -17,6 +17,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
 
   bool isLoading = true;
   String? documentId;
+  User? user = FirebaseAuth.instance.currentUser;
 
   @override
   void initState() {
@@ -28,7 +29,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
     try {
       final snapshot = await FirebaseFirestore.instance
           .collection('SellerReg')
-          .where('FullName', isEqualTo: widget.fullName)
+          .where(FieldPath.documentId, isEqualTo:user!.uid )
           .limit(5)
           .get();
 
@@ -117,7 +118,16 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
               onPressed: updateSellerData,
               child: const Text('තහවුරු කරන්න', style: TextStyle(fontSize: 20)),
             ),
+
+            const SizedBox(height: 15),
+            TextButton.icon(
+              onPressed: () => Navigator.pop(context),
+              icon: const Icon(Icons.arrow_back),
+              label: const Text('ආපසු'),
+              style: TextButton.styleFrom(foregroundColor: Colors.black),
+            ),
           ],
+
         ),
       ),
     );

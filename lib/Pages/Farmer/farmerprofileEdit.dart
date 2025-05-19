@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class FarmerProfileEditPage extends StatefulWidget {
-  final String fname;
 
-  const FarmerProfileEditPage({super.key, required this.fname});
+
+  const FarmerProfileEditPage({super.key});
 
   @override
   State<FarmerProfileEditPage> createState() => _FarmerProfileEditPageState();
@@ -17,6 +18,7 @@ class _FarmerProfileEditPageState extends State<FarmerProfileEditPage> {
 
   String? documentId;
   bool isLoading = true;
+  User? user = FirebaseAuth.instance.currentUser;
 
   @override
   void initState() {
@@ -28,7 +30,7 @@ class _FarmerProfileEditPageState extends State<FarmerProfileEditPage> {
     try {
       final snapshot = await FirebaseFirestore.instance
           .collection('FramerReg')
-          .where('First Name', isEqualTo: widget.fname)
+          .where(FieldPath.documentId, isEqualTo: user!.uid)
           .get();
 
       if (snapshot.docs.isNotEmpty) {

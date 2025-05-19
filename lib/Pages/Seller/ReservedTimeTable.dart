@@ -1,8 +1,8 @@
 import 'package:dec_app/Hive/HiveBase.dart';
+import 'package:dec_app/Pages/Seller/reservation_info.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../Hive/add_to_hive.dart';
 import 'notifications.dart';
 
 class ReservedTimeSlots extends StatefulWidget {
@@ -62,15 +62,6 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
             mainAxisSize: MainAxisSize.min,
             children: [
               ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HiveForm()),
-                  );
-                },
-                child: Text('Add New Entry To Table'),
-              ),
-              ElevatedButton(
                 onPressed: HiveArchive().clearHiveBox,
                 child: Text('Clear Table'),
               ),
@@ -99,6 +90,10 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
                   itemCount: halfItemCount,
                   controller: _scrollController,
                   itemBuilder: (BuildContext context, index) {
+                    final reservation = HiveArchive().getReservationDetails(
+                      index,
+                    );
+
                     return Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -106,9 +101,19 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
                         Expanded(
                           child: Padding(
                             padding: EdgeInsets.all(8.0),
-                            child: ListTile(
-                              tileColor: HiveArchive().addColorToCells(index),
-                              title: Text(HiveArchive().returnName(index)),
+                            child: GestureDetector(
+                              child: ListTile(
+                                tileColor: HiveArchive().addColorToCells(index),
+                                title: Text(reservation?['farmerName'] ?? ''),
+                              ),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ReservationInfo(index: index,),
+                                  ),
+                                );
+                              },
                             ),
                           ),
                         ),
@@ -123,6 +128,11 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
                   controller: _scrollController,
                   itemBuilder: (BuildContext context, index) {
                     int actualIndex = index + halfItemCount;
+
+                    final reservation = HiveArchive().getReservationDetails(
+                      actualIndex,
+                    );
+
                     return Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -130,13 +140,21 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
                         Expanded(
                           child: Padding(
                             padding: EdgeInsets.all(8.0),
-                            child: ListTile(
-                              tileColor: HiveArchive().addColorToCells(
-                                actualIndex,
+                            child: GestureDetector(
+                              child: ListTile(
+                                tileColor: HiveArchive().addColorToCells(
+                                  actualIndex,
+                                ),
+                                title: Text(reservation?['farmerName'] ?? ''),
                               ),
-                              title: Text(
-                                HiveArchive().returnName(actualIndex),
-                              ),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ReservationInfo(index: actualIndex,),
+                                  ),
+                                );
+                              },
                             ),
                           ),
                         ),
