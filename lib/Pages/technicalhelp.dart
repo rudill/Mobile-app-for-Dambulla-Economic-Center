@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'Seller/menu.dart';
+import 'package:dec_app/Azure_Translation/translatable_text.dart';
 
 class TechnicalHelpPage extends StatelessWidget {
   const TechnicalHelpPage({super.key});
@@ -12,7 +13,11 @@ class TechnicalHelpPage extends StatelessWidget {
           children: [
             // Back button
             Padding(
-              padding: const EdgeInsets.only(left: 16.0, top: 24.0, bottom: 8.0),
+              padding: const EdgeInsets.only(
+                left: 16.0,
+                top: 24.0,
+                bottom: 8.0,
+              ),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: GestureDetector(
@@ -27,10 +32,7 @@ class TechnicalHelpPage extends StatelessWidget {
                     children: [
                       Icon(Icons.arrow_back, color: Colors.black),
                       SizedBox(width: 6),
-                      Text(
-                        'ආපසු',
-                        style: TextStyle(fontSize: 16),
-                      ),
+                      TranslatableText('ආපසු', style: TextStyle(fontSize: 16)),
                     ],
                   ),
                 ),
@@ -51,7 +53,7 @@ class TechnicalHelpPage extends StatelessWidget {
                   children: [
                     Icon(Icons.settings, color: Colors.white),
                     SizedBox(width: 8),
-                    Text(
+                    TranslatableText(
                       'තාක්ෂණික සහාය',
                       style: TextStyle(
                         color: Colors.white,
@@ -72,14 +74,14 @@ class TechnicalHelpPage extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
+                      TranslatableText(
                         'යෙදුම භාවිතා කරන අතරතුර ඔබට\n'
-                            'කිසියම් ගැටළුවක් ඇති වුවහොත්,\n'
-                            'ඔබට සහාය වීමට අපගේ තාක්ෂණික\n'
-                            'සහාය කණ්ඩායම මෙහි සිටී. අප හා\n'
-                            'සම්බන්ධ වන්න, අපි ඔබේ ගැටලුව\n'
-                            'හැකි ඉක්මනින් විසඳා ගැනීමට උදව්\n'
-                            'කරන්නෙමු.',
+                        'කිසියම් ගැටළුවක් ඇති වුවහොත්,\n'
+                        'ඔබට සහාය වීමට අපගේ තාක්ෂණික\n'
+                        'සහාය කණ්ඩායම මෙහි සිටී. අප හා\n'
+                        'සම්බන්ධ වන්න, අපි ඔබේ ගැටලුව\n'
+                        'හැකි ඉක්මනින් විසඳා ගැනීමට උදව්\n'
+                        'කරන්නෙමු.',
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 18, height: 1.6),
                       ),
@@ -89,7 +91,7 @@ class TechnicalHelpPage extends StatelessWidget {
                         children: [
                           Icon(Icons.phone, color: Colors.red),
                           SizedBox(width: 8),
-                          Text(
+                          TranslatableText(
                             'අප අමතන්න:',
                             style: TextStyle(
                               fontSize: 16,
@@ -99,8 +101,20 @@ class TechnicalHelpPage extends StatelessWidget {
                         ],
                       ),
                       SizedBox(height: 8),
-                      Text('+94 77 123 4567', style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold)),
-                      Text('+94 76 987 6543', style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold)),
+                      Text(
+                        '+94 77 123 4567',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        '+94 76 987 6543',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ],
                   ),
                 ),

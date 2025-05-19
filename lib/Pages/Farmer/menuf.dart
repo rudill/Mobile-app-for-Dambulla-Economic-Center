@@ -6,6 +6,7 @@ import 'package:dec_app/Widgets/font_size_controller.dart';
 import 'package:dec_app/Widgets/theme_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:dec_app/Azure_Translation/translatable_text.dart';
 
 class Menuf extends StatefulWidget {
   const Menuf({super.key});
@@ -53,7 +54,9 @@ class _MenufState extends State<Menuf> {
               valueListenable: FontSizeController.fontSize,
               builder: (context, fontSize, _) {
                 return MediaQuery(
-                  data: MediaQuery.of(context).copyWith(textScaleFactor: fontSize),
+                  data: MediaQuery.of(
+                    context,
+                  ).copyWith(textScaleFactor: fontSize),
                   child: child!,
                 );
               },
@@ -74,8 +77,9 @@ class _MenufState extends State<Menuf> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  FarmerProfileEditPage(fname: farmerName!),
+                              builder:
+                                  (context) =>
+                                      FarmerProfileEditPage(fname: farmerName!),
                             ),
                           ).then((updatedName) {
                             if (updatedName != null && updatedName is String) {
@@ -86,12 +90,19 @@ class _MenufState extends State<Menuf> {
                           });
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('User name not available')),
+                            const SnackBar(
+                              content: TranslatableText(
+                                'User name not available',
+                              ),
+                            ),
                           );
                         }
                       },
                       icon: const Icon(Icons.edit),
-                      label: const Text('තොරතුරු වෙනස් කිරිම', style: TextStyle(fontSize: 16)),
+                      label: const TranslatableText(
+                        'තොරතුරු වෙනස් කිරිම',
+                        style: TextStyle(fontSize: 16),
+                      ),
                     ),
                     const SizedBox(height: 16),
                     ElevatedButton.icon(
@@ -99,11 +110,16 @@ class _MenufState extends State<Menuf> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => TechnicalHelpPage()),
+                          MaterialPageRoute(
+                            builder: (context) => TechnicalHelpPage(),
+                          ),
                         );
                       },
                       icon: const Icon(Icons.settings),
-                      label: const Text('තාක්ෂණික සහාය', style: TextStyle(fontSize: 16)),
+                      label: const TranslatableText(
+                        'තාක්ෂණික සහාය',
+                        style: TextStyle(fontSize: 16),
+                      ),
                     ),
                     const SizedBox(height: 16),
                     buildFontSizeCard(context),
@@ -112,7 +128,10 @@ class _MenufState extends State<Menuf> {
                     const SizedBox(height: 32),
                     ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 24,
+                          vertical: 16,
+                        ),
                         backgroundColor: Colors.red,
                         foregroundColor: Colors.white,
                         textStyle: TextStyle(fontSize: 18),
@@ -121,7 +140,7 @@ class _MenufState extends State<Menuf> {
                         ),
                       ),
                       icon: Icon(Icons.logout, size: 28),
-                      label: Text('Logout'),
+                      label: TranslatableText('Logout'),
                       onPressed: () async {
                         await FirebaseAuth.instance.signOut();
                         Navigator.pushReplacement(
@@ -129,7 +148,7 @@ class _MenufState extends State<Menuf> {
                           MaterialPageRoute(builder: (context) => LoginPage()),
                         );
                       },
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -229,7 +248,7 @@ class _MenufState extends State<Menuf> {
                   child: FittedBox(
                     fit: BoxFit.scaleDown,
                     alignment: Alignment.centerLeft,
-                    child: Text(
+                    child: TranslatableText(
                       'අකුරු ප්‍රමාණය වෙනස් කිරීම',
                       style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
@@ -256,7 +275,10 @@ class _MenufState extends State<Menuf> {
                     builder: (context, fontSize, _) {
                       return Text(
                         '${(fontSize * 100).toInt()}%',
-                        style: const TextStyle(fontSize: 16, color: Colors.black),
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                        ),
                         textScaleFactor: 1.0,
                       );
                     },
@@ -279,8 +301,10 @@ class _MenufState extends State<Menuf> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('වරණ පරිපාලනය',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        const TranslatableText(
+          'වර්ණ තේමාව',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 8),
         Container(
           width: 330,
@@ -296,7 +320,10 @@ class _MenufState extends State<Menuf> {
                 children: [
                   Icon(Icons.light_mode),
                   SizedBox(width: 4),
-                  Text("ආලෝකය", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                  TranslatableText(
+                    "ආලෝකය",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
                 ],
               ),
               Switch(
@@ -307,7 +334,10 @@ class _MenufState extends State<Menuf> {
                 children: [
                   Icon(Icons.dark_mode),
                   SizedBox(width: 4),
-                  Text("අඳුරු", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                  TranslatableText(
+                    "අඳුරු",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
                 ],
               ),
             ],

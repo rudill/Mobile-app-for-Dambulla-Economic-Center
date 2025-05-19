@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:dec_app/Azure_Translation/translatable_text.dart';
 
 class FarmerProfileEditPage extends StatefulWidget {
   final String fname;
@@ -26,10 +27,11 @@ class _FarmerProfileEditPageState extends State<FarmerProfileEditPage> {
 
   Future<void> fetchFarmerData() async {
     try {
-      final snapshot = await FirebaseFirestore.instance
-          .collection('FramerReg')
-          .where('First Name', isEqualTo: widget.fname)
-          .get();
+      final snapshot =
+          await FirebaseFirestore.instance
+              .collection('FramerReg')
+              .where('First Name', isEqualTo: widget.fname)
+              .get();
 
       if (snapshot.docs.isNotEmpty) {
         final doc = snapshot.docs.first;
@@ -45,7 +47,7 @@ class _FarmerProfileEditPageState extends State<FarmerProfileEditPage> {
       } else {
         setState(() => isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Data not found')),
+          const SnackBar(content: TranslatableText('Data not found')),
         );
       }
     } catch (e) {
@@ -58,14 +60,17 @@ class _FarmerProfileEditPageState extends State<FarmerProfileEditPage> {
     if (documentId == null) return;
 
     try {
-      await FirebaseFirestore.instance.collection('FramerReg').doc(documentId).update({
-        'First Name': fnameController.text,
-        'Phone Number': phnoController.text,
-        'NIC': nicController.text,
-      });
+      await FirebaseFirestore.instance
+          .collection('FramerReg')
+          .doc(documentId)
+          .update({
+            'First Name': fnameController.text,
+            'Phone Number': phnoController.text,
+            'NIC': nicController.text,
+          });
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('තොරතුරු යාවත්කාලීන කරන ලදී')),
+        const SnackBar(content: TranslatableText('තොරතුරු යාවත්කාලීන කරන ලදී')),
       );
 
       // Return updated name to Menuf page
@@ -73,7 +78,7 @@ class _FarmerProfileEditPageState extends State<FarmerProfileEditPage> {
     } catch (e) {
       print('Error updating farmer data: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('දෝෂයක්: ${e.toString()}')),
+        SnackBar(content: TranslatableText('දෝෂයක්: ${e.toString()}')),
       );
     }
   }
@@ -84,7 +89,7 @@ class _FarmerProfileEditPageState extends State<FarmerProfileEditPage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text(
+        title: const TranslatableText(
           'තොරතුරු වෙනස් කිරිම',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
@@ -92,47 +97,58 @@ class _FarmerProfileEditPageState extends State<FarmerProfileEditPage> {
         foregroundColor: Colors.white,
         centerTitle: true,
       ),
-      body: isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            const SizedBox(height: 30),
-            const CircleAvatar(
-              radius: 80,
-              backgroundImage: AssetImage('assets/images/faramer1.jpg'),
-            ),
-            const SizedBox(height: 40),
+      body:
+          isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : SingleChildScrollView(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 30),
+                    const CircleAvatar(
+                      radius: 80,
+                      backgroundImage: AssetImage('assets/images/faramer1.jpg'),
+                    ),
+                    const SizedBox(height: 40),
 
-            buildField(fnameController, 'නම'),
-            buildField(phnoController, 'ජංගම දුරකථන අංකය'),
-            buildField(nicController, 'ජාතික හැඳුනුම්පත් අංකය'),
+                    buildField(fnameController, 'නම'),
+                    buildField(phnoController, 'ජංගම දුරකථන අංකය'),
+                    buildField(nicController, 'ජාතික හැඳුනුම්පත් අංකය'),
 
-            const SizedBox(height: 40),
+                    const SizedBox(height: 40),
 
-            ElevatedButton(
-              onPressed: updateFarmerData,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green.shade800,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 14),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    ElevatedButton(
+                      onPressed: updateFarmerData,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green.shade800,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 100,
+                          vertical: 14,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: const TranslatableText(
+                        'තහවුරු කරන්න',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ),
+
+                    const SizedBox(height: 15),
+
+                    TextButton.icon(
+                      onPressed: () => Navigator.pop(context),
+                      icon: const Icon(Icons.arrow_back),
+                      label: const TranslatableText('ආපසු'),
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              child: const Text('තහවුරු කරන්න', style: TextStyle(fontSize: 18)),
-            ),
-
-            const SizedBox(height: 15),
-
-            TextButton.icon(
-              onPressed: () => Navigator.pop(context),
-              icon: const Icon(Icons.arrow_back),
-              label: const Text('ආපසු'),
-              style: TextButton.styleFrom(foregroundColor: Colors.black),
-            ),
-          ],
-        ),
-      ),
     );
   }
 
@@ -144,7 +160,10 @@ class _FarmerProfileEditPageState extends State<FarmerProfileEditPage> {
         decoration: InputDecoration(
           labelText: label,
           border: const OutlineInputBorder(),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 12,
+          ),
         ),
       ),
     );

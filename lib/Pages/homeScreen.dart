@@ -1,21 +1,23 @@
-
 import 'package:dec_app/Pages/Farmer/FaramerLogin.dart';
 import 'package:dec_app/Pages/Farmer/FarmerRegistation.dart';
 import 'package:dec_app/Pages/Farmer/farmerprofileEdit.dart';
 import 'package:dec_app/Pages/Farmer/orderWaiting.dart';
+import 'package:dec_app/Pages/Selection_Page.dart';
 import 'package:dec_app/Pages/Seller/SellerLogin.dart';
 import 'package:dec_app/Pages/Seller/SellerRegistration.dart';
 import 'package:dec_app/Pages/Farmer/farmerHome.dart';
 import 'package:dec_app/Pages/Seller/sallerHome.dart';
+import 'package:dec_app/Pages/technicalhelp.dart';
 
 import 'package:flutter/material.dart';
 import 'package:dec_app/Pages/landing.dart';
+
+import 'Farmer/menuf.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   get user => null;
-  
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +28,7 @@ class HomeScreen extends StatelessWidget {
           children: [
             Align(
               alignment: Alignment.center,
-        
+
               child: Column(
                 children: [
                   ElevatedButton(
@@ -38,7 +40,7 @@ class HomeScreen extends StatelessWidget {
                     },
                     child: Text("Welcome Page"),
                   ),
-        
+
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -50,7 +52,7 @@ class HomeScreen extends StatelessWidget {
                     },
                     child: Text("Famer Register Form"),
                   ),
-        
+
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -62,7 +64,7 @@ class HomeScreen extends StatelessWidget {
                     },
                     child: Text("Seller Register Form"),
                   ),
-        
+
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -72,7 +74,7 @@ class HomeScreen extends StatelessWidget {
                     },
                     child: Text("Farmer Login Page"),
                   ),
-        
+
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -85,9 +87,17 @@ class HomeScreen extends StatelessWidget {
                     child: Text("Seller Login Page"),
                   ),
 
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Menuf()),
+                      );
+                    },
+                    child: Text("test"),
+                  ),
 
-        
-                 /* ElevatedButton(
+                  /* ElevatedButton(
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -96,7 +106,7 @@ class HomeScreen extends StatelessWidget {
                     },
                     child: Text("farmer home"),
                   ),*/
-                 /* ElevatedButton(
+                  /* ElevatedButton(
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -105,7 +115,6 @@ class HomeScreen extends StatelessWidget {
                     },
                     child: Text("Seller Home"),
                   ),*/
-        
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -115,8 +124,8 @@ class HomeScreen extends StatelessWidget {
                     },
                     child: Text("Order Waiting"),
                   ),
-        
-                 /* ElevatedButton(
+
+                  /* ElevatedButton(
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -127,7 +136,7 @@ class HomeScreen extends StatelessWidget {
                     },
                     child: Text("Farmer profile edit"),
                   ),*/
-        
+
                   // ElevatedButton(
                   //   onPressed: () {
                   //     Navigator.push(

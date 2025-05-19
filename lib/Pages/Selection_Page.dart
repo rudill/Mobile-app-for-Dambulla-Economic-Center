@@ -1,7 +1,6 @@
 import 'package:dec_app/Pages/CategoryScreen.dart';
 import 'package:flutter/material.dart';
-
-
+import 'package:dec_app/Azure_Translation/translatable_text.dart';
 
 class Selection_screen extends StatelessWidget {
   const Selection_screen({super.key});
@@ -9,30 +8,38 @@ class Selection_screen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(leading: IconButton(
-        icon: Icon(Icons.arrow_back),
-        onPressed: () => Navigator.pop(context),
-      )
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context),
+        ),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           SizedBox(height: 48),
-          _buildButton("එලවළු", "assets/images/image1.png",true, context),
+          _buildButton("එලවළු", "assets/images/image1.png", true, context),
           SizedBox(height: 48),
-          _buildButton("පලතුරු", "assets/images/image2.png",false, context),
+          _buildButton("පලතුරු", "assets/images/image2.png", false, context),
         ],
       ),
     );
   }
 
-  Widget _buildButton(String text, String imagePath,bool isVegetable, BuildContext context) {
+  Widget _buildButton(
+    String text,
+    String imagePath,
+    bool isVegetable,
+    BuildContext context,
+  ) {
     return InkWell(
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => CategoryScreen(isVegetable:isVegetable)),
+          MaterialPageRoute(
+            builder: (context) => CategoryScreen(isVegetable: isVegetable),
+          ),
         );
       },
       child: Container(
@@ -45,7 +52,7 @@ class Selection_screen extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
+            TranslatableText(
               text,
               style: TextStyle(
                 fontSize: 24,
