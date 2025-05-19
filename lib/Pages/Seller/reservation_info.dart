@@ -70,10 +70,7 @@ class ReservationInfo extends StatelessWidget {
                     'Quantity',
                     reservation?['quantity'].toString() ?? '',
                   ),
-                  _buildInfoRow(
-                    'Date',
-                    reservation?['requested date'].toString() ?? '',
-                  ),
+                  _buildInfoRow('Date', reservation?['date'].toString() ?? ''),
                   _buildInfoRow(
                     'Total Price',
                     'Rs. ${reservation?['totalPrice'].toString() ?? ''}',
@@ -82,7 +79,14 @@ class ReservationInfo extends StatelessWidget {
                   const SizedBox(height: 32),
 
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      ReservationCollection().completeOrder(
+                        reservation!,
+                        reservation['id'],
+                      );
+                      HiveArchive().resBox.delete(index);
+                      Navigator.of(context).pop();
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green[700],
                       padding: const EdgeInsets.symmetric(

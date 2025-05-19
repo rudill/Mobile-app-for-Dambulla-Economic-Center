@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_ce/hive.dart';
 import 'package:path_provider/path_provider.dart';
 
+import 'Components/local_notification.dart';
 import 'Pages/homeScreen.dart';
 import 'firebase_options.dart';
 import 'Widgets/font_size_controller.dart';
@@ -15,6 +16,7 @@ void main() async {
   Hive.init(dir.path);
   await Hive.openBox('myBox');
   await Hive.openBox('reservations');
+  // initializeNotifications();
 
   runApp(const Home());
 }
@@ -35,10 +37,13 @@ class Home extends StatelessWidget {
               themeMode: themeMode,
               theme: AppTheme.lightTheme,
               darkTheme: AppTheme.darkTheme,
-              builder: (context, child) => MediaQuery(
-                data: MediaQuery.of(context).copyWith(textScaleFactor: fontSize),
-                child: child!,
-              ),
+              builder:
+                  (context, child) => MediaQuery(
+                    data: MediaQuery.of(
+                      context,
+                    ).copyWith(textScaleFactor: fontSize),
+                    child: child!,
+                  ),
               home: const HomeScreen(),
             );
           },
