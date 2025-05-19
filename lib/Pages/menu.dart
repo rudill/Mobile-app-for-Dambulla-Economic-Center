@@ -1,28 +1,34 @@
-import 'package:dec_app/Pages/Farmer/FaramerLogin.dart';
-import 'package:dec_app/Pages/Farmer/farmerHome.dart';
-import 'package:dec_app/Pages/Farmer/farmerprofileEdit.dart';
+
+import 'package:dec_app/Pages/Seller/sallerHome.dart';
+import 'package:dec_app/Pages/Seller/sellerprofileEdit.dart';
 import 'package:dec_app/Pages/technicalhelp.dart';
 import 'package:dec_app/Widgets/font_size_controller.dart';
 import 'package:dec_app/Widgets/theme_controller.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class Menuf extends StatefulWidget {
-  const Menuf({super.key});
+import '../Firestore/auth_service.dart';
+import 'Farmer/farmerprofileEdit.dart';
+import 'LoginPage.dart';
+
+
+class Menu extends StatefulWidget {
+  const Menu({super.key});
 
   @override
-  State<Menuf> createState() => _MenufState();
+  State<Menu> createState() => _MenuState();
 }
 
-class _MenufState extends State<Menuf> {
+class _MenuState extends State<Menu> {
   User? user;
-  String? farmerName;
+  String? displayName;
+  final AuthService _authService = AuthService();
 
   @override
   void initState() {
     super.initState();
     user = FirebaseAuth.instance.currentUser;
-    farmerName = user?.displayName ?? 'User';
+    displayName = user?.displayName ?? 'User';
   }
 
   @override
@@ -33,7 +39,7 @@ class _MenufState extends State<Menuf> {
         final isDark = themeMode == ThemeMode.dark;
 
         return MaterialApp(
-          title: 'Farmer Menu',
+          title: 'Profile UI',
           debugShowCheckedModeBanner: false,
           themeMode: themeMode,
           theme: ThemeData(
@@ -54,7 +60,7 @@ class _MenufState extends State<Menuf> {
               builder: (context, fontSize, _) {
                 return MediaQuery(
                   data: MediaQuery.of(context).copyWith(textScaleFactor: fontSize),
-                  child: child!,
+                  child: child ?? const SizedBox(),
                 );
               },
             );
@@ -68,26 +74,34 @@ class _MenufState extends State<Menuf> {
                     buildProfileHeader(),
                     const SizedBox(height: 40),
                     ElevatedButton.icon(
-                      style: buttonStyle(),
-                      onPressed: () {
-                        if (farmerName != null) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  FarmerProfileEditPage(fname: farmerName!),
-                            ),
-                          ).then((updatedName) {
-                            if (updatedName != null && updatedName is String) {
-                              setState(() {
-                                farmerName = updatedName;
-                              });
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green.shade800,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(horizontal: 64, vertical: 14),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                        elevation: 4,
+                      ),
+                      onPressed: () async{
+                        if (user != null) {
+                          var userDoc = await _authService.getUserData(user!.uid);
+                          if (userDoc.exists) {
+                            Navigator.pop(context);
+                            if (userDoc['role'] == 'farmer') {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => FarmerProfileEditPage(),
+                                ),
+                              );
+                            } else if (userDoc['role'] == 'seller') {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ProfileEditPage(),
+                                ),
+                              );
                             }
-                          });
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('User name not available')),
-                          );
+                          }
                         }
                       },
                       icon: const Icon(Icons.edit),
@@ -95,7 +109,13 @@ class _MenufState extends State<Menuf> {
                     ),
                     const SizedBox(height: 16),
                     ElevatedButton.icon(
-                      style: buttonStyle(paddingX: 84),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green.shade800,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(horizontal: 84, vertical: 14),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                        elevation: 4,
+                      ),
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -112,12 +132,12 @@ class _MenufState extends State<Menuf> {
                     const SizedBox(height: 32),
                     ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
                         backgroundColor: Colors.red,
                         foregroundColor: Colors.white,
-                        textStyle: TextStyle(fontSize: 18),
+                        textStyle: TextStyle(fontSize: 15),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(10),
                         ),
                       ),
                       icon: Icon(Icons.logout, size: 28),
@@ -129,7 +149,7 @@ class _MenufState extends State<Menuf> {
                           MaterialPageRoute(builder: (context) => LoginPage()),
                         );
                       },
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -148,7 +168,10 @@ class _MenufState extends State<Menuf> {
         color: Theme.of(context).focusColor,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
-          BoxShadow(blurRadius: 5, color: Colors.black26.withOpacity(0.1)),
+          BoxShadow(
+            blurRadius: 5,
+            color: Colors.black26.withOpacity(0.1),
+          ),
         ],
       ),
       child: Stack(
@@ -167,7 +190,7 @@ class _MenufState extends State<Menuf> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      farmerName ?? 'User',
+                      ' $displayName',
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -176,7 +199,7 @@ class _MenufState extends State<Menuf> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      user?.uid ?? "No Details",
+                      ' ${user?.uid ?? "No Details"}',
                       style: const TextStyle(fontSize: 14),
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -192,11 +215,10 @@ class _MenufState extends State<Menuf> {
               icon: const Icon(Icons.close),
               onPressed: () {
                 if (user != null) {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => FarmerHomePage(userId: user!.uid),
-                    ),
+                  Navigator.pop(context);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("User not logged in")),
                   );
                 }
               },
@@ -216,7 +238,9 @@ class _MenufState extends State<Menuf> {
         decoration: BoxDecoration(
           color: Colors.green.shade800,
           borderRadius: BorderRadius.circular(10),
-          boxShadow: const [BoxShadow(blurRadius: 4, color: Colors.black26)],
+          boxShadow: const [
+            BoxShadow(blurRadius: 4, color: Colors.black26),
+          ],
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -301,7 +325,9 @@ class _MenufState extends State<Menuf> {
               ),
               Switch(
                 value: isDark,
-                onChanged: (value) => ThemeController.toggleTheme(value),
+                onChanged: (value) {
+                  ThemeController.toggleTheme(value);
+                },
               ),
               const Row(
                 children: [
@@ -314,16 +340,8 @@ class _MenufState extends State<Menuf> {
           ),
         ),
       ],
+
     );
   }
 
-  ButtonStyle buttonStyle({double paddingX = 64}) {
-    return ElevatedButton.styleFrom(
-      backgroundColor: Colors.green.shade800,
-      foregroundColor: Colors.white,
-      padding: EdgeInsets.symmetric(horizontal: paddingX, vertical: 14),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      elevation: 4,
-    );
-  }
 }
