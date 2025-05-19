@@ -1,9 +1,9 @@
-import 'package:dec_app/Pages/Seller/sallerHome.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'SellerLogin.dart';
+import '../../Firestore/SellerReg.dart';
+import '../LoginPage.dart';
+
 
 class SellerRegistration extends StatelessWidget {
   @override
@@ -197,59 +197,18 @@ class SignUpScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (BuildContext context) {
-                            return Dialog(
-                              child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    CircularProgressIndicator(),
-                                    SizedBox(width: 16),
-                                    Text("කරුණාකර රැඳී සිටින්න..."),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                        try {
-                          UserCredential userCredential = await auth
-                              .createUserWithEmailAndPassword(
-                                email: EmailController.text.trim(),
-                                password: PWDController.text.trim(),
-                              );
-
-                          user = userCredential.user;
-
-                          await user!.updateDisplayName(
-                            FullNameController.text.trim(),
-                          );
-                          await user!.reload();
-                          user = auth.currentUser;
-
-                          await FirebaseFirestore.instance
-                              .collection('SellerReg')
-                              .doc(user!.uid)
-                              .set({
-                            'Email': EmailController.text.trim(),
-                            'FullName': FullNameController.text.trim(),
-                            'NIC': NICController.text.trim(),
-                            'PhoneNo': PhnoController.text.trim(),
-                            'ShopName': ShopNameController.text.trim(),
-                            'ShopReg': ShopRegNumController.text.trim(),
-                          });
-
-                          await FirebaseFirestore.instance.collection('Users').doc(user!.uid).set({
-                            'email': EmailController.text.trim(),
-                            'role': 'seller',
-                          });
-
+                    onPressed: () {
+                      registerSeller(
+                        context: context,
+                        fullNameController: FullNameController,
+                        emailController: EmailController,
+                        pwdController: PWDController,
+                        shopNameController: ShopNameController,
+                        shopRegNumController:ShopRegNumController,
+                        nicController: NICController,
+                        phnoController: PhnoController,
+                        formKey: _formKey,
+                        onSuccess: (userId) {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
@@ -258,16 +217,14 @@ class SignUpScreen extends StatelessWidget {
                                 content: Text("ඔබේ දත්ත සාර්ථකව උඩුගත විය."),
                                 actions: [
                                   TextButton(
-                                    style: TextButton.styleFrom(
-                                      foregroundColor: Colors.green,
-                                    ),
+                                    style: TextButton.styleFrom(foregroundColor: Colors.green),
                                     child: Text("හරි"),
                                     onPressed: () {
                                       Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => sallerApp(userId: user!.uid),
-                                        ), //Need to redirect
+                                          builder: (context) => LoginPage(),
+                                        ),
                                       );
                                     },
                                   ),
@@ -275,32 +232,10 @@ class SignUpScreen extends StatelessWidget {
                               );
                             },
                           );
-
-                          FullNameController.clear();
-                          ShopNameController.clear();
-                          ShopRegNumController.clear();
-                          PhnoController.clear();
-                          NICController.clear();
-                          EmailController.clear();
-                          PWDController.clear();
-                        } on FirebaseAuthException catch (e) {
-                          if (e.code == 'weak-password') {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Password too weak.')),
-                            );
-                          } else if (e.code == 'email-already-in-use') {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Email already in use.')),
-                            );
-                          }
-                        } catch (e) {
-                          print(e);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('An error occurred.')),
-                          );
-                        }
-                      }
+                        },
+                      );
                     },
+
                     child: Text(
                       'ලියාපදිංචි කරන්න',
                       style: TextStyle(
@@ -310,14 +245,13 @@ class SignUpScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+
                 SizedBox(height: 5),
                 TextButton(
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => SellerloginPage(),
-                      ),
+                      MaterialPageRoute(builder: (context) => LoginPage()),
                     );
                   },
                   child: Text('ගිණුමක්‌ තීබේද? මෙතන ක්ලික් කරන්න.'),

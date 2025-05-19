@@ -37,8 +37,6 @@ class _SendRequestPageState extends State<SendRequestPage> {
   TextEditingController addressController = TextEditingController();
   TextEditingController sellerController = TextEditingController();
 
-  final String productID = 'බෝංචි';
-  final String farmerID = 'ef342efxs';
   User? user = FirebaseAuth.instance.currentUser;
 
   double? totalPrice;

@@ -1,3 +1,4 @@
+import 'package:dec_app/Pages/LoginPage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_ce/hive.dart';
@@ -49,7 +50,7 @@ class Home extends StatelessWidget {
                     ).copyWith(textScaleFactor: fontSize),
                     child: child!,
                   ),
-              home: const HomeScreen(),
+              home: LoginPage(),
             );
           },
         );
