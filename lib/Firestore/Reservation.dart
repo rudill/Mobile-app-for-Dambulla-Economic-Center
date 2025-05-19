@@ -34,4 +34,24 @@ class ReservationCollection {
       ).showSnackBar(SnackBar(content: Text('failed')));
     }
   }
+
+  Future<String?> getProductName(String productID) async {
+    try {
+      final docSnapshot =
+          await FirebaseFirestore.instance
+              .collection('Product')
+              .doc(productID)
+              .get();
+
+      if (docSnapshot.exists) {
+        final data = docSnapshot.data();
+        return data?['name'] as String?;
+      } else {
+        print('No product found with ID: $productID');
+      }
+    } catch (e) {
+      print('Error fetching product: $e');
+    }
+    return null;
+  }
 }

@@ -210,6 +210,7 @@ class _SendRequestPageState extends State<SendRequestPage> {
                                 farmerID: user!.uid,
                                 date: DateTime.parse(dateController.text),
                                 totalPrice: totalPrice,
+                                status: 'pending',
                               ),
                             );
                             Navigator.push(
