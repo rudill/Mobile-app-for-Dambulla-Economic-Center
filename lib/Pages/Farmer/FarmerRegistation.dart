@@ -1,9 +1,8 @@
-import 'package:dec_app/Pages/Farmer/FaramerLogin.dart';
+import 'package:dec_app/Pages/LoginPage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import '../../Firestore/FamerReg.dart';
-import 'farmerHome.dart';
 import 'package:dec_app/Azure_Translation/translation_provider.dart';
 import 'package:dec_app/Azure_Translation/translatable_text.dart';
 
@@ -29,6 +28,8 @@ class FarmerReg extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final translator = Provider.of<TranslationProvider>(context, listen: false);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -61,28 +62,23 @@ class FarmerReg extends StatelessWidget {
                 ),
                 SizedBox(height: 5),
 
-                //First Name Section--------------------------------------------(1)
+                // First Name
                 FutureBuilder<String>(
-                  future: Provider.of<TranslationProvider>(
-                    context,
-                    listen: false,
-                  ).translate('මුල් නම ඇතුලත් කරන්න'),
-                  builder: (context, labelSnapshot) {
+                  future: translator.translate('මුල් නම ඇතුලත් කරන්න'),
+                  builder: (context, snapshot) {
                     return TextFormField(
                       controller: FnameController,
                       decoration: InputDecoration(
-                        labelText:
-                            labelSnapshot.data ?? 'මුල් නම ඇතුලත් කරන්න.',
+                        labelText: snapshot.data ?? 'මුල් නම ඇතුලත් කරන්න',
                         border: OutlineInputBorder(),
                       ),
-
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'මුල් නම ඇතුලත් කිරීම අනිවාර්ය වේ!';
+                          return 'First Name is Required !';
                         } else if (value.length > 30) {
-                          return 'මුල් නම අක්ෂර 30කට වඩා වැඩි විය නොහැක!';
+                          return 'First Name Cannot be Longer than 30 Characters.';
                         } else if (RegExp(r'[^a-zA-Z\s]').hasMatch(value)) {
-                          return 'මුල් නම තුළ අංක සහ විශේෂ ලක්ෂණ අඩංගු විය නොහැක!';
+                          return 'First Name Cannot Contain Numbers or Special Characters.';
                         }
                         return null;
                       },
@@ -91,100 +87,144 @@ class FarmerReg extends StatelessWidget {
                 ),
 
                 SizedBox(height: 15),
-                //Last Name Section---------------------------------------------(2)
-                TextFormField(
-                  controller: LnameController,
-                  decoration: InputDecoration(
-                    labelText: 'වාසගම ඇතුලත් කරන්න.',
-                    border: OutlineInputBorder(),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'වාසගම ඇතුලත් කිරීම අනිවාර්ය වේ!';
-                    } else if (value.length > 30) {
-                      return 'වාසගම අක්ෂර 30කට වඩා වැඩි විය නොහැක!';
-                    } else if (RegExp(r'[^a-zA-Z\s]').hasMatch(value)) {
-                      return 'වාසගම තුළ අංක සහ විශේෂ ලක්ෂණ අඩංගු විය නොහැක!';
-                    }
-                    return null;
+
+                // Last Name
+                FutureBuilder<String>(
+                  future: translator.translate('වාසගම ඇතුලත් කරන්න'),
+                  builder: (context, snapshot) {
+                    return TextFormField(
+                      controller: LnameController,
+                      decoration: InputDecoration(
+                        labelText: snapshot.data ?? 'වාසගම ඇතුලත් කරන්න',
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please provide a Surname!';
+                        } else if (value.length > 30) {
+                          return 'Surname Cannot be Longer than 30 Characters!';
+                        } else if (RegExp(r'[^a-zA-Z\s]').hasMatch(value)) {
+                          return 'Surnames Cannot Contain Numbers or Special Characters!';
+                        }
+                        return null;
+                      },
+                    );
                   },
                 ),
+
                 SizedBox(height: 15),
-                //Phone Number Section------------------------------------------(3)
-                TextFormField(
-                  controller: PhnoController,
-                  keyboardType: TextInputType.phone,
-                  decoration: InputDecoration(
-                    labelText: 'දුරකථන අංකය ඇතුලත් කරන්න.',
-                    hintText: '07X-XXX-XXXX',
-                    border: OutlineInputBorder(),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'දුරකථන අංකය අනිවාර්ය වේ!';
-                    } else if (!RegExp(r'^\d{10}$').hasMatch(value)) {
-                      return 'දුරකථන අංකය අංක 10ක් විය යුතුය!';
-                    }
-                    return null;
+
+                // Phone Number
+                FutureBuilder<String>(
+                  future: translator.translate('දුරකථන අංකය ඇතුලත් කරන්න.'),
+                  builder: (context, snapshot) {
+                    return TextFormField(
+                      controller: PhnoController,
+                      keyboardType: TextInputType.phone,
+                      decoration: InputDecoration(
+                        labelText: snapshot.data ?? 'දුරකථන අංකය ඇතුලත් කරන්න.',
+                        hintText: '07X-XXX-XXXX',
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Phone Number is Mandatory!';
+                        } else if (!RegExp(r'^\d{10}$').hasMatch(value)) {
+                          return 'Phone Number Must be 10 Digits!';
+                        }
+                        return null;
+                      },
+                    );
                   },
                 ),
+
                 SizedBox(height: 15),
-                //NIC Number Section--------------------------------------------(4)
-                TextFormField(
-                  controller: NICController,
-                  decoration: InputDecoration(
-                    labelText: 'ජාතික හැදුනුම්පත් අංකය ඇතුලත් කරන්න.',
-                    hintText: '20012800000V',
-                    border: OutlineInputBorder(),
+
+                // NIC
+                FutureBuilder<String>(
+                  future: translator.translate(
+                    'ජාතික හැදුනුම්පත් අංකය ඇතුලත් කරන්න.',
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'ජාතික හැදුනුම්පත් අංකය අනිවාර්ය වේ!';
-                    } else if (value.length != 12) {
-                      return 'ජාතික හැදුනුම්පත් අංකය අක්ෂර 12ක් වියයුතුයී!';
-                    }
-                    return null;
+                  builder: (context, snapshot) {
+                    return TextFormField(
+                      controller: NICController,
+                      decoration: InputDecoration(
+                        labelText:
+                            snapshot.data ??
+                            'ජාතික හැදුනුම්පත් අංකය ඇතුලත් කරන්න.',
+                        hintText: '20012800000V',
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'NIC Number is Mandatory!';
+                        } else if (value.length != 12) {
+                          return 'NIC must be 12 characters!';
+                        }
+                        return null;
+                      },
+                    );
                   },
                 ),
+
                 SizedBox(height: 15),
-                //Email Section-------------------------------------------------(5)
-                TextFormField(
-                  controller: EmailController,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    labelText: 'විද්‍යුත් ලිපිනය ඇතුලත් කරනන. ',
-                    border: OutlineInputBorder(),
+
+                // Email
+                FutureBuilder<String>(
+                  future: translator.translate(
+                    'විද්‍යුත් ලිපිනය ඇතුලත් කරන්න.',
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'විද්‍යුත් ලිපිනය අනිවාර්ය වේ!';
-                    } else if (!RegExp(
-                      r'^[\w\.-]+@[\w\.-]+\.\w{2,4}$',
-                    ).hasMatch(value)) {
-                      return 'ඇතුලත් කල විද්‍යුත් ලිපිනය නිවැරදි නොවේ!';
-                    }
-                    return null;
+                  builder: (context, snapshot) {
+                    return TextFormField(
+                      controller: EmailController,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecoration(
+                        labelText:
+                            snapshot.data ?? 'විද්‍යුත් ලිපිනය ඇතුලත් කරන්න.',
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Email is Required!';
+                        } else if (!RegExp(
+                          r'^[\w\.-]+@[\w\.-]+\.\w{2,4}$',
+                        ).hasMatch(value)) {
+                          return 'Invalid Email Address!';
+                        }
+                        return null;
+                      },
+                    );
                   },
                 ),
+
                 SizedBox(height: 15),
-                //Password Section----------------------------------------------(6)
-                TextFormField(
-                  controller: PWDController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    labelText: 'නව මුරපදයක් ඇතුලත් කරන්න.',
-                    border: OutlineInputBorder(),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'නව මුරපදයක් අනිවාර්ය වේ!';
-                    } else if (value.length <= 6) {
-                      return 'මුරපදය අක්ෂර 6කට වඩා වැඩි විය යුතුය!';
-                    }
-                    return null;
+
+                // Password
+                FutureBuilder<String>(
+                  future: translator.translate('නව මුරපදයක් ඇතුලත් කරන්න.'),
+                  builder: (context, snapshot) {
+                    return TextFormField(
+                      controller: PWDController,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        labelText: snapshot.data ?? 'නව මුරපදයක් ඇතුලත් කරන්න.',
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Password is Required!';
+                        } else if (value.length <= 6) {
+                          return 'Password Must be More than 6 Characters!';
+                        }
+                        return null;
+                      },
+                    );
                   },
                 ),
+
                 SizedBox(height: 30),
+
+                // Submit
                 SizedBox(
                   width: double.infinity,
                   height: 50,
@@ -210,22 +250,21 @@ class FarmerReg extends StatelessWidget {
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                title: Text("සාර්ථකයි!"),
-                                content: Text("ඔබේ දත්ත සාර්ථකව උඩුගත විය."),
+                                title: TranslatableText("සාර්ථකයි!"),
+                                content: TranslatableText(
+                                  "ඔබේ දත්ත සාර්ථකව උඩුගත විය.",
+                                ),
                                 actions: [
                                   TextButton(
                                     style: TextButton.styleFrom(
                                       foregroundColor: Colors.green,
                                     ),
-                                    child: Text("හරි"),
+                                    child: TranslatableText("හරි"),
                                     onPressed: () {
                                       Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
-                                          builder:
-                                              (context) => FarmerHomePage(
-                                                userId: userId,
-                                              ),
+                                          builder: (context) => LoginPage(),
                                         ),
                                       );
                                     },
@@ -237,8 +276,7 @@ class FarmerReg extends StatelessWidget {
                         },
                       );
                     },
-
-                    child: Text(
+                    child: TranslatableText(
                       'ලියාපදිංචි කරන්න',
                       style: TextStyle(
                         fontSize: 18,
@@ -249,6 +287,7 @@ class FarmerReg extends StatelessWidget {
                 ),
 
                 SizedBox(height: 5),
+
                 TextButton(
                   onPressed: () {
                     Navigator.push(
@@ -256,7 +295,7 @@ class FarmerReg extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => LoginPage()),
                     );
                   },
-                  child: Text('ගිණුමක්‌ තීබේද? මෙතන ක්ලික් කරන්න.'),
+                  child: TranslatableText('ගිණුමක්‌ තීබේද? මෙතන ක්ලික් කරන්න.'),
                 ),
                 SizedBox(height: 5),
               ],

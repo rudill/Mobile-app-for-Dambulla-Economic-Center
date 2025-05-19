@@ -2,6 +2,7 @@ import 'package:dec_app/Pages/Farmer/orderWaiting.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../../Azure_Translation/translatable_text.dart';
 import '../../Firestore/Reservation.dart';
 import '../../Models/reservation_details.dart';
 
@@ -37,8 +38,6 @@ class _SendRequestPageState extends State<SendRequestPage> {
   TextEditingController addressController = TextEditingController();
   TextEditingController sellerController = TextEditingController();
 
-  final String productID = 'බෝංචි';
-  final String farmerID = 'ef342efxs';
   User? user = FirebaseAuth.instance.currentUser;
 
   double? totalPrice;
@@ -108,7 +107,7 @@ class _SendRequestPageState extends State<SendRequestPage> {
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
-                    Text(
+                    TranslatableText(
                       widget.shopName,
                       style: TextStyle(
                         fontSize: 20,
@@ -119,11 +118,11 @@ class _SendRequestPageState extends State<SendRequestPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        TranslatableText(
                           'හිමිකරු:',
                           style: TextStyle(fontWeight: FontWeight.w500),
                         ),
-                        Text(widget.ownerName),
+                        TranslatableText(widget.ownerName),
                       ],
                     ),
                     Row(
@@ -185,7 +184,7 @@ class _SendRequestPageState extends State<SendRequestPage> {
                         buildTextField('ලිපිනය', addressController),
                         SizedBox(height: 16),
 
-                        Text(
+                        TranslatableText(
                           totalPrice != null
                               ? 'ලැබෙන මුළු මුදල රු.${totalPrice!.toStringAsFixed(2)}'
                               : 'මුළු මුදල ගණනය වීමට බලාසිටින්න',
@@ -210,6 +209,7 @@ class _SendRequestPageState extends State<SendRequestPage> {
                                 farmerID: user!.uid,
                                 date: DateTime.parse(dateController.text),
                                 totalPrice: totalPrice,
+                                status: 'pending',
                               ),
                             );
                             Navigator.push(
@@ -229,7 +229,7 @@ class _SendRequestPageState extends State<SendRequestPage> {
                               borderRadius: BorderRadius.circular(12),
                             ),
                           ),
-                          child: const Text(
+                          child: const TranslatableText(
                             'කාලය වෙන්කරවා ගැනිම',
                             style: TextStyle(fontSize: 16, color: Colors.white),
                           ),

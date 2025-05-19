@@ -1,9 +1,9 @@
-import 'package:dec_app/Pages/Seller/sallerHome.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'SellerLogin.dart';
+import '../../Azure_Translation/translatable_text.dart';
+import '../../Firestore/SellerReg.dart';
+import '../LoginPage.dart';
 
 class SellerRegistration extends StatelessWidget {
   @override
@@ -38,7 +38,7 @@ class SignUpScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
+                TranslatableText(
                   'වෙළදසැල් හිමිවරයෙකු ලෙස ලියාපදිංචිය.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -50,7 +50,7 @@ class SignUpScreen extends StatelessWidget {
                 SizedBox(height: 5),
                 Image.asset('assets/images/signup_image.png', height: 150),
                 SizedBox(height: 30),
-                Text(
+                TranslatableText(
                   'ඔබගේ තොරතුරු ලබා දෙන්න.',
                   style: TextStyle(
                     fontSize: 24,
@@ -60,46 +60,43 @@ class SignUpScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 5),
                 TextFormField(
-                  // Full Name Section------------------------------------------(1)
                   controller: FullNameController,
                   decoration: InputDecoration(
-                    labelText: 'සම්පූර්ණ නම',
+                    label: TranslatableText('සම්පූර්ණ නම'),
                     border: OutlineInputBorder(),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'ඇතුලත් කිරීම අනිවාර්ය වේ!';
+                      return 'Missing required information !';
                     } else if (value.length > 200) {
-                      return 'සම්පූර්ණ නම අක්ෂර 200කට වඩා වැඩි විය නොහැක!';
+                      return 'Full Name Cannot Exceed 200 Characters !';
                     } else if (RegExp(r'[^a-zA-Z\s]').hasMatch(value)) {
-                      return 'මසම්පූර්ණ නම තුළ අංක සහ විශේෂ ලක්ෂණ අඩංගු විය නොහැක!';
+                      return 'Full Name Cannot Contain Numbers or Special Characters !';
                     }
                     return null;
                   },
                 ),
                 SizedBox(height: 15),
                 TextFormField(
-                  //Shop Name Section-------------------------------------------(2)
                   controller: ShopNameController,
                   decoration: InputDecoration(
-                    labelText: 'වෙළදසැලේ නම',
+                    label: TranslatableText('වෙළදසැලේ නම'),
                     border: OutlineInputBorder(),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'වෙළදසැලේ නම ඇතුලත් කිරීම අනිවාර්ය වේ!';
+                      return 'Please Enter a Store Name!';
                     } else if (value.length > 200) {
-                      return 'වෙළදසැලේ නම අක්ෂර 200කට වඩා වැඩි විය නොහැක!';
+                      return 'Store Name cannot Contain more than 200 Characters!';
                     }
                     return null;
                   },
                 ),
                 SizedBox(height: 15),
                 TextFormField(
-                  //Shop Reg Num Section----------------------------------------(3)
                   controller: ShopRegNumController,
                   decoration: InputDecoration(
-                    labelText: 'වෙළදසැල් ලියාපදිංචි අංකය',
+                    label: TranslatableText('වෙළදසැල් ලියාපදිංචි අංකය'),
                     border: OutlineInputBorder(),
                   ),
                   validator: (value) {
@@ -113,11 +110,10 @@ class SignUpScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 15),
                 TextFormField(
-                  //Phone Number Section----------------------------------------(4)
                   controller: PhnoController,
                   keyboardType: TextInputType.phone,
                   decoration: InputDecoration(
-                    labelText: 'දුරකථන අංකය ඇතුලත් කරන්න.',
+                    label: TranslatableText('දුරකථන අංකය ඇතුලත් කරන්න.'),
                     hintText: '07X-XXX-XXXX',
                     border: OutlineInputBorder(),
                   ),
@@ -132,10 +128,11 @@ class SignUpScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 15),
                 TextFormField(
-                  //NIC Number Section------------------------------------------(5)
                   controller: NICController,
                   decoration: InputDecoration(
-                    labelText: 'ජාතික හැදුනුම්පත් අංකය ඇතුලත් කරන්න.',
+                    label: TranslatableText(
+                      'ජාතික හැදුනුම්පත් අංකය ඇතුලත් කරන්න.',
+                    ),
                     hintText: '20012800000V',
                     border: OutlineInputBorder(),
                   ),
@@ -150,11 +147,10 @@ class SignUpScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 15),
                 TextFormField(
-                  //Email Section-----------------------------------------------(6)
                   controller: EmailController,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
-                    labelText: 'විද්‍යුත් ලිපිනය ඇතුලත් කරනන. ',
+                    label: TranslatableText('විද්‍යුත් ලිපිනය ඇතුලත් කරනන.'),
                     border: OutlineInputBorder(),
                   ),
                   validator: (value) {
@@ -170,11 +166,10 @@ class SignUpScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 15),
                 TextFormField(
-                  //Password Section--------------------------------------------(7)
                   controller: PWDController,
                   obscureText: true,
                   decoration: InputDecoration(
-                    labelText: 'නව මුරපදයක් ඇතුලත් කරන්න.',
+                    label: TranslatableText('නව මුරපදයක් ඇතුලත් කරන්න.'),
                     border: OutlineInputBorder(),
                   ),
                   validator: (value) {
@@ -197,77 +192,38 @@ class SignUpScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (BuildContext context) {
-                            return Dialog(
-                              child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    CircularProgressIndicator(),
-                                    SizedBox(width: 16),
-                                    Text("කරුණාකර රැඳී සිටින්න..."),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                        try {
-                          UserCredential userCredential = await auth
-                              .createUserWithEmailAndPassword(
-                                email: EmailController.text.trim(),
-                                password: PWDController.text.trim(),
-                              );
-
-                          user = userCredential.user;
-
-                          await user!.updateDisplayName(
-                            FullNameController.text.trim(),
-                          );
-                          await user!.reload();
-                          user = auth.currentUser;
-
-                          await FirebaseFirestore.instance
-                              .collection('SellerReg')
-                              .doc(user!.uid)
-                              .set({
-                            'Email': EmailController.text.trim(),
-                            'FullName': FullNameController.text.trim(),
-                            'NIC': NICController.text.trim(),
-                            'PhoneNo': PhnoController.text.trim(),
-                            'ShopName': ShopNameController.text.trim(),
-                            'ShopReg': ShopRegNumController.text.trim(),
-                          });
-
-                          await FirebaseFirestore.instance.collection('Users').doc(user!.uid).set({
-                            'email': EmailController.text.trim(),
-                            'role': 'seller',
-                          });
-
+                    onPressed: () {
+                      registerSeller(
+                        context: context,
+                        fullNameController: FullNameController,
+                        emailController: EmailController,
+                        pwdController: PWDController,
+                        shopNameController: ShopNameController,
+                        shopRegNumController: ShopRegNumController,
+                        nicController: NICController,
+                        phnoController: PhnoController,
+                        formKey: _formKey,
+                        onSuccess: (userId) {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                title: Text("සාර්ථකයි!"),
-                                content: Text("ඔබේ දත්ත සාර්ථකව උඩුගත විය."),
+                                title: TranslatableText("සාර්ථකයි!"),
+                                content: TranslatableText(
+                                  "ඔබේ දත්ත සාර්ථකව උඩුගත විය.",
+                                ),
                                 actions: [
                                   TextButton(
                                     style: TextButton.styleFrom(
                                       foregroundColor: Colors.green,
                                     ),
-                                    child: Text("හරි"),
+                                    child: TranslatableText("හරි"),
                                     onPressed: () {
                                       Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => sallerApp(userId: user!.uid),
-                                        ), //Need to redirect
+                                          builder: (context) => LoginPage(),
+                                        ),
                                       );
                                     },
                                   ),
@@ -275,33 +231,10 @@ class SignUpScreen extends StatelessWidget {
                               );
                             },
                           );
-
-                          FullNameController.clear();
-                          ShopNameController.clear();
-                          ShopRegNumController.clear();
-                          PhnoController.clear();
-                          NICController.clear();
-                          EmailController.clear();
-                          PWDController.clear();
-                        } on FirebaseAuthException catch (e) {
-                          if (e.code == 'weak-password') {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Password too weak.')),
-                            );
-                          } else if (e.code == 'email-already-in-use') {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Email already in use.')),
-                            );
-                          }
-                        } catch (e) {
-                          print(e);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('An error occurred.')),
-                          );
-                        }
-                      }
+                        },
+                      );
                     },
-                    child: Text(
+                    child: TranslatableText(
                       'ලියාපදිංචි කරන්න',
                       style: TextStyle(
                         fontSize: 18,
@@ -315,12 +248,10 @@ class SignUpScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => SellerloginPage(),
-                      ),
+                      MaterialPageRoute(builder: (context) => LoginPage()),
                     );
                   },
-                  child: Text('ගිණුමක්‌ තීබේද? මෙතන ක්ලික් කරන්න.'),
+                  child: TranslatableText('ගිණුමක්‌ තීබේද? මෙතන ක්ලික් කරන්න.'),
                 ),
                 SizedBox(height: 5),
               ],
