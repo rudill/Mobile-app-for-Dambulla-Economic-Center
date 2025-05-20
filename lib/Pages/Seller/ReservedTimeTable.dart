@@ -3,6 +3,7 @@ import 'package:dec_app/Pages/Seller/reservation_info.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../Azure_Translation/translatable_text.dart';
 import 'notifications.dart';
 
 class ReservedTimeSlots extends StatefulWidget {
@@ -38,7 +39,7 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text(
+          title: TranslatableText(
             'Reserved Time Table',
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
           ),
@@ -63,7 +64,7 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
             children: [
               ElevatedButton(
                 onPressed: HiveArchive().clearHiveBox,
-                child: Text('Clear Table'),
+                child: TranslatableText('Clear Table'),
               ),
               ElevatedButton(
                 onPressed: () {
@@ -74,7 +75,7 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
                     ),
                   );
                 },
-                child: Text('Notifications'),
+                child: TranslatableText('Notifications'),
               ),
             ],
           ),
@@ -104,13 +105,17 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
                             child: GestureDetector(
                               child: ListTile(
                                 tileColor: HiveArchive().addColorToCells(index),
-                                title: Text(reservation?['farmerName'] ?? ''),
+                                title: TranslatableText(
+                                  reservation?['farmerName'] ?? '',
+                                ),
                               ),
                               onTap: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => ReservationInfo(index: index,),
+                                    builder:
+                                        (context) =>
+                                            ReservationInfo(index: index),
                                   ),
                                 );
                               },
@@ -145,13 +150,17 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
                                 tileColor: HiveArchive().addColorToCells(
                                   actualIndex,
                                 ),
-                                title: Text(reservation?['farmerName'] ?? ''),
+                                title: TranslatableText(
+                                  reservation?['farmerName'] ?? '',
+                                ),
                               ),
                               onTap: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => ReservationInfo(index: actualIndex,),
+                                    builder:
+                                        (context) =>
+                                            ReservationInfo(index: actualIndex),
                                   ),
                                 );
                               },

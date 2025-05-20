@@ -5,11 +5,10 @@ import 'package:dec_app/Pages/Selection_Page.dart';
 import 'package:dec_app/Pages/menu.dart';
 import 'package:flutter/material.dart';
 
-
+import '../../Azure_Translation/translatable_text.dart';
 
 class SellerHome extends StatelessWidget {
-
-  SellerHome({super.key,});
+  SellerHome({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,23 +17,22 @@ class SellerHome extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: Builder(
-          builder: (context) => IconButton(
-            icon: const Icon(Icons.menu, color: Colors.green),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Menu()),
-              );
-            },
-          ),
+          builder:
+              (context) => IconButton(
+                icon: const Icon(Icons.menu, color: Colors.green),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Menu()),
+                  );
+                },
+              ),
         ),
-
       ),
 
       body: SafeArea(
         child: Column(
           children: [
-
             // Title
             SizedBox(
               height: 60,
@@ -68,7 +66,7 @@ class SellerHome extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
-                child: const Text(
+                child: const TranslatableText(
                   'මිල දර්ශනය ',
                   style: TextStyle(fontSize: 20, color: Colors.white),
                 ),
@@ -93,7 +91,7 @@ class SellerHome extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
-                child: const Text(
+                child: const TranslatableText(
                   'ඇනවුම් එක් කිරීම',
                   style: TextStyle(fontSize: 20, color: Colors.white),
                 ),
@@ -116,7 +114,7 @@ class SellerHome extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
-                child: const Text(
+                child: const TranslatableText(
                   'ක්‍රියාකාරී ඇනවුම්',
                   style: TextStyle(fontSize: 20, color: Colors.white),
                 ),
@@ -141,7 +139,7 @@ class SellerHome extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
-                child: const Text(
+                child: const TranslatableText(
                   'වෙන් කල කාලය',
                   style: TextStyle(fontSize: 20, color: Colors.white),
                 ),
