@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../Azure_Translation/translatable_text.dart';
 import '../../Firestore/Reservation.dart';
 import '../../Hive/HiveBase.dart';
 
@@ -12,7 +13,7 @@ class ReservationInfo extends StatelessWidget {
     final reservation = HiveArchive().getReservationDetails(index);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Reservation Information')),
+      appBar: AppBar(title: const TranslatableText('Reservation Information')),
       body: SingleChildScrollView(
         child: Container(
           width: double.infinity,
@@ -37,7 +38,7 @@ class ReservationInfo extends StatelessWidget {
                   ),
                   const SizedBox(height: 24),
                   Center(
-                    child: Text(
+                    child: TranslatableText(
                       reservation?['farmerName'] ?? '',
                       style: Theme.of(
                         context,
@@ -98,7 +99,7 @@ class ReservationInfo extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    child: const Text('Complete Order'),
+                    child: const TranslatableText('Complete Order'),
                   ),
 
                   Row(children: [const Spacer()]),
@@ -134,7 +135,7 @@ class ReservationInfo extends StatelessWidget {
         children: [
           Expanded(
             flex: 3,
-            child: Text(
+            child: TranslatableText(
               '$label:',
               textAlign: TextAlign.start,
               style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
@@ -142,7 +143,7 @@ class ReservationInfo extends StatelessWidget {
           ),
           Expanded(
             flex: 5,
-            child: Text(
+            child: TranslatableText(
               value,
               textAlign: TextAlign.end,
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),

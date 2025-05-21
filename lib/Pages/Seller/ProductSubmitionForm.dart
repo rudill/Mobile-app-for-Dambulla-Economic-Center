@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../Azure_Translation/translatable_text.dart';
 import '../../Firestore/productData.dart';
 import '../../Models/productDetails.dart';
 
@@ -12,24 +13,24 @@ class ProductSubmitionForm extends StatefulWidget {
 
 class _ProductSubmitionFormState extends State<ProductSubmitionForm> {
   String selectedOption = 'veg';
-  String selectedItem= 'කැරට්';
+  String selectedItem = 'කැරට්';
   User? user = FirebaseAuth.instance.currentUser;
 
   final TextEditingController quantityController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
   final TextEditingController shopNoController = TextEditingController();
-  late  TextEditingController dateController = TextEditingController();
-
+  late TextEditingController dateController = TextEditingController();
 
   void initState() {
     super.initState();
-    dateController = TextEditingController(text:DateFormat('yyyy-MM-dd').format(DateTime.now()) );
+    dateController = TextEditingController(
+      text: DateFormat('yyyy-MM-dd').format(DateTime.now()),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: Column(
         children: [
           ClipPath(
@@ -47,7 +48,7 @@ class _ProductSubmitionFormState extends State<ProductSubmitionForm> {
                     },
                   ),
                   SizedBox(width: 10),
-                  Text(
+                  TranslatableText(
                     'ඇණවුම් එක් කිරීම',
                     style: TextStyle(
                       color: Colors.white,
@@ -65,7 +66,7 @@ class _ProductSubmitionFormState extends State<ProductSubmitionForm> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("තෝරන්න", style: TextStyle(fontSize: 16)),
+                  TranslatableText("තෝරන්න", style: TextStyle(fontSize: 16)),
                   Row(
                     children: [
                       Radio(
@@ -78,7 +79,7 @@ class _ProductSubmitionFormState extends State<ProductSubmitionForm> {
                           });
                         },
                       ),
-                      Text("එළවලු"),
+                      TranslatableText("එළවලු"),
                       Radio(
                         value: 'fruit',
                         groupValue: selectedOption,
@@ -89,12 +90,11 @@ class _ProductSubmitionFormState extends State<ProductSubmitionForm> {
                           });
                         },
                       ),
-                      Text("පළතුරු"),
+                      TranslatableText("පළතුරු"),
                     ],
                   ),
                   SizedBox(height: 10),
                   if (selectedOption == 'veg' || selectedOption == 'fruit')
-
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 12),
                       decoration: BoxDecoration(
@@ -104,16 +104,20 @@ class _ProductSubmitionFormState extends State<ProductSubmitionForm> {
                       child: DropdownButtonFormField<String>(
                         value: selectedItem,
                         decoration: InputDecoration(
-                          labelText: "${selectedOption == 'veg' ? 'එළවලු' : 'පළතුරු'} නම" ,
+                          labelText:
+                              "${selectedOption == 'veg' ? 'එළවලු' : 'පළතුරු'} නම",
                           labelStyle: TextStyle(color: Colors.black54),
                           border: InputBorder.none,
                         ),
-                        items: (selectedOption == 'veg' ? vegItems : fruitItems).map((String item) {
-                          return DropdownMenuItem<String>(
-                            value: item,
-                            child: Text(item),
-                          );
-                        }).toList(),
+                        items:
+                            (selectedOption == 'veg' ? vegItems : fruitItems)
+                                .map((String item) {
+                                  return DropdownMenuItem<String>(
+                                    value: item,
+                                    child: TranslatableText(item),
+                                  );
+                                })
+                                .toList(),
                         onChanged: (String? newValue) {
                           setState(() {
                             selectedItem = newValue!;
@@ -124,7 +128,9 @@ class _ProductSubmitionFormState extends State<ProductSubmitionForm> {
                   SizedBox(height: 20),
                   Row(
                     children: [
-                      Expanded(child: _buildTextField("ප්‍රමාණය", quantityController)),
+                      Expanded(
+                        child: _buildTextField("ප්‍රමාණය", quantityController),
+                      ),
                       SizedBox(width: 8),
                       Text("KG"),
                     ],
@@ -134,29 +140,32 @@ class _ProductSubmitionFormState extends State<ProductSubmitionForm> {
                   SizedBox(height: 20),
                   _buildTextField("කඩ අංකය", shopNoController),
                   SizedBox(height: 20),
-                  _buildTextField("දිනය", dateController, hintText: "YYYY-MM-DD"),
+                  _buildTextField(
+                    "දිනය",
+                    dateController,
+                    hintText: "YYYY-MM-DD",
+                  ),
                   SizedBox(height: 40),
                   SizedBox(
                     width: double.infinity,
                     height: 48,
                     child: ElevatedButton(
                       onPressed: () async {
-                        Map<String,dynamic>productdetails={
-                          'price':double.parse(priceController.text),
-                          'quantity' :int.parse(quantityController.text),
+                        Map<String, dynamic> productdetails = {
+                          'price': double.parse(priceController.text),
+                          'quantity': int.parse(quantityController.text),
                           'name': selectedItem,
                           'shopNo': shopNoController.text,
                           'date': DateTime.parse(dateController.text),
-                          'sellerID':user!.uid
+                          'sellerID': user!.uid,
                         };
                         Database().addProduct(productdetails, context);
-
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.green,
                         foregroundColor: Colors.white,
                       ),
-                      child: Text("ඇතුලත් කරන්න"),
+                      child: TranslatableText("ඇතුලත් කරන්න"),
                     ),
                   ),
                 ],
@@ -168,9 +177,12 @@ class _ProductSubmitionFormState extends State<ProductSubmitionForm> {
     );
   }
 
-
-  Widget _buildTextField(String label, TextEditingController controller,
-      {String? prefixText, String? hintText}) {
+  Widget _buildTextField(
+    String label,
+    TextEditingController controller, {
+    String? prefixText,
+    String? hintText,
+  }) {
     return TextField(
       controller: controller,
       decoration: InputDecoration(
@@ -186,14 +198,17 @@ class _ProductSubmitionFormState extends State<ProductSubmitionForm> {
   }
 }
 
-
 class BottomWaveClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     final path = Path();
     path.lineTo(0, size.height - 20);
     path.quadraticBezierTo(
-        size.width / 2, size.height + 20, size.width, size.height - 20);
+      size.width / 2,
+      size.height + 20,
+      size.width,
+      size.height - 20,
+    );
     path.lineTo(size.width, 0);
     path.close();
     return path;
