@@ -82,12 +82,11 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Image(image: AssetImage("assets/images/img.png")),
-          SingleChildScrollView(
-            padding: EdgeInsets.all(10),
-            child: Form(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Image(image: AssetImage("assets/images/img.png")),
+            Form(
               key: _formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -141,7 +140,6 @@ class _LoginPageState extends State<LoginPage> {
 
                   ElevatedButton(
                     onPressed: _login,
-                    child: TranslatableText('ගිණුමට පිවිසෙන්න.'),
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(double.infinity, 64),
                       backgroundColor: Colors.green,
@@ -149,6 +147,7 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(14),
                       ),
                     ),
+                    child: TranslatableText('ගිණුමට පිවිසෙන්න.'),
                   ),
                   SizedBox(height: 12),
                   TextButton(
@@ -164,10 +163,11 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
             ),
-          ),
-          Spacer(),
-          Image(image: AssetImage('assets/images/down_shape.png')),
-        ],
+            SizedBox(height: 70),
+
+            Image(image: AssetImage('assets/images/down_shape.png')),
+          ],
+        ),
       ),
     );
   }

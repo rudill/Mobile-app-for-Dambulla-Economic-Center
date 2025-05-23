@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../Azure_Translation/translatable_text.dart';
 import '../../Components/productQuantityManager.dart';
 import '../../Components/time_picker.dart';
 import '../../Components/time_switcher.dart';
@@ -24,7 +25,13 @@ class _NotificationsFromFireStoreState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Requests')),
+      appBar: AppBar(
+        title: TranslatableText(
+          "ඇණවුම් ඉල්ලීම්",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+        ),
+        backgroundColor: Color(0xFF208A43),
+      ),
       body: reservationRequests(),
     );
   }
