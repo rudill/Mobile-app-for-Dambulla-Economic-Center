@@ -34,7 +34,7 @@ class ReservationDetails {
       'phoneNumber': phoneNumber,
       'farmerAddress': farmerAddress,
       'status': status,
-      'requested date': date,
+      'date': date,
       'totalPrice': totalPrice,
     };
   }
