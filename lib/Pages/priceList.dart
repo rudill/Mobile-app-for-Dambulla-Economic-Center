@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '../Firestore/auth_service.dart';
 import '../Firestore/price_list_service.dart';
 import 'Farmer/sendRequest.dart';
 import 'package:dec_app/Azure_Translation/translatable_text.dart';
@@ -6,8 +8,39 @@ import 'package:dec_app/Azure_Translation/translatable_text.dart';
 class PricePage extends StatelessWidget {
   final String itemName;
   final PriceListService _priceListService = PriceListService();
+  final AuthService _authService = AuthService();
+
 
   PricePage({super.key, required this.itemName});
+  Future<bool> _isFarmer() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      var userDoc = await _authService.getUserData(user.uid);
+      if (userDoc.exists && userDoc['role'] == 'farmer') {
+        return true;
+      }
+    }
+    return false;
+  }
+  void _navigateToSendRequest(BuildContext context, Map<String, dynamic> data) async {
+    bool isFarmer = await _isFarmer();
+    if (isFarmer) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SendRequestPage(
+            shopName: data['shopName'],
+            ownerName: data['ownerName'],
+            shopNumber: data['shopNumber'],
+            price: data['price'],
+            phoneNo: data['phoneNo'],
+            sellerId: data['sellerId'],
+            productId: data['productId'],
+          ),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +63,7 @@ class PricePage extends StatelessWidget {
 
                 if (!snapshot.hasData || snapshot.data!.isEmpty) {
                   return const Center(
-                    child: TranslatableText('No data available'),
+                    child: TranslatableText('කිසිදු වෙළඳසැල් දත්තයක් නැත'),
                   );
                 }
 
@@ -43,23 +76,8 @@ class PricePage extends StatelessWidget {
                     final data = priceData[index];
 
                     return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder:
-                                (context) => SendRequestPage(
-                                  shopName: data['shopName'],
-                                  ownerName: data['ownerName'],
-                                  shopNumber: data['shopNumber'],
-                                  price: data['price'],
-                                  phoneNo: data['phoneNo'],
-                                  sellerId: data['sellerId'],
-                                  productId: data['productId'],
-                                ),
-                          ),
-                        );
-                      },
+                      onTap: () => _navigateToSendRequest(context, data),
+
                       child: _buildPriceCard(
                         cardColor,
                         data['shopName'],

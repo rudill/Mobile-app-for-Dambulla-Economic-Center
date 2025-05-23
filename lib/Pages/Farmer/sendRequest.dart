@@ -74,9 +74,9 @@ class _SendRequestPageState extends State<SendRequestPage> {
           Stack(
             children: [
               Container(
-                height: 140,
+                height: 100,
                 decoration: BoxDecoration(
-                  color: Colors.green,
+                  color: Color(0xFF1B8E46),
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(80),
                   ),
@@ -116,7 +116,7 @@ class _SendRequestPageState extends State<SendRequestPage> {
                     ),
                     SizedBox(height: 16),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         TranslatableText(
                           'හිමිකරු:',
@@ -126,7 +126,7 @@ class _SendRequestPageState extends State<SendRequestPage> {
                       ],
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Text(
                           'කඩ අංකය:',
@@ -136,7 +136,7 @@ class _SendRequestPageState extends State<SendRequestPage> {
                       ],
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Text(
                           'දුරකථන අංකය:',
@@ -164,12 +164,6 @@ class _SendRequestPageState extends State<SendRequestPage> {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        // buildDateField(context),
-                        // SizedBox(height: 12),
-                        // buildQuantityField(
-                        //   'ලබාදෙන ප්‍රමාණය',
-                        //   quantityController,
-                        // ),
                         buildDateField(context),
                         SizedBox(height: 12),
                         buildQuantityField(
@@ -182,7 +176,7 @@ class _SendRequestPageState extends State<SendRequestPage> {
                         buildTextField('දුරකථන අංකය', contactController),
                         SizedBox(height: 12),
                         buildTextField('ලිපිනය', addressController),
-                        SizedBox(height: 16),
+                        SizedBox(height: 40),
 
                         TranslatableText(
                           totalPrice != null
@@ -194,7 +188,7 @@ class _SendRequestPageState extends State<SendRequestPage> {
                             color: Colors.black87,
                           ),
                         ),
-                        SizedBox(height: 16),
+                        SizedBox(height: 25),
                         ElevatedButton(
                           onPressed: () async {
                             await ReservationCollection().createReservation(
@@ -220,7 +214,7 @@ class _SendRequestPageState extends State<SendRequestPage> {
                             );
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green,
+                            backgroundColor: Color(0xFF1B8E46),
                             padding: EdgeInsets.symmetric(
                               horizontal: 40,
                               vertical: 14,
