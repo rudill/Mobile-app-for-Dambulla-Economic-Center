@@ -54,4 +54,37 @@ class ReservationCollection {
     }
     return null;
   }
+
+  Future<void> completeOrder(
+    Map<String, dynamic> orderDetails,
+    String resID,
+  ) async {
+    String status = 'completed';
+
+    try {
+      await FirebaseFirestore.instance
+          .collection('orderHistory')
+          .doc()
+          .set(orderDetails);
+
+      final querySnapshot =
+          await FirebaseFirestore.instance
+              .collection('orderHistory')
+              .where('id', isEqualTo: resID)
+              .get();
+
+      for (final doc in querySnapshot.docs) {
+        await doc.reference.update({'status': status});
+      }
+
+      await FirebaseFirestore.instance
+          .collection('reservation')
+          .doc(resID)
+          .delete();
+
+      print('added to history');
+    } catch (e) {
+      print('Failed to add to history');
+    }
+  }
 }
