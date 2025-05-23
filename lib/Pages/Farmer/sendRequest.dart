@@ -2,6 +2,7 @@ import 'package:dec_app/Pages/Farmer/orderWaiting.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../../Azure_Translation/translatable_text.dart';
 import '../../Firestore/Reservation.dart';
 import '../../Models/reservation_details.dart';
 
@@ -73,9 +74,9 @@ class _SendRequestPageState extends State<SendRequestPage> {
           Stack(
             children: [
               Container(
-                height: 140,
+                height: 100,
                 decoration: BoxDecoration(
-                  color: Colors.green,
+                  color: Color(0xFF1B8E46),
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(80),
                   ),
@@ -106,7 +107,7 @@ class _SendRequestPageState extends State<SendRequestPage> {
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
-                    Text(
+                    TranslatableText(
                       widget.shopName,
                       style: TextStyle(
                         fontSize: 20,
@@ -115,17 +116,17 @@ class _SendRequestPageState extends State<SendRequestPage> {
                     ),
                     SizedBox(height: 16),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Text(
+                        TranslatableText(
                           'හිමිකරු:',
                           style: TextStyle(fontWeight: FontWeight.w500),
                         ),
-                        Text(widget.ownerName),
+                        TranslatableText(widget.ownerName),
                       ],
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Text(
                           'කඩ අංකය:',
@@ -135,7 +136,7 @@ class _SendRequestPageState extends State<SendRequestPage> {
                       ],
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Text(
                           'දුරකථන අංකය:',
@@ -163,12 +164,6 @@ class _SendRequestPageState extends State<SendRequestPage> {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        // buildDateField(context),
-                        // SizedBox(height: 12),
-                        // buildQuantityField(
-                        //   'ලබාදෙන ප්‍රමාණය',
-                        //   quantityController,
-                        // ),
                         buildDateField(context),
                         SizedBox(height: 12),
                         buildQuantityField(
@@ -181,9 +176,9 @@ class _SendRequestPageState extends State<SendRequestPage> {
                         buildTextField('දුරකථන අංකය', contactController),
                         SizedBox(height: 12),
                         buildTextField('ලිපිනය', addressController),
-                        SizedBox(height: 16),
+                        SizedBox(height: 40),
 
-                        Text(
+                        TranslatableText(
                           totalPrice != null
                               ? 'ලැබෙන මුළු මුදල රු.${totalPrice!.toStringAsFixed(2)}'
                               : 'මුළු මුදල ගණනය වීමට බලාසිටින්න',
@@ -193,7 +188,7 @@ class _SendRequestPageState extends State<SendRequestPage> {
                             color: Colors.black87,
                           ),
                         ),
-                        SizedBox(height: 16),
+                        SizedBox(height: 25),
                         ElevatedButton(
                           onPressed: () async {
                             await ReservationCollection().createReservation(
@@ -219,7 +214,7 @@ class _SendRequestPageState extends State<SendRequestPage> {
                             );
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green,
+                            backgroundColor: Color(0xFF1B8E46),
                             padding: EdgeInsets.symmetric(
                               horizontal: 40,
                               vertical: 14,
@@ -228,7 +223,7 @@ class _SendRequestPageState extends State<SendRequestPage> {
                               borderRadius: BorderRadius.circular(12),
                             ),
                           ),
-                          child: const Text(
+                          child: const TranslatableText(
                             'කාලය වෙන්කරවා ගැනිම',
                             style: TextStyle(fontSize: 16, color: Colors.white),
                           ),

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '../../Azure_Translation/translatable_text.dart';
 import '../../Firestore/reservationStatus.dart';
 
 class OrderWaiting extends StatefulWidget {
@@ -10,7 +11,6 @@ class OrderWaiting extends StatefulWidget {
 }
 
 class _OrderWaitingState extends State<OrderWaiting> {
-
   User? user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
@@ -34,15 +34,14 @@ class _OrderWaitingState extends State<OrderWaiting> {
                 //up
 
                 if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
+                  return TranslatableText('Error: ${snapshot.error}');
                 }
                 if (!snapshot.hasData || snapshot.data!.isEmpty) {
                   return Center(
-
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(height: 500,),
+                        SizedBox(height: 500),
                         Text(
                           'කිසිදු ක්‍රියාකාරී ඇණවුමක් නැත',
                           style: TextStyle(fontSize: 16),
@@ -102,7 +101,7 @@ class _OrderWaitingState extends State<OrderWaiting> {
 
                             Row(
                               children: [
-                                Text(
+                                TranslatableText(
                                   'එලවලු ප්‍රමාණය: ',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -110,7 +109,7 @@ class _OrderWaitingState extends State<OrderWaiting> {
                                   ),
                                 ),
                                 SizedBox(width: 16),
-                                Text(
+                                TranslatableText(
                                   '${data['productName']}  ${data['quantity']}KG',
                                   style: TextStyle(fontSize: 16),
                                 ),
@@ -120,7 +119,7 @@ class _OrderWaitingState extends State<OrderWaiting> {
 
                             Row(
                               children: [
-                                Text(
+                                TranslatableText(
                                   'වෙලදසැල: ',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -128,7 +127,7 @@ class _OrderWaitingState extends State<OrderWaiting> {
                                   ),
                                 ),
                                 SizedBox(width: 16),
-                                Text(
+                                TranslatableText(
                                   '${data['shopName']}',
                                   style: TextStyle(fontSize: 16),
                                 ),
@@ -138,7 +137,7 @@ class _OrderWaitingState extends State<OrderWaiting> {
 
                             Row(
                               children: [
-                                Text(
+                                TranslatableText(
                                   'කඩ අංකය: ',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -182,7 +181,7 @@ class _OrderWaitingState extends State<OrderWaiting> {
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: Center(
-                                      child: Text(
+                                      child: TranslatableText(
                                         data['status'] == 'pending'
                                             ? 'තහවුරු කරන තෙක් සිටින්න'
                                             : 'කාලය පෙ.ව 6.30-7.00',

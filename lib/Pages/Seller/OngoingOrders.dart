@@ -1,6 +1,7 @@
 import 'package:dec_app/Pages/Seller/ProductSubmitionForm.dart';
 import 'package:flutter/material.dart';
 
+import '../../Azure_Translation/translatable_text.dart';
 import '../../Widgets/OngoingOrder_Tile.dart';
 import '../../Firestore/productData.dart';
 
@@ -16,13 +17,15 @@ class _OngoingOrdersState extends State<OngoingOrders> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("ක්‍රියාකාරී ඇණවුම්",
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),),
+        title: TranslatableText(
+          "ක්‍රියාකාරී ඇණවුම්",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+        ),
         backgroundColor: Color(0xFF208A43),
       ),
       body: StreamBuilder(
         stream: Database().productDetails(),
-        builder: (context,snapshot) {
+        builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
@@ -32,12 +35,12 @@ class _OngoingOrdersState extends State<OngoingOrders> {
           }
 
           final products = snapshot.data;
-          if (products== null || products.isEmpty) {
+          if (products == null || products.isEmpty) {
             return Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
+                  TranslatableText(
                     'කිසිදු ක්‍රියාකාරී ඇණවුමක් නැත',
                     style: TextStyle(fontSize: 16),
                   ),
@@ -55,7 +58,7 @@ class _OngoingOrdersState extends State<OngoingOrders> {
                       backgroundColor: Colors.green,
                       foregroundColor: Colors.white,
                     ),
-                    child: Text('නව ඇණවුමක් එක් කරන්න'),
+                    child: TranslatableText('නව ඇණවුමක් එක් කරන්න'),
                   ),
                 ],
               ),

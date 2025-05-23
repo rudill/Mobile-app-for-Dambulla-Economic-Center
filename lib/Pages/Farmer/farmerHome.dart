@@ -3,6 +3,7 @@ import 'package:dec_app/Pages/Selection_Page.dart';
 
 import 'package:flutter/material.dart';
 
+import '../../Azure_Translation/translatable_text.dart';
 import '../menu.dart';
 
 class FarmerApp extends StatelessWidget {
@@ -19,8 +20,7 @@ class FarmerApp extends StatelessWidget {
 }
 
 class FarmerHomePage extends StatelessWidget {
-
-  FarmerHomePage({super.key,});
+  FarmerHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,17 +30,17 @@ class FarmerHomePage extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: Builder(
-          builder: (context) => IconButton(
-            icon: const Icon(Icons.menu, color: Colors.green),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Menu()),
-              );
-            },
-          ),
+          builder:
+              (context) => IconButton(
+                icon: const Icon(Icons.menu, color: Colors.green),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Menu()),
+                  );
+                },
+              ),
         ),
-
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -78,7 +78,7 @@ class FarmerHomePage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
-                child: const Text(
+                child: const TranslatableText(
                   'මිල දර්ශනය ',
                   style: TextStyle(fontSize: 20, color: Colors.white),
                 ),
@@ -101,7 +101,7 @@ class FarmerHomePage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
-                child: const Text(
+                child: const TranslatableText(
                   'වෙන් කළ කාලය',
                   style: TextStyle(fontSize: 20, color: Colors.white),
                 ),

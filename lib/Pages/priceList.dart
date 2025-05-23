@@ -1,12 +1,46 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '../Firestore/auth_service.dart';
 import '../Firestore/price_list_service.dart';
 import 'Farmer/sendRequest.dart';
+import 'package:dec_app/Azure_Translation/translatable_text.dart';
 
 class PricePage extends StatelessWidget {
   final String itemName;
   final PriceListService _priceListService = PriceListService();
+  final AuthService _authService = AuthService();
+
 
   PricePage({super.key, required this.itemName});
+  Future<bool> _isFarmer() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      var userDoc = await _authService.getUserData(user.uid);
+      if (userDoc.exists && userDoc['role'] == 'farmer') {
+        return true;
+      }
+    }
+    return false;
+  }
+  void _navigateToSendRequest(BuildContext context, Map<String, dynamic> data) async {
+    bool isFarmer = await _isFarmer();
+    if (isFarmer) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SendRequestPage(
+            shopName: data['shopName'],
+            ownerName: data['ownerName'],
+            shopNumber: data['shopNumber'],
+            price: data['price'],
+            phoneNo: data['phoneNo'],
+            sellerId: data['sellerId'],
+            productId: data['productId'],
+          ),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +62,9 @@ class PricePage extends StatelessWidget {
                 }
 
                 if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return const Center(child: Text('No data available'));
+                  return const Center(
+                    child: TranslatableText('කිසිදු වෙළඳසැල් දත්තයක් නැත'),
+                  );
                 }
 
                 final priceData = snapshot.data!;
@@ -36,27 +72,12 @@ class PricePage extends StatelessWidget {
                   itemCount: priceData.length,
                   itemBuilder: (context, index) {
                     final Color cardColor =
-                    index % 2 == 0 ? Color(0xFFE2F6E1) : Colors.white;
+                        index % 2 == 0 ? Color(0xFFE2F6E1) : Colors.white;
                     final data = priceData[index];
 
                     return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
+                      onTap: () => _navigateToSendRequest(context, data),
 
-                            builder: (context) => SendRequestPage(
-                              shopName: data['shopName'],
-                              ownerName: data['ownerName'],
-                              shopNumber: data['shopNumber'],
-                              price: data['price'],
-                              phoneNo: data['phoneNo'],
-                              sellerId: data['sellerId'],
-                              productId:data['productId'],
-                            ),
-                          ),
-                        );
-                      },
                       child: _buildPriceCard(
                         cardColor,
                         data['shopName'],
@@ -77,13 +98,13 @@ class PricePage extends StatelessWidget {
   }
 
   Widget _buildPriceCard(
-      Color color,
-      String shopName,
-      String ownerName,
-      String weight,
-      String shopNumber,
-      String price,
-      ) {
+    Color color,
+    String shopName,
+    String ownerName,
+    String weight,
+    String shopNumber,
+    String price,
+  ) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -122,7 +143,7 @@ class PricePage extends StatelessWidget {
                   color: const Color(0xFF047333),
                   borderRadius: BorderRadius.circular(4),
                 ),
-                child: Text(
+                child: TranslatableText(
                   '$weight අවශ්‍යයි',
                   style: const TextStyle(
                     fontSize: 12,
@@ -151,7 +172,7 @@ class PricePage extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 4),
-                    Text(
+                    TranslatableText(
                       'කඩ අංකය : $shopNumber',
                       style: const TextStyle(
                         fontSize: 14,
@@ -165,7 +186,10 @@ class PricePage extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 4,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(color: Colors.black),
@@ -180,14 +204,14 @@ class PricePage extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    const Text(
+                    const TranslatableText(
                       'කිලෝවක මිළ.',
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Text(
+                    TranslatableText(
                       'රු $price/-',
                       style: const TextStyle(
                         fontSize: 12,
@@ -229,10 +253,14 @@ Widget _buildCustomAppBar(BuildContext context) {
                   onTap: () {
                     Navigator.pop(context);
                   },
-                  child: const Icon(Icons.arrow_back, color: Colors.white, size: 32),
+                  child: const Icon(
+                    Icons.arrow_back,
+                    color: Colors.white,
+                    size: 32,
+                  ),
                 ),
                 const SizedBox(width: 15),
-                const Text(
+                const TranslatableText(
                   'වෙළඳපොළ මිල',
                   style: TextStyle(
                     fontSize: 28,
