@@ -1,9 +1,15 @@
+import 'package:dec_app/Pages/LoginPage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_ce/hive.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 
-import 'Components/local_notification.dart';
+
+
+
+import 'Azure_Translation/translation_provider.dart';
+
 import 'Pages/homeScreen.dart';
 import 'firebase_options.dart';
 import 'Widgets/font_size_controller.dart';
@@ -18,7 +24,12 @@ void main() async {
   await Hive.openBox('reservations');
   // initializeNotifications();
 
-  runApp(const Home());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => TranslationProvider(),
+      child: const Home(),
+    ),
+  );
 }
 
 class Home extends StatelessWidget {
@@ -44,7 +55,11 @@ class Home extends StatelessWidget {
                     ).copyWith(textScaleFactor: fontSize),
                     child: child!,
                   ),
-              home: const HomeScreen(),
+
+             home: LoginPage(),
+
+            
+
             );
           },
         );
