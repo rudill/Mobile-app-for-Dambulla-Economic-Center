@@ -110,14 +110,20 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
                                 ),
                               ),
                               onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder:
-                                        (context) =>
-                                            ReservationInfo(index: index),
-                                  ),
-                                );
+
+                                if (reservation != null) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder:
+                                          (context) =>
+                                              ReservationInfo(index: index),
+                                    ),
+                                  );
+                                }
+
+                                
+
                               },
                             ),
                           ),
@@ -155,14 +161,21 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
                                 ),
                               ),
                               onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder:
-                                        (context) =>
-                                            ReservationInfo(index: actualIndex),
-                                  ),
-                                );
+
+                                if (reservation != null) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder:
+                                          (context) => ReservationInfo(
+                                            index: actualIndex,
+                                          ),
+                                    ),
+                                  );
+                                }
+
+                               
+
                               },
                             ),
                           ),
