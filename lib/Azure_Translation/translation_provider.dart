@@ -12,8 +12,10 @@ class TranslationProvider with ChangeNotifier {
   String get selectedLanguage => _selectedLanguage;
 
   void setLanguage(String langCode) {
-    _selectedLanguage = langCode;
-    notifyListeners();
+    if (_selectedLanguage != langCode) {
+      _selectedLanguage = langCode;
+      notifyListeners();
+    }
   }
 
   Future<String> translate(String text) async {
