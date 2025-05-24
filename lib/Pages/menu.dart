@@ -7,7 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dec_app/Azure_Translation/translatable_text.dart';
 
+import '../Azure_Translation/LanguageToggle.dart';
 import '../Firestore/auth_service.dart';
+import 'Farmer/farmerHome.dart';
 import 'Farmer/farmerprofileEdit.dart';
 import 'LoginPage.dart';
 
@@ -147,31 +149,51 @@ class _MenuState extends State<Menu> {
                       ),
                     ),
                     const SizedBox(height: 16),
+
+
+                    Container(
+                      width: 330,
+
+                      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 14),
+                      decoration: BoxDecoration(
+                        color: Colors.green.shade800,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.25),
+                            offset: const Offset(0, 2),
+                            blurRadius: 4,
+                          ),
+                        ],
+                      ),
+                      child: const LanguageToggle(),
+                    ),
+
+
+
+                    const SizedBox(height: 16),
                     buildFontSizeCard(context),
                     const SizedBox(height: 32),
                     buildThemeToggle(isDark),
                     const SizedBox(height: 32),
+
                     ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 15,
-                          vertical: 8,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 10,
                         ),
-                        backgroundColor: Colors.red,
+                        backgroundColor: Colors.grey.shade700,
                         foregroundColor: Colors.white,
-                        textStyle: TextStyle(fontSize: 15),
+                        textStyle: const TextStyle(fontSize: 15),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      icon: Icon(Icons.logout, size: 28),
-                      label: Text('Logout'),
-                      onPressed: () async {
-                        await FirebaseAuth.instance.signOut();
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (context) => LoginPage()),
-                        );
+                      icon: const Icon(Icons.arrow_back),
+                      label: const TranslatableText('ආපසු'),
+                      onPressed: () {
+                        Navigator.pop(context);
                       },
                     ),
                   ],
@@ -186,7 +208,7 @@ class _MenuState extends State<Menu> {
 
   Widget buildProfileHeader() {
     return Container(
-      height: 150,
+      height: 200,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
         color: Theme.of(context).focusColor,
@@ -229,19 +251,18 @@ class _MenuState extends State<Menu> {
               ),
             ],
           ),
+
           Positioned(
-            top: 0,
-            right: 0,
+            top: 1,
+            right: -11,
             child: IconButton(
-              icon: const Icon(Icons.close),
-              onPressed: () {
-                if (user != null) {
-                  Navigator.pop(context);
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("User not logged in")),
-                  );
-                }
+              icon: const Icon(Icons.logout, size: 28, color: Colors.red),
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                );
               },
             ),
           ),

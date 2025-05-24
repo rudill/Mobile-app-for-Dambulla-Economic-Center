@@ -128,7 +128,7 @@ class _SendRequestPageState extends State<SendRequestPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Text(
+                        TranslatableText(
                           'කඩ අංකය:',
                           style: TextStyle(fontWeight: FontWeight.w500),
                         ),
@@ -138,7 +138,7 @@ class _SendRequestPageState extends State<SendRequestPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Text(
+                        TranslatableText(
                           'දුරකථන අංකය:',
                           style: TextStyle(fontWeight: FontWeight.w500),
                         ),
@@ -171,7 +171,7 @@ class _SendRequestPageState extends State<SendRequestPage> {
                           quantityController,
                         ),
                         SizedBox(height: 12),
-                        buildTextField('නම', farmerNameController),
+                        buildTextField('ඔබගේ නම', farmerNameController),
                         SizedBox(height: 12),
                         buildTextField('දුරකථන අංකය', contactController),
                         SizedBox(height: 12),
@@ -246,7 +246,7 @@ class _SendRequestPageState extends State<SendRequestPage> {
       controller: controller,
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
-        labelText: label,
+        label: TranslatableText(label),
         suffixText: 'KG',
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
         focusedBorder: OutlineInputBorder(
@@ -260,7 +260,7 @@ class _SendRequestPageState extends State<SendRequestPage> {
     return TextField(
       controller: controller,
       decoration: InputDecoration(
-        labelText: label,
+        label:TranslatableText(label) ,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.green),
@@ -278,7 +278,7 @@ class _SendRequestPageState extends State<SendRequestPage> {
       controller: dateController,
       readOnly: true,
       decoration: InputDecoration(
-        labelText: 'දිනය',
+        label: TranslatableText('දිනය'),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
         suffixIcon: Icon(Icons.calendar_today),
       ),

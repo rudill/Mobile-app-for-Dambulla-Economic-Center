@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../Azure_Translation/translatable_text.dart';
+
 class FarmerProfileEditPage extends StatefulWidget {
   const FarmerProfileEditPage({super.key});
 
@@ -45,9 +47,9 @@ class _FarmerProfileEditPageState extends State<FarmerProfileEditPage> {
         });
       } else {
         setState(() => isLoading = false);
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('Data not found')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: TranslatableText('Data not found')),
+        );
       }
     } catch (e) {
       print('Error fetching farmer data: $e');
@@ -69,16 +71,16 @@ class _FarmerProfileEditPageState extends State<FarmerProfileEditPage> {
           });
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('තොරතුරු යාවත්කාලීන කරන ලදී')),
+        const SnackBar(content: TranslatableText('තොරතුරු යාවත්කාලීන කරන ලදී')),
       );
 
       // Return updated name to Menuf page
       Navigator.pop(context, fnameController.text);
     } catch (e) {
       print('Error updating farmer data: $e');
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('දෝෂයක්: ${e.toString()}')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: TranslatableText('දෝෂයක්: ${e.toString()}')),
+      );
     }
   }
 
@@ -88,7 +90,7 @@ class _FarmerProfileEditPageState extends State<FarmerProfileEditPage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text(
+        title: const TranslatableText(
           'තොරතුරු වෙනස් කිරිම',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
@@ -129,7 +131,7 @@ class _FarmerProfileEditPageState extends State<FarmerProfileEditPage> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      child: const Text(
+                      child: const TranslatableText(
                         'තහවුරු කරන්න',
                         style: TextStyle(fontSize: 18),
                       ),
@@ -140,7 +142,7 @@ class _FarmerProfileEditPageState extends State<FarmerProfileEditPage> {
                     TextButton.icon(
                       onPressed: () => Navigator.pop(context),
                       icon: const Icon(Icons.arrow_back),
-                      label: const Text('ආපසු'),
+                      label: const TranslatableText('ආපසු'),
                       style: TextButton.styleFrom(
                         foregroundColor: Colors.black,
                       ),
@@ -157,7 +159,7 @@ class _FarmerProfileEditPageState extends State<FarmerProfileEditPage> {
       child: TextField(
         controller: controller,
         decoration: InputDecoration(
-          labelText: label,
+          label: TranslatableText(label),
           border: const OutlineInputBorder(),
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 16,

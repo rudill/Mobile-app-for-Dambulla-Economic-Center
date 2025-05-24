@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../Azure_Translation/translatable_text.dart';
 import 'menu.dart';
 
 class TechnicalHelpPage extends StatelessWidget {
@@ -31,7 +32,7 @@ class TechnicalHelpPage extends StatelessWidget {
                     children: [
                       Icon(Icons.arrow_back, color: Colors.black),
                       SizedBox(width: 6),
-                      Text('ආපසු', style: TextStyle(fontSize: 16)),
+                      TranslatableText('ආපසු', style: TextStyle(fontSize: 16)),
                     ],
                   ),
                 ),
@@ -52,7 +53,7 @@ class TechnicalHelpPage extends StatelessWidget {
                   children: [
                     Icon(Icons.settings, color: Colors.white),
                     SizedBox(width: 8),
-                    Text(
+                    TranslatableText(
                       'තාක්ෂණික සහාය',
                       style: TextStyle(
                         color: Colors.white,
@@ -73,7 +74,7 @@ class TechnicalHelpPage extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
+                      TranslatableText(
                         'යෙදුම භාවිතා කරන අතරතුර ඔබට\n'
                         'කිසියම් ගැටළුවක් ඇති වුවහොත්,\n'
                         'ඔබට සහාය වීමට අපගේ තාක්ෂණික\n'
@@ -90,7 +91,7 @@ class TechnicalHelpPage extends StatelessWidget {
                         children: [
                           Icon(Icons.phone, color: Colors.red),
                           SizedBox(width: 8),
-                          Text(
+                          TranslatableText(
                             'අප අමතන්න:',
                             style: TextStyle(
                               fontSize: 16,
