@@ -52,12 +52,14 @@ class Selection_screen extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            TranslatableText(
-              text,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+            Expanded(
+              child: TranslatableText(
+                text,
+                style: TextStyle(
+                  fontSize: 21,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
             ),
             Image.asset(imagePath, height: 170, width: 170),

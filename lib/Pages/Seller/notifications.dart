@@ -18,6 +18,7 @@ class NotificationsFromFireStore extends StatefulWidget {
 
 User? user = FirebaseAuth.instance.currentUser;
 
+
 class _NotificationsFromFireStoreState
     extends State<NotificationsFromFireStore> {
   @override
@@ -58,12 +59,21 @@ class _NotificationsFromFireStoreState
                             children: [
                               Row(
                                 children: [
-                                  Text('Reservation from ${res['farmerName']}'),
+                                  Expanded(
+                                    child: Text(
+                                      'Reservation from ${res['farmerName']}',
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
                                 ],
                               ),
                               Row(
                                 children: [
-                                  Text('Quantity is ${res['quantity']}'),
+                                  Expanded(
+                                    child: Text(
+                                      'Quantity is ${res['quantity']}',
+                                    ),
+                                  ),
                                 ],
                               ),
                             ],
@@ -77,12 +87,6 @@ class _NotificationsFromFireStoreState
                                 onPressed: () async {
                                   int quantity = res['quantity'];
                                   String productID = res['productID'];
-
-                                  // HiveArchive().addToHiveBoxFromForm(
-
-                                  //
-                                  //   res['farmerName'],
-                                  // );
 
                                   HiveReservationData(
                                     index:
@@ -99,9 +103,7 @@ class _NotificationsFromFireStoreState
                                     farmerAddress: res['farmerAddress'],
                                     productID: res['productID'],
                                     farmerID: res['farmerID'],
-                                    date:
-                                        (res['requested date'] as Timestamp)
-                                            .toDate(),
+                                    date: (res['date'] as Timestamp).toDate(),
                                     totalPrice: res['totalPrice'],
                                     status: res['status'],
                                   ).addToReservationHiveBox();

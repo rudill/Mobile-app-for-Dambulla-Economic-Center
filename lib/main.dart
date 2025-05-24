@@ -5,7 +5,11 @@ import 'package:hive_ce/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
+
+
+
 import 'Azure_Translation/translation_provider.dart';
+
 import 'Pages/homeScreen.dart';
 import 'firebase_options.dart';
 import 'Widgets/font_size_controller.dart';
@@ -18,6 +22,7 @@ void main() async {
   Hive.init(dir.path);
   await Hive.openBox('myBox');
   await Hive.openBox('reservations');
+  // initializeNotifications();
 
   runApp(
     ChangeNotifierProvider(
@@ -50,7 +55,11 @@ class Home extends StatelessWidget {
                     ).copyWith(textScaleFactor: fontSize),
                     child: child!,
                   ),
-              home: LoginPage(),
+
+             home: LoginPage(),
+
+            
+
             );
           },
         );
