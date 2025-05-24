@@ -1,6 +1,7 @@
 import 'package:dec_app/Pages/Seller/OrderUpdate.dart';
 import 'package:flutter/material.dart';
 
+import '../Azure_Translation/translatable_text.dart';
 import '../Components/productQuantityManager.dart';
 import '../Firestore/productData.dart';
 import '../Models/product_model.dart';
@@ -31,7 +32,7 @@ class _OnOrderTileState extends State<OnOrderTile> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  TranslatableText(
                     '${widget.product.name}  ${widget.product.quantity}Kg',
                     style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
                   ),
@@ -78,7 +79,7 @@ class _OnOrderTileState extends State<OnOrderTile> {
                       ),
                     ],
                   ),
-                  Text(
+                  TranslatableText(
                     "${filledQuantity}Kg / ${widget.product.quantity}Kg සම්පුර්ණ වී ඇත",
                     style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
                   ),
@@ -102,7 +103,7 @@ class _OnOrderTileState extends State<OnOrderTile> {
                       backgroundColor: Colors.green,
                       foregroundColor: Colors.white,
                     ),
-                    child: Text(
+                    child: TranslatableText(
                       "වෙනස් කරන්න",
                       style: TextStyle(fontWeight: FontWeight.w700),
                     ),
@@ -114,20 +115,20 @@ class _OnOrderTileState extends State<OnOrderTile> {
                         context: context,
                         builder:
                             (context) => AlertDialog(
-                              title: const Text('ඇණවූම ඉවත් කිරීම'),
-                              content: const Text(
+                              title: const TranslatableText('ඇණවූම ඉවත් කිරීම'),
+                              content: const TranslatableText(
                                 'ඔබගේ ඇණවූම ඉවත් කිරීමට අවශ්‍යද?',
                               ),
                               actions: [
                                 TextButton(
                                   onPressed: () => Navigator.pop(context),
-                                  child: const Text('නැත'),
+                                  child: const TranslatableText('නැත'),
                                 ),
                                 TextButton(
                                   onPressed: () async{
                                     await Database().deleteProduct(widget.product.id, context);
                                   },
-                                  child: const Text(
+                                  child: const TranslatableText(
                                     'අවශ්‍යයි',
                                     style: TextStyle(color: Colors.red),
                                   ),
@@ -140,7 +141,7 @@ class _OnOrderTileState extends State<OnOrderTile> {
                       backgroundColor: Colors.amber,
                       foregroundColor: Colors.white,
                     ),
-                    child: Text(
+                    child: TranslatableText(
                       "ඉවත් කරන්න",
                       style: TextStyle(fontWeight: FontWeight.w700),
                     ),
