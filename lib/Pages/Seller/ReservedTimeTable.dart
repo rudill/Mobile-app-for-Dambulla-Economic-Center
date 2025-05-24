@@ -36,19 +36,17 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
   @override
   Widget build(BuildContext context) {
     int halfItemCount = (itemCount / 2).ceil();
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: TranslatableText(
-            'Reserved Time Table',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
-          ),
-          backgroundColor: Color(0xFF208A43),
+    return Scaffold(
+      appBar: AppBar(
+        title: TranslatableText(
+          'වෙන් කළ කාලසටහන',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
         ),
-        body: RefreshIndicator(
-          onRefresh: _refreshTable,
-          child: tableView(context, halfItemCount),
-        ),
+        backgroundColor: Color(0xFF208A43),
+      ),
+      body: RefreshIndicator(
+        onRefresh: _refreshTable,
+        child: tableView(context, halfItemCount),
       ),
     );
   }
@@ -63,10 +61,6 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
             mainAxisSize: MainAxisSize.min,
             children: [
               ElevatedButton(
-                onPressed: HiveArchive().clearHiveBox,
-                child: TranslatableText('Clear Table'),
-              ),
-              ElevatedButton(
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -75,6 +69,7 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
                     ),
                   );
                 },
+
                 child: TranslatableText('Notifications'),
               ),
             ],
@@ -110,7 +105,6 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
                                 ),
                               ),
                               onTap: () {
-
                                 if (reservation != null) {
                                   Navigator.push(
                                     context,
@@ -121,9 +115,6 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
                                     ),
                                   );
                                 }
-
-                                
-
                               },
                             ),
                           ),
@@ -161,7 +152,6 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
                                 ),
                               ),
                               onTap: () {
-
                                 if (reservation != null) {
                                   Navigator.push(
                                     context,
@@ -173,9 +163,6 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
                                     ),
                                   );
                                 }
-
-                               
-
                               },
                             ),
                           ),

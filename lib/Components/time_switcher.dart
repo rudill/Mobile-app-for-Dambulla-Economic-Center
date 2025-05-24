@@ -1,11 +1,7 @@
 class TimeSwitcher {
-  final String pickedTime;
-
-  TimeSwitcher({required this.pickedTime});
-
   late int timeslot;
 
-  int switchTimeToTimeSlot() {
+  int switchTimeToTimeSlot(String pickedTime) {
     switch (pickedTime) {
       case '4':
         timeslot = 0;

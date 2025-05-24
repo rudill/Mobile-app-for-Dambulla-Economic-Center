@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../Azure_Translation/translatable_text.dart';
 import '../../Components/productQuantityManager.dart';
 import '../../Components/time_picker.dart';
 import '../../Components/time_switcher.dart';
@@ -18,13 +19,18 @@ class NotificationsFromFireStore extends StatefulWidget {
 
 User? user = FirebaseAuth.instance.currentUser;
 
-
 class _NotificationsFromFireStoreState
     extends State<NotificationsFromFireStore> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Requests')),
+      appBar: AppBar(
+        title: TranslatableText(
+          "ඇණවුම් ඉල්ලීම්",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+        ),
+        backgroundColor: Color(0xFF208A43),
+      ),
       body: reservationRequests(),
     );
   }
@@ -88,13 +94,15 @@ class _NotificationsFromFireStoreState
                                   int quantity = res['quantity'];
                                   String productID = res['productID'];
 
+                                  String pickedTime = await getPickedTime(
+                                    context,
+                                  );
+                                  String timeSlot = pickedTime;
+
                                   HiveReservationData(
-                                    index:
-                                        TimeSwitcher(
-                                          pickedTime: await getPickedTime(
-                                            context,
-                                          ),
-                                        ).switchTimeToTimeSlot(),
+                                    index: TimeSwitcher().switchTimeToTimeSlot(
+                                      pickedTime,
+                                    ),
                                     id: res['id'],
                                     quantity: res['quantity'],
                                     sellerID: res['sellerID'],
@@ -106,10 +114,14 @@ class _NotificationsFromFireStoreState
                                     date: (res['date'] as Timestamp).toDate(),
                                     totalPrice: res['totalPrice'],
                                     status: res['status'],
+                                    timeSlot: res['timeSlot'],
                                   ).addToReservationHiveBox();
 
                                   await ReservationCollection()
-                                      .updateReservationStatus(res['id']);
+                                      .updateReservationStatus(
+                                        res['id'],
+                                        timeSlot,
+                                      );
 
                                   ProductQuantityManager().updateFilledQuantity(
                                     productID,

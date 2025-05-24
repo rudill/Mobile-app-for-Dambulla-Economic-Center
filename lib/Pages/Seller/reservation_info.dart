@@ -13,7 +13,13 @@ class ReservationInfo extends StatelessWidget {
     final reservation = HiveArchive().getReservationDetails(index);
 
     return Scaffold(
-      appBar: AppBar(title: const TranslatableText('Reservation Information')),
+      appBar: AppBar(
+        title: TranslatableText(
+          "වෙන්කිරීමේ තොරතුරු",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+        ),
+        backgroundColor: Color(0xFF208A43),
+      ),
       body: SingleChildScrollView(
         child: Container(
           width: double.infinity,
@@ -50,33 +56,33 @@ class ReservationInfo extends StatelessWidget {
                   ),
                   const SizedBox(height: 32),
                   _buildInfoRow(
-                    'Farmer Name',
+                    'ගොවි මහතාගේ නම',
                     reservation?['farmerName'] ?? '',
                   ),
                   _buildInfoRow(
-                    'Phone Number',
+                    'දුරකථන අංකය',
                     reservation?['phoneNumber'].toString() ?? '',
                   ),
-                  _buildInfoRow('Address', reservation?['farmerAddress'] ?? ''),
+                  _buildInfoRow('ලිපිනය', reservation?['farmerAddress'] ?? ''),
                   FutureBuilder<String?>(
                     future: ReservationCollection().getProductName(
                       reservation?['productID'],
                     ),
                     builder: (context, snapshot) {
                       final productName = snapshot.data ?? 'Loading...';
-                      return _buildInfoRow('Product', productName);
+                      return _buildInfoRow('නිෂ්පාදනය', productName);
                     },
                   ),
                   _buildInfoRow(
-                    'Quantity',
+                    'ප්‍රමාණය',
                     reservation?['quantity'].toString() ?? '',
                   ),
-                  _buildInfoRow('Date', reservation?['date'].toString() ?? ''),
+                  _buildInfoRow('දිනය', reservation?['date'].toString() ?? ''),
                   _buildInfoRow(
-                    'Total Price',
+                    'මුළු මිල',
                     'Rs. ${reservation?['totalPrice'].toString() ?? ''}',
                   ),
-                  _buildInfoRow('Status', reservation?['status'] ?? ''),
+                  _buildInfoRow('තත්ත්වය', reservation?['status'] ?? ''),
                   const SizedBox(height: 32),
 
                   ElevatedButton(
@@ -140,7 +146,7 @@ class ReservationInfo extends StatelessWidget {
           Expanded(
             flex: 3,
             child: TranslatableText(
-              '$label:',
+              label,
               textAlign: TextAlign.start,
               style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
             ),

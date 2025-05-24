@@ -204,6 +204,7 @@ class _SendRequestPageState extends State<SendRequestPage> {
                                 date: DateTime.parse(dateController.text),
                                 totalPrice: totalPrice,
                                 status: 'pending',
+                                timeSlot: '',
                               ),
                             );
                             Navigator.push(
