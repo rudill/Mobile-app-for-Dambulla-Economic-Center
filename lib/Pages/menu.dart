@@ -149,11 +149,34 @@ class _MenuState extends State<Menu> {
                       ),
                     ),
                     const SizedBox(height: 16),
+
+
+                    Container(
+                      width: 330,
+
+                      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 14),
+                      decoration: BoxDecoration(
+                        color: Colors.green.shade800,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.25),
+                            offset: const Offset(0, 2),
+                            blurRadius: 4,
+                          ),
+                        ],
+                      ),
+                      child: const LanguageToggle(),
+                    ),
+
+
+
+                    const SizedBox(height: 16),
                     buildFontSizeCard(context),
                     const SizedBox(height: 32),
                     buildThemeToggle(isDark),
                     const SizedBox(height: 32),
-                    const SizedBox(height: 32),
+
                     ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(
@@ -170,12 +193,7 @@ class _MenuState extends State<Menu> {
                       icon: const Icon(Icons.arrow_back),
                       label: const TranslatableText('ආපසු'),
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => FarmerHomePage(),
-                          ),
-                        );
+                        Navigator.pop(context);
                       },
                     ),
                   ],
@@ -233,7 +251,7 @@ class _MenuState extends State<Menu> {
               ),
             ],
           ),
-          Positioned(top: 4, right: 48, child: const LanguageToggle()),
+
           Positioned(
             top: 1,
             right: -11,

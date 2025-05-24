@@ -104,8 +104,8 @@ class _ProductSubmitionFormState extends State<ProductSubmitionForm> {
                       child: DropdownButtonFormField<String>(
                         value: selectedItem,
                         decoration: InputDecoration(
-                          labelText:
-                              "${selectedOption == 'veg' ? 'එළවලු' : 'පළතුරු'} නම",
+                          label:TranslatableText( "${selectedOption == 'veg' ? 'එළවලු' : 'පළතුරු'} නම",),
+
                           labelStyle: TextStyle(color: Colors.black54),
                           border: InputBorder.none,
                         ),
@@ -186,7 +186,7 @@ class _ProductSubmitionFormState extends State<ProductSubmitionForm> {
     return TextField(
       controller: controller,
       decoration: InputDecoration(
-        labelText: label,
+        label: TranslatableText(label),
         prefixText: prefixText,
         hintText: hintText,
         border: OutlineInputBorder(),

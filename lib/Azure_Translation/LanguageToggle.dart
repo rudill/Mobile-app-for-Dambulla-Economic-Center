@@ -19,7 +19,7 @@ class LanguageToggle extends StatelessWidget {
                 provider.setLanguage(isEnglish ? 'si' : 'en');
               },
               child: Container(
-                width: 100,
+                width: 170,
                 height: 40,
                 padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
                 decoration: BoxDecoration(
@@ -45,8 +45,8 @@ class LanguageToggle extends StatelessWidget {
                       duration: const Duration(milliseconds: 250),
                       curve: Curves.easeInOut,
                       child: Container(
-                        width: 48,
-                        height: 32,
+                        width: 80,
+                        height: 40,
                         decoration: BoxDecoration(
                           color: Colors.green,
                           borderRadius: BorderRadius.circular(20),
@@ -68,7 +68,7 @@ class LanguageToggle extends StatelessWidget {
                         Expanded(
                           child: Center(
                             child: Text(
-                              "සිං",
+                              "සිංහල",
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,
@@ -81,7 +81,7 @@ class LanguageToggle extends StatelessWidget {
                         Expanded(
                           child: Center(
                             child: Text(
-                              "En",
+                              "English",
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,

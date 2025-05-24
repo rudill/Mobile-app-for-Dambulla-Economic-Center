@@ -159,7 +159,7 @@ class _FarmerProfileEditPageState extends State<FarmerProfileEditPage> {
       child: TextField(
         controller: controller,
         decoration: InputDecoration(
-          labelText: label,
+          label: TranslatableText(label),
           border: const OutlineInputBorder(),
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 16,
