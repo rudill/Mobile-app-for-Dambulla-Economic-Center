@@ -19,7 +19,6 @@ class NotificationsFromFireStore extends StatefulWidget {
 
 User? user = FirebaseAuth.instance.currentUser;
 
-
 class _NotificationsFromFireStoreState
     extends State<NotificationsFromFireStore> {
   @override
@@ -95,13 +94,15 @@ class _NotificationsFromFireStoreState
                                   int quantity = res['quantity'];
                                   String productID = res['productID'];
 
+                                  String pickedTime = await getPickedTime(
+                                    context,
+                                  );
+                                  String timeSlot = pickedTime;
+
                                   HiveReservationData(
-                                    index:
-                                        TimeSwitcher(
-                                          pickedTime: await getPickedTime(
-                                            context,
-                                          ),
-                                        ).switchTimeToTimeSlot(),
+                                    index: TimeSwitcher().switchTimeToTimeSlot(
+                                      pickedTime,
+                                    ),
                                     id: res['id'],
                                     quantity: res['quantity'],
                                     sellerID: res['sellerID'],
@@ -113,10 +114,14 @@ class _NotificationsFromFireStoreState
                                     date: (res['date'] as Timestamp).toDate(),
                                     totalPrice: res['totalPrice'],
                                     status: res['status'],
+                                    timeSlot: res['timeSlot'],
                                   ).addToReservationHiveBox();
 
                                   await ReservationCollection()
-                                      .updateReservationStatus(res['id']);
+                                      .updateReservationStatus(
+                                        res['id'],
+                                        timeSlot,
+                                      );
 
                                   ProductQuantityManager().updateFilledQuantity(
                                     productID,

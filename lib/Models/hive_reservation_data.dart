@@ -13,6 +13,7 @@ class HiveReservationData {
   double? totalPrice;
   DateTime date;
   String status;
+  String timeSlot;
 
   HiveReservationData({
     required this.index,
@@ -27,6 +28,7 @@ class HiveReservationData {
     required this.date,
     required this.totalPrice,
     required this.status,
+    required this.timeSlot
   });
 
   final resBox = Hive.box('reservations');
@@ -44,6 +46,7 @@ class HiveReservationData {
     'status': status,
     'date': date,
     'totalPrice': totalPrice,
+    'timeSlot':timeSlot,
   };
 
   Future<void> addToReservationHiveBox() async {
