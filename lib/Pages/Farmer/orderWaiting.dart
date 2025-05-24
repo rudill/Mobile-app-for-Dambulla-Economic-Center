@@ -51,7 +51,7 @@ class _OrderWaitingState extends State<OrderWaiting> {
                   );
                 }
                 return SizedBox(
-                  height: 500,
+                  height: 450,
                   child: PageView.builder(
                     itemCount: snapshot.data!.length,
                     controller: PageController(viewportFraction: 0.9),
@@ -86,7 +86,7 @@ class _OrderWaitingState extends State<OrderWaiting> {
                             SizedBox(height: 15),
                             Row(
                               children: [
-                                Text(
+                                TranslatableText(
                                   'දිනය:',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -109,9 +109,11 @@ class _OrderWaitingState extends State<OrderWaiting> {
                                   ),
                                 ),
                                 SizedBox(width: 16),
-                                TranslatableText(
-                                  '${data['productName']}  ${data['quantity']}KG',
-                                  style: TextStyle(fontSize: 16),
+                                Expanded(
+                                  child: TranslatableText(
+                                    '${data['productName']}  ${data['quantity']}KG',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
                                 ),
                               ],
                             ),
@@ -155,7 +157,7 @@ class _OrderWaitingState extends State<OrderWaiting> {
 
                             Row(
                               children: [
-                                Text(
+                                TranslatableText(
                                   'දුරකථන අංකය: ',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -204,6 +206,80 @@ class _OrderWaitingState extends State<OrderWaiting> {
                 );
               },
             ),
+            StreamBuilder<List<Map<String, dynamic>>>(
+              stream: OrderWaitingData().getPastOrders(user!.uid),
+              builder: (context, snapshot) {
+
+                if (snapshot.hasError) {
+                  return TranslatableText('Error loading past orders: ${snapshot.error}');
+                }
+                if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: TranslatableText(
+                        'පසුගිය ඇණවුම් නොමැත',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ),
+                  );
+                }
+
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
+                      child: TranslatableText(
+                        'පසුගිය ඇණවුම්',
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                      ),
+                    ),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(), // prevent scroll conflict
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, index) {
+                        var order = snapshot.data![index];
+                        return Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(color: Color(0xFF20AB43)),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('${order['date']}', style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500)),
+                                  SizedBox(height: 4),
+                                  TranslatableText('${order['productName']} ${order['quantity']}kg',
+                                      style: TextStyle(fontSize: 14 ,fontWeight: FontWeight.w500)),
+                                  SizedBox(height: 4),
+                                  TranslatableText('${order['shopName']}', style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500)),
+                                ],
+                              ),
+                              Text(
+                                'රු. ${order['totalPrice'].toStringAsFixed(2)}',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                );
+              },
+            ),
+
           ],
         ),
       ),
