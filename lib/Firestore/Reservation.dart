@@ -12,10 +12,11 @@ class ReservationCollection {
         .snapshots();
   }
 
-  Future<void> updateReservationStatus(String resID) async {
+  Future<void> updateReservationStatus(String resID, String timeSlot) async {
     final String status = 'accepted';
     FirebaseFirestore.instance.collection('reservation').doc(resID).update({
       'status': status,
+      'timeSlot': '$timeSlot:00',
     });
   }
 
