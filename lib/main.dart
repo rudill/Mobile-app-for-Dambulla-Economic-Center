@@ -5,9 +5,6 @@ import 'package:hive_ce/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
-
-
-
 import 'Azure_Translation/translation_provider.dart';
 
 import 'Pages/homeScreen.dart';
@@ -56,10 +53,7 @@ class Home extends StatelessWidget {
                     child: child!,
                   ),
 
-             home: LoginPage(),
-
-            
-
+              home: LoginPage(),
             );
           },
         );

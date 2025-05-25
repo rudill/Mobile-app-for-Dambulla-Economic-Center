@@ -82,26 +82,28 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Image(image: AssetImage("assets/images/img.png")),
-          SingleChildScrollView(
-            padding: EdgeInsets.all(10),
-            child: Form(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Image(image: AssetImage("assets/images/img.png")),
+            Form(
               key: _formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(height: 60),
-                  SizedBox(
-                    height: 50,
-                    child: Container(
-                      width: double.infinity,
-                      height: 10,
-                      decoration: BoxDecoration(
-                        image: const DecorationImage(
-                          image: AssetImage('assets/images/FHbanner.png'),
-                          fit: BoxFit.fitWidth,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      height: 50,
+                      child: Container(
+                        width: double.infinity,
+                        height: 10,
+                        decoration: BoxDecoration(
+                          image: const DecorationImage(
+                            image: AssetImage('assets/images/FHbanner.png'),
+                            fit: BoxFit.fitWidth,
+                          ),
                         ),
                       ),
                     ),
@@ -109,45 +111,54 @@ class _LoginPageState extends State<LoginPage> {
 
                   SizedBox(height: 50),
 
-                  TextFormField(
-                    controller: _emailController,
-                    decoration: InputDecoration(
-                      label: TranslatableText('ඔබගේ විද්‍යුත් ලිපිනය'),
-                      border: OutlineInputBorder(),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      controller: _emailController,
+                      decoration: InputDecoration(
+                        label: TranslatableText('ඔබගේ විද්‍යුත් ලිපිනය'),
+                        border: OutlineInputBorder(),
+                      ),
+                      validator:
+                          (value) =>
+                              value!.isEmpty
+                                  ? 'කරුණාකර විද්‍යුත් ලිපිනය ඇතුළත් කරන්න'
+                                  : null,
                     ),
-                    validator:
-                        (value) =>
-                            value!.isEmpty
-                                ? 'කරුණාකර විද්‍යුත් ලිපිනය ඇතුළත් කරන්න'
-                                : null,
                   ),
 
                   SizedBox(height: 16),
 
-                  TextFormField(
-                    controller: _passwordController,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      label: TranslatableText('ඔබගේ මුරපදය'),
-                      border: OutlineInputBorder(),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      controller: _passwordController,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        label: TranslatableText('ඔබගේ මුරපදය'),
+                        border: OutlineInputBorder(),
+                      ),
+                      validator:
+                          (value) =>
+                              value!.isEmpty
+                                  ? 'කරුණාකර රහස් අංකය ඇතුළත් කරන්න'
+                                  : null,
                     ),
-                    validator:
-                        (value) =>
-                            value!.isEmpty
-                                ? 'කරුණාකර රහස් අංකය ඇතුළත් කරන්න'
-                                : null,
                   ),
                   SizedBox(height: 40),
 
-                  ElevatedButton(
-                    onPressed: _login,
-                    child: TranslatableText('ගිණුමට පිවිසෙන්න.'),
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: Size(double.infinity, 64),
-                      backgroundColor: Colors.green,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      onPressed: _login,
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(double.infinity, 64),
+                        backgroundColor: Colors.green,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
                       ),
+                      child: TranslatableText('ගිණුමට පිවිසෙන්න.'),
                     ),
                   ),
                   SizedBox(height: 12),
@@ -164,10 +175,11 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
             ),
-          ),
-          Spacer(),
-          Image(image: AssetImage('assets/images/down_shape.png')),
-        ],
+            SizedBox(height: 70),
+
+            Image(image: AssetImage('assets/images/down_shape.png')),
+          ],
+        ),
       ),
     );
   }
