@@ -12,7 +12,7 @@ class Welcome extends StatefulWidget {
 }
 
 class _WelcomeState extends State<Welcome> {
-  int _value = 1;
+  int _value = 2;
 
   @override
   Widget build(BuildContext context) {

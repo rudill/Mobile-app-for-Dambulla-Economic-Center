@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../Firestore/auth_service.dart';
 import 'Seller/sallerHome.dart';
 import 'landing.dart';
-import 'personselect.dart';
 import 'Farmer/farmerHome.dart';
 import 'package:dec_app/Azure_Translation/translatable_text.dart';
 
@@ -82,104 +81,126 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Image(image: AssetImage("assets/images/img.png")),
-            Form(
-              key: _formKey,
+      backgroundColor: Colors.white,
+      body: Stack(
+        alignment: Alignment.topCenter,
+        children: [
+
+          Positioned(
+            top: 100,
+            child: Image.asset(
+              'assets/images/FHbanner.png',
+              height: 250,
+              width: 350,
+              fit: BoxFit.contain,
+            ),
+          ),
+
+
+          Align(
+            alignment: Alignment.center,
+            child: SingleChildScrollView(
+              padding: EdgeInsets.symmetric(horizontal: 24),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(height: 60),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      height: 50,
-                      child: Container(
-                        width: double.infinity,
-                        height: 10,
-                        decoration: BoxDecoration(
-                          image: const DecorationImage(
-                            image: AssetImage('assets/images/FHbanner.png'),
-                            fit: BoxFit.fitWidth,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  SizedBox(height: 100),
 
-                  SizedBox(height: 50),
-
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(
-                      controller: _emailController,
-                      decoration: InputDecoration(
-                        label: TranslatableText('ඔබගේ විද්‍යුත් ලිපිනය'),
-                        border: OutlineInputBorder(),
+                  Material(
+                    elevation: 8,
+                    borderRadius: BorderRadius.circular(20),
+                    child: Container(
+                      padding: EdgeInsets.all(24),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
                       ),
-                      validator:
-                          (value) =>
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+
+
+                            TextFormField(
+                              controller: _emailController,
+                              decoration: InputDecoration(
+                                prefixIcon: Icon(Icons.email),
+                                label: TranslatableText(
+                                    'ඔබගේ විද්‍යුත් ලිපිනය'),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              validator: (value) =>
                               value!.isEmpty
                                   ? 'කරුණාකර විද්‍යුත් ලිපිනය ඇතුළත් කරන්න'
                                   : null,
-                    ),
-                  ),
+                            ),
+                            SizedBox(height: 16),
 
-                  SizedBox(height: 16),
+                            StatefulBuilder(
+                              builder: (context, setState) {
+                                bool _obscurePassword = true;
+                                return TextFormField(
+                                  controller: _passwordController,
+                                  obscureText: _obscurePassword,
+                                  decoration: InputDecoration(
+                                    prefixIcon: Icon(Icons.lock),
+                                    label: TranslatableText('ඔබගේ මුරපදය'),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                  ),
+                                  validator: (value) =>
+                                  value!.isEmpty
+                                      ? 'කරුණාකර රහස් අංකය ඇතුළත් කරන්න'
+                                      : null,
+                                );
+                              },
+                            ),
+                            SizedBox(height: 24),
 
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(
-                      controller: _passwordController,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        label: TranslatableText('ඔබගේ මුරපදය'),
-                        border: OutlineInputBorder(),
+                            ElevatedButton(
+                              onPressed: _login,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green,
+                                minimumSize: Size(double.infinity, 50),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(14),
+                                ),
+                              ),
+                              child: TranslatableText(
+                                'ගිණුමට පිවිසෙන්න.',
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      validator:
-                          (value) =>
-                              value!.isEmpty
-                                  ? 'කරුණාකර රහස් අංකය ඇතුළත් කරන්න'
-                                  : null,
                     ),
                   ),
+
                   SizedBox(height: 40),
 
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton(
-                      onPressed: _login,
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: Size(double.infinity, 64),
-                        backgroundColor: Colors.green,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(14),
-                        ),
-                      ),
-                      child: TranslatableText('ගිණුමට පිවිසෙන්න.'),
-                    ),
-                  ),
-                  SizedBox(height: 12),
                   TextButton(
-                    onPressed:
-                        () => Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Welcome()),
-                        ),
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (_) => Welcome()));
+                    },
                     child: TranslatableText(
                       'ලියාපදිංචි වී නැද්ද? මෙතන ක්ලික් කරන්න',
+                      style: TextStyle(
+                        color: Colors.green,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 70),
-
-            Image(image: AssetImage('assets/images/down_shape.png')),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

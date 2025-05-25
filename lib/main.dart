@@ -6,8 +6,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'Azure_Translation/translation_provider.dart';
-
-import 'Pages/homeScreen.dart';
 import 'firebase_options.dart';
 import 'Widgets/font_size_controller.dart';
 import 'Widgets/theme_controller.dart';
