@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../Azure_Translation/translatable_text.dart';
+import '../../Components/login.dart';
 import 'notifications.dart';
 
 class ReservedTimeSlots extends StatefulWidget {
@@ -60,18 +61,29 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => NotificationsFromFireStore(),
-                    ),
-                  );
-                },
-
-                child: TranslatableText('Notifications'),
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => NotificationsFromFireStore(),
+                      ),
+                    );
+                  },
+                  icon: Icon(Icons.notifications),
+                  label: TranslatableText('නව වෙන් කිරීම් ඇණවුම්'),
+                ),
               ),
+              ElevatedButton(onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MyLoginPage(),
+                  ),
+                );
+              }, child: Text('login')),
             ],
           ),
         ),

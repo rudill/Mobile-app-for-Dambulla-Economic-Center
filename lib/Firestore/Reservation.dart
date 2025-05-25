@@ -56,7 +56,7 @@ class ReservationCollection {
     return null;
   }
 
-  Future<void> completeOrder(
+  Future<void> completeReservation(
     Map<String, dynamic> orderDetails,
     String resID,
   ) async {
@@ -86,6 +86,20 @@ class ReservationCollection {
       print('added to history');
     } catch (e) {
       print('Failed to add to history');
+    }
+  }
+
+  Future<void> rejectReservation(String resID) async {
+    String status = 'rejected';
+
+    final querySnapShots =
+        await FirebaseFirestore.instance
+            .collection('reservation')
+            .where('id', isEqualTo: resID)
+            .get();
+
+    for (final doc in querySnapShots.docs) {
+      await doc.reference.update({'status': status});
     }
   }
 }

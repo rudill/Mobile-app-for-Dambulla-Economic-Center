@@ -87,7 +87,7 @@ class ReservationInfo extends StatelessWidget {
 
                   ElevatedButton(
                     onPressed: () {
-                      ReservationCollection().completeOrder(
+                      ReservationCollection().completeReservation(
                         reservation!,
                         reservation['id'],
                       );
