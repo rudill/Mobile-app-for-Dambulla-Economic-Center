@@ -2,12 +2,22 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../Azure_Translation/translatable_text.dart';
 import '../../Firestore/reservationStatus.dart';
+import 'farmerHome.dart';
 
 class OrderWaiting extends StatefulWidget {
   const OrderWaiting({super.key});
-
   @override
   State<OrderWaiting> createState() => _OrderWaitingState();
+}
+String getTimeWithAmPm(String timeString) {
+  final parts = timeString.split(':');
+  int hour = int.parse(parts[0]);
+  final minute = parts[1];
+  final isPm = hour >= 12;
+  final displayHour = hour == 0 ? 12 : hour > 12 ? hour - 12 : hour;
+  final amPm = isPm ? 'PM' : 'AM';
+
+  return '$displayHour:$minute $amPm';
 }
 
 class _OrderWaitingState extends State<OrderWaiting> {
@@ -15,14 +25,25 @@ class _OrderWaitingState extends State<OrderWaiting> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Color(0xFF208A43)),
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF208A43),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => FarmerApp()),
+            );
+          },
+        ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
             StreamBuilder<List<Map<String, dynamic>>>(
               stream: OrderWaitingData().getOrderWaitingData(user!.uid),
               builder: (context, snapshot) {
-                //below
+
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
                     child: Padding(
@@ -31,7 +52,6 @@ class _OrderWaitingState extends State<OrderWaiting> {
                     ),
                   );
                 }
-                //up
 
                 if (snapshot.hasError) {
                   return TranslatableText('Error: ${snapshot.error}');
@@ -42,7 +62,7 @@ class _OrderWaitingState extends State<OrderWaiting> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SizedBox(height: 500),
-                        Text(
+                        TranslatableText(
                           'කිසිදු ක්‍රියාකාරී ඇණවුමක් නැත',
                           style: TextStyle(fontSize: 16),
                         ),
@@ -77,7 +97,9 @@ class _OrderWaitingState extends State<OrderWaiting> {
                                     image: AssetImage(
                                       data['status'] == 'pending'
                                           ? 'assets/images/clock_icon.png'
-                                          : 'assets/images/OrderAcceptTick.png',
+                                          : data['status'] == 'accepted'
+                                          ? 'assets/images/OrderAcceptTick.png'
+                                          : 'assets/images/reject2.png',
                                     ),
                                   ),
                                 ),
@@ -173,20 +195,32 @@ class _OrderWaitingState extends State<OrderWaiting> {
                             ),
                             SizedBox(height: 30),
                             Row(
+
                               children: [
                                 Expanded(
                                   child: Container(
                                     width: 380,
                                     height: 90,
                                     decoration: BoxDecoration(
-                                      color: const Color(0xFF20AB43),
+                                      color: data['status'] == 'rejected' ?Colors.red : Color(0xFF20AB43),
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: Center(
-                                      child: TranslatableText(
+                                      child: data['status'] == 'rejected'
+                                          ? ElevatedButton(
+                                        onPressed: () async {
+                                          await OrderWaitingData().rejectOrder(data['resID']);
+                                        },
+                                        child: TranslatableText('ඔබගේ ඇනවුම ප්‍රතික්ශේප විය'),
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.redAccent,
+                                          foregroundColor: Colors.white,
+                                        ),
+                                      )
+                                          : TranslatableText(
                                         data['status'] == 'pending'
                                             ? 'තහවුරු කරන තෙක් සිටින්න'
-                                            : 'කාලය පෙ.ව 6.30-7.00',
+                                            : 'කාලය ${getTimeWithAmPm(data['time'])}',
                                         style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
@@ -203,9 +237,12 @@ class _OrderWaitingState extends State<OrderWaiting> {
                       );
                     },
                   ),
+
                 );
+
               },
             ),
+
             StreamBuilder<List<Map<String, dynamic>>>(
               stream: OrderWaitingData().getPastOrders(user!.uid),
               builder: (context, snapshot) {
@@ -217,10 +254,10 @@ class _OrderWaitingState extends State<OrderWaiting> {
                   return Center(
                     child: Padding(
                       padding: const EdgeInsets.only(top: 20),
-                      child: TranslatableText(
-                        'පසුගිය ඇණවුම් නොමැත',
-                        style: TextStyle(fontSize: 16),
-                      ),
+                      // child: TranslatableText(
+                      //   'පසුගිය ඇණවුම් නොමැත',
+                      //   style: TextStyle(fontSize: 16),
+                      // ),
                     ),
                   );
                 }
@@ -279,10 +316,11 @@ class _OrderWaitingState extends State<OrderWaiting> {
                 );
               },
             ),
-
           ],
         ),
       ),
+
     );
+
   }
 }
