@@ -11,11 +11,7 @@ class FarmerApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Farmer Home',
-      theme: ThemeData(primarySwatch: Colors.green),
-      home: FarmerHomePage(),
-    );
+    return FarmerHomePage();
   }
 }
 
@@ -25,9 +21,9 @@ class FarmerHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        // backgroundColor: Colors.white,
         elevation: 0,
         leading: Builder(
           builder:
