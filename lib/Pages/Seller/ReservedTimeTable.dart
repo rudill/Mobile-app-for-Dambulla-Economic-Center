@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../Azure_Translation/translatable_text.dart';
+import '../../Components/day_switcher.dart';
 import '../../Components/login.dart';
 import 'notifications.dart';
 
@@ -58,32 +59,46 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
       children: [
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
+          child: Column(
             children: [
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => NotificationsFromFireStore(),
+                          ),
+                        );
+                      },
+                      icon: Icon(Icons.notifications),
+                      label: TranslatableText('නව වෙන් කිරීම් ඇණවුම්'),
+                    ),
+                  ),
+                  // ElevatedButton(
+                  //   onPressed: () {
+                  //     Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(builder: (context) => MyLoginPage()),
+                  //     );
+                  //   },
+                  //   child: Text('login'),
+                  // ),
+                ],
+              ),
+
               Padding(
-                padding: const EdgeInsets.only(top: 10),
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => NotificationsFromFireStore(),
-                      ),
-                    );
-                  },
-                  icon: Icon(Icons.notifications),
-                  label: TranslatableText('නව වෙන් කිරීම් ඇණවුම්'),
+                padding: const EdgeInsets.all(8.0),
+                child: ActionChip(
+                  avatar: Icon(Icons.date_range_rounded),
+                  label: TranslatableText(DaySwitcher().switchToDay()),
+                  backgroundColor: Colors.green,
                 ),
               ),
-              ElevatedButton(onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MyLoginPage(),
-                  ),
-                );
-              }, child: Text('login')),
             ],
           ),
         ),
