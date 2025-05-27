@@ -1,3 +1,4 @@
+import 'package:elegant_notification/elegant_notification.dart';
 import 'package:flutter/material.dart';
 
 import '../../Azure_Translation/translatable_text.dart';
@@ -93,6 +94,14 @@ class ReservationInfo extends StatelessWidget {
                       );
                       HiveArchive().resBox.delete(index);
                       Navigator.of(context).pop();
+
+                      // ElegantNotification.success(
+                      //   title: Text("Update"),
+                      //   description: Text("Your data has been updated"),
+                      //   onDismiss: () {
+                      //     print('Message when the notification is dismissed');
+                      //   },
+                      // ).show(context);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green[700],
