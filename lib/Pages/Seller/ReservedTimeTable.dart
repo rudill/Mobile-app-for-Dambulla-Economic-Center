@@ -78,15 +78,7 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
                       label: TranslatableText('නව වෙන් කිරීම් ඇණවුම්'),
                     ),
                   ),
-                  // ElevatedButton(
-                  //   onPressed: () {
-                  //     Navigator.push(
-                  //       context,
-                  //       MaterialPageRoute(builder: (context) => MyLoginPage()),
-                  //     );
-                  //   },
-                  //   child: Text('login'),
-                  // ),
+                  
                 ],
               ),
 
