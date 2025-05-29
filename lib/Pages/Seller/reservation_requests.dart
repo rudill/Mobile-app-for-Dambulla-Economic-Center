@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../Azure_Translation/translatable_text.dart';
-import '../../Components/local_notification.dart';
+
 import '../../Components/productQuantityManager.dart';
 import '../../Components/time_picker.dart';
 import '../../Components/time_switcher.dart';
