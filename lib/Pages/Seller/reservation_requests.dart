@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:elegant_notification/elegant_notification.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -69,18 +69,14 @@ class _NotificationsFromFireStoreState
                       title: TranslatableText(
                         '${res['farmerName']} වෙතින් වෙන්කිරීමේ ඉල්ලීමක්',
                       ),
-                      // subtitle: Text(
-                      //   'Secondary Text',
-                      //   style: TextStyle(color: Colors.black.withOpacity(0.6)),
-                      // ),
+                     
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 8),
                       child: Row(
                         children: [
                           ActionChip(
-                            // backgroundColor: Colors.green,
-                            // avatar: Icon(Icons),
+                          
                             label: FutureBuilder<String?>(
                               future: ReservationCollection().getProductName(
                                 res['productID'],
@@ -117,13 +113,7 @@ class _NotificationsFromFireStoreState
                         ),
                       ],
                     ),
-                    // Padding(
-                    //   padding: const EdgeInsets.all(16.0),
-                    //   child: Text(
-                    //     'Greyhound divisively hello coldly wonderfully marginally far upon excluding.',
-                    //     style: TextStyle(color: Colors.black.withOpacity(0.6)),
-                    //   ),
-                    // ),
+                
                     OverflowBar(
                       alignment: MainAxisAlignment.end,
                       children: [
@@ -163,15 +153,7 @@ class _NotificationsFromFireStoreState
                                 quantity,
                               );
 
-                              // ElegantNotification.success(
-                              //   title: Text("Update"),
-                              //   description: Text("Your data has been updated"),
-                              //   onDismiss: () {
-                              //     print(
-                              //       'Message when the notification is dismissed',
-                              //     );
-                              //   },
-                              // ).show(context);
+                             
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.green,
