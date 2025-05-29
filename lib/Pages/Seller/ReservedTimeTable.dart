@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 
 import '../../Azure_Translation/translatable_text.dart';
 import '../../Components/day_switcher.dart';
-import 'notifications.dart';
+import 'reservation_requests.dart';
 
 class ReservedTimeSlots extends StatefulWidget {
   const ReservedTimeSlots({super.key});
@@ -78,7 +78,15 @@ class _ReservedTimeSlotsState extends State<ReservedTimeSlots> {
                       label: TranslatableText('නව වෙන් කිරීම් ඇණවුම්'),
                     ),
                   ),
-                  
+                  // ElevatedButton(
+                  //   onPressed: () {
+                  //     Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(builder: (context) => MyLoginPage()),
+                  //     );
+                  //   },
+                  //   child: Text('login'),
+                  // ),
                 ],
               ),
 

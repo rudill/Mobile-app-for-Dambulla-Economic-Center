@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:elegant_notification/elegant_notification.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../Azure_Translation/translatable_text.dart';
+import '../../Components/local_notification.dart';
 import '../../Components/productQuantityManager.dart';
 import '../../Components/time_picker.dart';
 import '../../Components/time_switcher.dart';
@@ -160,6 +162,16 @@ class _NotificationsFromFireStoreState
                                 productID,
                                 quantity,
                               );
+
+                              // ElegantNotification.success(
+                              //   title: Text("Update"),
+                              //   description: Text("Your data has been updated"),
+                              //   onDismiss: () {
+                              //     print(
+                              //       'Message when the notification is dismissed',
+                              //     );
+                              //   },
+                              // ).show(context);
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.green,
